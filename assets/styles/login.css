@@ -113,7 +113,7 @@ form.login a:hover
 
 .show-pass-reset
 {
-	display: block !important;
+	display: block;
 }
 
 .pass-reset

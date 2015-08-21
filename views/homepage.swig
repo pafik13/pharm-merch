@@ -9,19 +9,6 @@
 		<!-- <script src="/js/jquery-1.10.2.min.js"></script> -->
 		<script src="/js/jquery-1.11.3.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-			window.alert = function() {};
-			var defaultCSS = document.getElementById('bootstrap-css');
-
-			function changeCSS(css) {
-				if (css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="' + css + '" type="text/css" />');
-				else $('head > link').filter(':first').replaceWith(defaultCSS);
-			}
-			$(document).ready(function() {
-				var iframe_height = parseInt($('html').height());
-				window.parent.postMessage(iframe_height, 'http://bootsnipp.com');
-			});
-		</script>
 	</head>
 	<body>
 		<div class="container">
@@ -39,24 +26,24 @@
 						<p class="form-title">
 							Sign In</p>
 						<form class="login">
-						<input type="text" placeholder="Username">
-						<input type="password" placeholder="Password">
-						<input class="btn btn-success btn-sm" type="submit" value="Sign In">
-						<div class="remember-forgot">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox">
-											Remember Me
-										</label>
+							<input type="text" placeholder="Username">
+							<input type="password" placeholder="Password">
+							<input class="btn btn-success btn-sm" type="submit" value="Sign In">
+							<div class="remember-forgot">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox">
+												Remember Me
+											</label>
+										</div>
+									</div>
+									<div class="col-md-6 forgot-pass-content">
+										<a class="forgot-pass" href="#">Forgot Password</a>
 									</div>
 								</div>
-								<div class="col-md-6 forgot-pass-content">
-									<a class="forgot-pass" href="javascription:void(0)">Forgot Password</a>
-								</div>
 							</div>
-						</div>
 						</form>
 					</div>
 				</div>
