@@ -35,5 +35,8 @@
     "url": "git://github.com/anonymous node/sails user/t.git"
   },
   "author": "anonymous node/sails user",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "grunt-jsbeautifier": "^0.2.10"
+  }
 }
