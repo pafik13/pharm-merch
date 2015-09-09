@@ -6,9 +6,8 @@
  */
 
 module.exports = {
-	main : function(req, res) {
-		return res.view('main');
-	}
-	
-};
+    main: function(req, res) {
+        return res.view('main');
+    }
 
+};
