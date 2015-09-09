@@ -56,6 +56,10 @@ module.exports.policies = {
 	
 	UserController: {
 		'*': true
+	},
+	
+	PharmaciesController: {
+		'*': true
 	}
 	
 };

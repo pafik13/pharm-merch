@@ -25,10 +25,10 @@
 					<div class="wrap">
 						<p class="form-title">
 							Sign In</p>
-						<form class="login">
-							<input type="text" placeholder="Username">
-							<input type="password" placeholder="Password">
-							<input class="btn btn-success btn-sm" type="submit" value="Sign In">
+						<form class="login" action="/auth/local?next=/" method="POST">
+							<input id="identifier" name="identifier" type="text" placeholder="Username">
+							<input id="password" name="password" type="password" placeholder="Password">
+							<input class="btn btn-success btn-sm" name="signIn" type="submit" value="Sign In">
 							<div class="remember-forgot">
 								<div class="row">
 									<div class="col-md-6">
