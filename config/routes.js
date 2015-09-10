@@ -45,5 +45,6 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  '/' : 'MainController.main'
+  '/' : 'MainController.main',
+  '/manager/' : 'ManagerController.main'
 };
