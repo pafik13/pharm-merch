@@ -177,53 +177,102 @@
         <div id="page-wrapper" ng-app="App">
 
             <div class="container-fluid">
+				<ul class="nav nav-pills">
+					<li class="active"><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
+					<li><a data-toggle="pill" href="#pharmacies">Аптеки</a></li>
+					<li><a data-toggle="pill" href="#hospitals">Поликлиники</a></li>
+					<li><a data-toggle="pill" href="#tradenets">Сети</a></li>
+				</ul>
+				<div class="tab-content">
+					<div  id="merchants" class="tab-pane fade in active">
+					<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Мерчендайзеры <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button</p>
+								</h1>
+							</div>
 
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Мерчендайзеры <small>Основная информация</small>													
-							<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button</p>
-                        </h1>
-                    </div>
+						</div>
+						<!-- /.row -->
+					
+						<div class="row" ng-controller="merchantList">
+						{% raw %}
+							<h3>Кол-во: {{users.count}}</h3>
+							<div class="col-lg-6 col-md-6" >					
+								<div class="panel panel-primary" ng-repeat="x in users">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-user-md fa-5x"></i>
+												<h3>{{x.email}}</h3>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge">{{x.id}}</div>
+												<div>{{x.username}}</div>										
+											</div>
+										</div>
+									</div>
+									<a href="#">
+										<div class="panel-footer">
+											<span class="pull-left">Отчеты</span>
+											<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+											<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+					</div>
 
-                </div>
-                <!-- /.row -->
+					<div  id="pharmacies" class="tab-pane fade">
+						<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Аптеки <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="pharmacy_add" data-toggle="modal" data-target="#pharmacy_add" ><i class="fa fa-plus"></i></button</p>
+								</h1>
+							</div>
 
-				<div class="row">
-  
-				</div>
-				
-                <div class="row" ng-controller="merchantList">
-				{% raw %}
-				    <h3>Кол-во: {{users.count}}</h3>
-                    <div class="col-lg-6 col-md-6" >					
-                        <div class="panel panel-primary" ng-repeat="x in users">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-user fa-5x"></i>
-										<h3>{{x.email}}</h3>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">{{x.id}}</div>
-                                        <div>{{x.username}}</div>										
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Отчеты</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-				{% endraw %}	
-                </div>
-                <!-- /.row -->
-
+						</div>
+						<!-- /.row -->
+					
+						<div class="row" ng-controller="pharmaciesList">
+						{% raw %}
+							<h3>Кол-во: {{pharmacies.count}}</h3>
+							<div class="col-lg-6 col-md-6" >					
+								<div class="panel panel-primary" ng-repeat="x in pharmacies">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-building fa-5x"></i>
+												<h3>{{x.email}}</h3>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge">{{x.id}}</div>
+												<div>{{x.fullName}}</div>										
+												<div>{{x.address}}</div>	
+											</div>
+										</div>
+									</div>
+									<a href="#">
+										<div class="panel-footer">
+											<span class="pull-left">Отчеты</span>
+											<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+											<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+					</div>
+				</div>				
             </div>
             <!-- /.container-fluid -->
 
@@ -252,12 +301,70 @@
 					</div>					
 				</div>
 				<div class="modal-footer ">
-					<button id="addMerchant" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+					<button id="addMerchant" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
 				</div>
 
 			</div>
 		</div>
     </div>
+	
+	<div class="modal fade" id="pharmacy_add" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+        <div class="modal-dialog">		    
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+					<h4 class="modal-title custom_align" id="Heading">Новая аптека</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
+					</div>
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
+					</div>
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_address" placeholder="Адрес">
+					</div>					
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
+					</div>					
+				</div>
+				<div class="modal-footer ">
+					<button id="addPharmacy" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+				</div>
+
+			</div>
+		</div>
+    </div>	
+	
+	<div class="modal fade" id="pharmacy_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+        <div class="modal-dialog">		    
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+					<h4 class="modal-title custom_align" id="Heading">Новая аптека</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
+					</div>
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
+					</div>
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_address" placeholder="Адрес">
+					</div>					
+					<div class="form-group">
+						<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
+					</div>					
+				</div>
+				<div class="modal-footer ">
+					<button id="updPharmacy" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+				</div>
+
+			</div>
+		</div>
+    </div>		
 
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
@@ -279,40 +386,74 @@
           $http.get("/User/find?")
           .success(function (response) {
 		    $scope.users = response;	
-			$scope.loaded = true;
+			$scope.usersLoaded = true;
 			//alert(JSON.stringify(response));
           })
           .error(function(data, status){
-		    $scope.loaded = false;
+			$scope.usersLoaded = false;
 		    alert(status + "\n" + data);
 		  });
       });
-	  
+      app.controller('pharmaciesList', function($scope, $http) {
+          $http.get("/Pharmacy/find?")
+          .success(function (response) {
+		    $scope.pharmacies = response;	
+			$scope.pharmaciesLoaded = true;
+			alert(JSON.stringify(response));
+          })
+          .error(function(data, status){
+			$scope.pharmaciesLoaded = false;
+		    alert(status + "\n" + data);
+		  });
+      });	  
       </script>
-				<script>
+	<script>
 				 
-				 $("button#addMerchant").click(function(){
-				    var str = $('input#name').val();
-				    var names = str.split(" ");
-				    var data = {firstName: names[0], 
-					            middleName: names[1], 
-								lastName: names[2],
-								email: $('input#email').val(),
-								password: '12345678'}; 
-						$.ajax({
-							type: "POST",
-							url: "/User/create?",
-							dataType: 'json',
-							data: data,
-						    success: function(msg){
-							   $("#add").modal('hide'); 
-						    },
-				            error: function(err){
-				               alert(err);
-				            }
-					    });
-				 });
-				
+	 $("button#addPharmacy").click(function(){
+		var data = {fullName: $('input#p_fullName').val(), 
+					address: $('input#p_address').val(), 
+					phone: $('input#p_phone').val(),
+					email: $('input#p_email').val()}; 
+			alert(data.email);	
+			$.ajax({
+				type: "POST",
+				url:  "/Pharmacy/create?",
+				dataType: 'json',
+				data: data,
+				success: function(msg){
+				   $("#pharmacy_add").modal('hide'); 
+				},
+				error: function(err){
+				   alert(JSON.stringify(err));
+				}
+			});
+	 });
+	 
+	 $("button#addMerchant").click(function(){
+		var str = $('input#name').val();
+		var names = str.split(" ");
+		var data = {firstName: names[0], 
+					middleName: names[1], 
+					lastName: names[2],
+					email: $('input#email').val(),
+					password: '12345678'}; 
+			$.ajax({
+				type: "POST",
+				url: "/User/create?",
+				dataType: 'json',
+				data: data,
+				success: function(msg){
+				   $("#add").modal('hide'); 
+				},
+				error: function(err){
+				   alert(JSON.stringify(err));
+				}
+			});
+	 });	 
+ 
+	$(document).ready(function(){
+	    $("[data-toggle=tooltip]").tooltip();	
+	});		
 	</script>	  
 
 </body>
