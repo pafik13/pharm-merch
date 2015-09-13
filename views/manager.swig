@@ -197,11 +197,11 @@
 						</div>
 						<!-- /.row -->
 					
-						<div class="row" ng-controller="merchantList">
+						<div class="row" ng-controller="merchantList" >
 						{% raw %}
-							<h3>Кол-во: {{users.count}}</h3>
+							<h3>Кол-во: {{users.count()}}</h3>
 							<div class="col-lg-6 col-md-6" >					
-								<div class="panel panel-primary" ng-repeat="x in users">
+								<div class="panel panel-primary" ng-repeat="x in users" ng-if="usersLoaded">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
@@ -243,9 +243,9 @@
 					
 						<div class="row" ng-controller="pharmaciesList">
 						{% raw %}
-							<h3>Кол-во: {{pharmacies.count}}</h3>
+							<h3>Кол-во: {{pharmacies.count()}}</h3>
 							<div class="col-lg-6 col-md-6" >					
-								<div class="panel panel-primary" ng-repeat="x in pharmacies">
+								<div class="panel panel-primary" ng-repeat="x in pharmacies" ng-if="pharmaciesLoaded">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
@@ -259,11 +259,11 @@
 											</div>
 										</div>
 									</div>
-									<a href="#">
+									<a href="#pharmacy_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений" data-id="{{x.id}}">
 										<div class="panel-footer">
-											<span class="pull-left">Отчеты</span>
-											<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-											<div class="clearfix"></div>
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
 										</div>
 									</a>
 								</div>
@@ -271,6 +271,9 @@
 						{% endraw %}	
 						</div>
 						<!-- /.row -->
+						
+						<!-- Button HTML (to Trigger Modal) -->
+    					
 					</div>
 				</div>				
             </div>
@@ -342,7 +345,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-					<h4 class="modal-title custom_align" id="Heading">Новая аптека</h4>
+					<h4 class="modal-title custom_align" id="modal-title">Новая аптека</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
@@ -359,7 +362,8 @@
 					</div>					
 				</div>
 				<div class="modal-footer ">
-					<button id="updPharmacy" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+					<button id="updPharmacy" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+					<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
 				</div>
 
 			</div>
@@ -399,22 +403,20 @@
           .success(function (response) {
 		    $scope.pharmacies = response;	
 			$scope.pharmaciesLoaded = true;
-			alert(JSON.stringify(response));
+			//alert(JSON.stringify(response));
           })
           .error(function(data, status){
 			$scope.pharmaciesLoaded = false;
 		    alert(status + "\n" + data);
 		  });
       });	  
-      </script>
-	<script>
+
 				 
 	 $("button#addPharmacy").click(function(){
 		var data = {fullName: $('input#p_fullName').val(), 
 					address: $('input#p_address').val(), 
 					phone: $('input#p_phone').val(),
 					email: $('input#p_email').val()}; 
-			alert(data.email);	
 			$.ajax({
 				type: "POST",
 				url:  "/Pharmacy/create?",
@@ -428,6 +430,30 @@
 				}
 			});
 	 });
+	 
+	 $("button#updPharmacy").click(function(){
+	    var modal = $('#pharmacy_upd');
+		var button = modal.find('#updPharmacy'); 
+	    var id = button.attr('data-id'); 
+
+		var data = {fullName: modal.find('#p_fullName').val(), 
+					address: modal.find('#p_address').val(), 
+					phone: modal.find('#p_phone').val(),
+					email: modal.find('#p_email').val()}; 
+			
+			$.ajax({
+				type: "POST",
+				url:  "/Pharmacy/update/"+id,
+				dataType: 'json',
+				data: data,
+				success: function(msg){
+				   $("#pharmacy_upd").modal('hide'); 
+				},
+				error: function(err){
+				   alert(JSON.stringify(err));
+				}
+			});
+	 });	 
 	 
 	 $("button#addMerchant").click(function(){
 		var str = $('input#name').val();
@@ -450,10 +476,37 @@
 				}
 			});
 	 });	 
+
+	$('#pharmacy_upd').on('show.bs.modal', function (event) {
+	  var button = $(event.relatedTarget); 
+	  var id = button.data('id'); 
+	  $.ajax({
+			url:  "/Pharmacy/find/"+id,
+			dataType: 'json',
+			success: function(data){		
+				
+				var modal = $('#pharmacy_upd');
+				
+				modal.find('.modal-title').text(data.fullName);
+				modal.find('#p_fullName').val(data.fullName);
+				modal.find('#p_address').val(data.address);
+				modal.find('#p_phone').val(data.phone);
+				modal.find('#p_email').val(data.email);
+				modal.find('#updPharmacy').attr('data-id',id);
+			   
+			},
+			error: function(err){
+			   alert(JSON.stringify(err));
+			}
+		});
+
+	});	
  
 	$(document).ready(function(){
-	    $("[data-toggle=tooltip]").tooltip();	
-	});		
+	    $("[data-toggle=tooltip]").tooltip();
+		
+			
+	});	    	
 	</script>	  
 
 </body>
