@@ -1,0 +1,108 @@
+<html>
+<head>
+  <title>test</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css"></link>
+</head>
+<body>
+<div class="container" ng-app="app" ng-controller="mainController">
+  
+  <div class="text-center">
+    <p>Example of Angular and the normal Bootstrap JavaScript components</p>
+    <p class="text-success">This will work</p>
+  </div>
+  
+  <button class="btn btn-danger btn-xs" data-title="add" data-toggle="modal" id="add_plugin" data-target="#add" >Open dialog</button>
+	
+	<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+        <div class="modal-dialog">		    
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+					<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+				</div>
+				<div class="modal-body">
+				  <div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-primary" ng-model="bigData.breakfast" btn-checkbox>
+					  Breakfast
+					</label>
+					<label class="btn btn-primary" ng-model="bigData.lunch" btn-checkbox>
+					  Lunch
+					</label>
+					<label class="btn btn-primary" ng-model="bigData.dinner" btn-checkbox>
+					  Dinner
+					</label>
+					<input type="text" ng-model="bigData.text" />
+				  </div>
+				
+				</div>
+				<div class="modal-footer ">
+					<button data-dismiss="modal" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-ok-sign"></span> Close</button>
+				</div>
+
+			</div>
+		</div>
+    </div>
+
+  <div class="text-center" ng-repeat="name in names">
+	<p>{{name}}</p>
+  </div>  
+  
+  <pre><code>{{ bigData | json }}</code></pre>
+  
+  <pre><code>{{ names | json }}</code></pre>
+  
+  
+  
+  <h2>Collapse</h2>
+  
+  <a href="#" class="btn btn-primary" ng-click="isCollapsed = !isCollapsed">
+    Toggle Panel
+  </a>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#" ng-click="isCollapsed = !isCollapsed">
+          Collapsible Group Item #1
+        </a>
+      </h4>
+    </div>
+    <div collapse="isCollapsed">
+      <div class="panel-body">Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      </div>
+    </div>
+  </div>
+  
+  <pre><code>{{ isCollapsed }}</code></pre>
+  
+</div>
+
+
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+
+  <script>
+  angular.module('app', ['ui.bootstrap'])
+
+.controller('mainController', function($scope) {
+  
+  $scope.bigData = {};
+    
+  $scope.bigData.breakfast = false;
+  $scope.bigData.lunch = false;
+  $scope.bigData.dinner = false;
+  $scope.bigData.text = '';
+  
+  $scope.names = '';
+  
+  $scope.isCollapsed = false;
+  
+});
+  </script>
+  
+</body>  
+</html>

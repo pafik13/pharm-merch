@@ -190,7 +190,7 @@
 							<div class="col-lg-12">
 								<h1 class="page-header">
 									Мерчендайзеры <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button</p>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
 
@@ -362,7 +362,7 @@
 					</div>					
 				</div>
 				<div class="modal-footer ">
-					<button id="updPharmacy" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+					<button id="updPharmacy" ng-click="pharmaciesLoad = false" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
 					<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
 				</div>
 
