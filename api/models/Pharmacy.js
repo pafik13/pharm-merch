@@ -39,7 +39,14 @@ module.exports = {
         // reference to hospitals
         hospitals: {
             collection: 'Hospital'
+        },
+        employees: {
+            collection: 'Pharmacy_employee'
+        },
+        merchant: {
+            model: 'Merchant'
         }
+
 
     }
 };

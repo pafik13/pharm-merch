@@ -32,7 +32,54 @@
 
 </head>
 
-<body>
+<body ng-app="App">
+<style>
+    #custom-search-form {
+        margin:0;
+        margin-top: 5px;
+        padding: 0;
+    }
+ 
+    #custom-search-form .search-query {
+        padding-right: 3px;
+        padding-right: 4px \9;
+        padding-left: 3px;
+        padding-left: 4px \9;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+ 
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        -webkit-transition: width  0.2s ease-in-out;
+    -moz-transition:width  0.2s ease-in-out;
+    -o-transition: width  0.2s ease-in-out;
+    transition: width  0.2s ease-in-out;
+    }
+ 
+    #custom-search-form button {
+        border: 0;
+        background: none;
+        /** belows styles are working good */
+        padding: 2px 5px;
+        margin-top: 2px;
+        position: relative;
+        left: -28px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+ 
+    .search-query:focus + button {
+        z-index: 3;   
+    }   
+    .search-query:focus{
+        width: 260px;
+    }   
+
+</style>
 
     <div id="wrapper">
 
@@ -159,58 +206,61 @@
                         <a href="/login"><i class="fa fa-fw fa-bar-chart-o"></i> Логин</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Пример выпадающего меню<i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
+                        <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-arrows-v"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
+                   
+						<ul  id="dictionary" class="collapse" class="nav nav-pills">
+							<li class="active"><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
+							<li><a data-toggle="pill" href="#pharmacies">Аптеки</a></li>
+							<li><a data-toggle="pill" href="#hospitals">Поликлиники</a></li>
+							<li><a data-toggle="pill" href="#tradenets">Сети</a></li>
+						</ul>
                     </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>
 
-        <div id="page-wrapper" ng-app="App">
+        <div id="page-wrapper" >
 
             <div class="container-fluid">
-				<ul class="nav nav-pills">
-					<li class="active"><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
-					<li><a data-toggle="pill" href="#pharmacies">Аптеки</a></li>
-					<li><a data-toggle="pill" href="#hospitals">Поликлиники</a></li>
-					<li><a data-toggle="pill" href="#tradenets">Сети</a></li>
-				</ul>
 				<div class="tab-content">
-					<div  id="merchants" class="tab-pane fade in active">
+					<div  id="merchants" class="tab-pane fade in active" ng-controller="merchantList">
 					<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
 									Мерчендайзеры <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button</p>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
 
 						</div>
 						<!-- /.row -->
-					
-						<div class="row" ng-controller="merchantList" >
+						<!-- FILTER -->
+						<div class="row">
+							<div class="span12">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="filter" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
 						{% raw %}
-							<h3>Кол-во: {{users.count()}}</h3>
-							<div class="col-lg-6 col-md-6" >					
-								<div class="panel panel-primary" ng-repeat="x in users" ng-if="usersLoaded">
+							<span class="label label-default">{{users.length}}</span>
+							<div class="col-lg-6 col-md-6" ng-repeat="user in users | filter:{ username: filter }">					
+								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
 												<i class="fa fa-user-md fa-5x"></i>
-												<h3>{{x.email}}</h3>
+												<h3>{{user.email}}</h3>
 											</div>
 											<div class="col-xs-9 text-right">
-												<div class="huge">{{x.id}}</div>
-												<div>{{x.username}}</div>										
+												<div class="huge">{{user.id}}</div>
+												<div>{{user.username}}</div>										
 											</div>
 										</div>
 									</div>
@@ -226,9 +276,43 @@
 						{% endraw %}	
 						</div>
 						<!-- /.row -->
+							<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
+											</div>
+											<div class="form-group">
+												<input class="form-control " ng-model="last_user.middletName" type="text" placeholder="Отчество">
+											</div>
+											<div class="form-group">
+												<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
+											</div>		
+											<div class="checkbox">
+												<label><input type="checkbox" value="">Пол</label>
+											</div>										
+											<div class="form-group">
+												<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
+											</div>
+											<div class="form-group">
+												<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
+											</div>					
+										</div>
+										<div class="modal-footer ">
+											<button id="addMerchant" ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										</div>
+
+									</div>
+								</div>
+							</div>
 					</div>
 
-					<div  id="pharmacies" class="tab-pane fade">
+					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
@@ -240,12 +324,22 @@
 
 						</div>
 						<!-- /.row -->
-					
-						<div class="row" ng-controller="pharmaciesList">
+						<!-- FILTER -->
+						<div class="row">
+							<div class="span12">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="filter" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>					
+						<div class="row">
 						{% raw %}
-							<h3>Кол-во: {{pharmacies.count()}}</h3>
-							<div class="col-lg-6 col-md-6" >					
-								<div class="panel panel-primary" ng-repeat="x in pharmacies" ng-if="pharmaciesLoaded">
+							<span class="label label-default">Кол-во: {{pharmacies.length}}</span>
+							<div class="col-lg-6 col-md-6" ng-repeat="x in pharmacies | filter:{ fullName: filter }">					
+								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
@@ -268,6 +362,66 @@
 									</a>
 								</div>
 							</div>
+						<!-- MODAL -->	
+							<div class="modal fade" id="pharmacy_add" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="Heading">Новая аптека</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_pharmacy.fullName" placeholder="Полное наименование">
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_pharmacy.address" placeholder="Адрес">
+											</div>					
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
+											</div>					
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+							<div class="modal fade" id="pharmacy_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="modal-title">Новая аптека</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_address" placeholder="Адрес">
+											</div>					
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
+											</div>					
+										</div>
+										<div class="modal-footer ">
+											<button id="updPharmacy" ng-click="pharmaciesLoad = false" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
 						{% endraw %}	
 						</div>
 						<!-- /.row -->
@@ -275,100 +429,18 @@
 						<!-- Button HTML (to Trigger Modal) -->
     					
 					</div>
+					
+					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
+					</div>
+					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
+					</div>
 				</div>				
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
-	
-	<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-        <div class="modal-dialog">		    
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-					<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<input class="form-control " type="text" id="name" placeholder="Имя Фамилия Отчество">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="phone" placeholder="Телефон">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="email" placeholder="Эл. почта">
-					</div>					
-				</div>
-				<div class="modal-footer ">
-					<button id="addMerchant" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-				</div>
-
-			</div>
-		</div>
-    </div>
-	
-	<div class="modal fade" id="pharmacy_add" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
-        <div class="modal-dialog">		    
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-					<h4 class="modal-title custom_align" id="Heading">Новая аптека</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_address" placeholder="Адрес">
-					</div>					
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
-					</div>					
-				</div>
-				<div class="modal-footer ">
-					<button id="addPharmacy" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-				</div>
-
-			</div>
-		</div>
-    </div>	
-	
-	<div class="modal fade" id="pharmacy_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
-        <div class="modal-dialog">		    
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-					<h4 class="modal-title custom_align" id="modal-title">Новая аптека</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_address" placeholder="Адрес">
-					</div>					
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
-					</div>					
-				</div>
-				<div class="modal-footer ">
-					<button id="updPharmacy" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-					<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-				</div>
-
-			</div>
-		</div>
-    </div>		
 
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
@@ -385,33 +457,157 @@
     <script src="/js/plugins/morris/morris-data.js"></script>
 	
 	<script>
+	var manager = {};
+	//SWIG Injection!!! How to another get user.id in the page?
+	manager.id = {{user.id}};
+	
+	  function getUsers(){
+	    var users = {};
+		$.ajax(
+		{
+		  async: false,
+		  url: "/Merchant/find?manager="+manager.id, 
+		  success: function (data) {
+		    users = data;	
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+       return users;   
+	  };
+	  
+  	  function getUserByEmail(email){
+	    var u = {};
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/Merchant/find/?email="+email, 
+		  success: function (data) {
+		    u = data;
+		    alert(JSON.stringify(u));
+			return data;
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+        return u;
+	  };
+	  
+	  function createUser(data){	  
+	    var d = {};
+		data.manager = manager.id;
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Merchant/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };
+
+	  function getPharmacies(){
+	    var pharmacies = {};
+		$.ajax(
+		{
+		  async: false,
+		  url: "/Pharmacy/find?", 
+		  success: function (data) {
+		    pharmacies = data;	
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+       return pharmacies;   
+	  };	
+
+	  function createPharmacy(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Pharmacy/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg; 
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };	  
+	  
       var app = angular.module('App', []);
       app.controller('merchantList', function($scope, $http) {
-          $http.get("/User/find?")
-          .success(function (response) {
-		    $scope.users = response;	
-			$scope.usersLoaded = true;
-			//alert(JSON.stringify(response));
-          })
-          .error(function(data, status){
-			$scope.usersLoaded = false;
-		    alert(status + "\n" + data);
-		  });
+          $scope.users = {};
+		  $scope.last_user = {};
+		  $scope.last_user.username = '';
+		  $scope.last_user.phone = '';
+		  $scope.last_user.email = '';
+		  
+		  $scope.users = getUsers();
+		  
+		  $scope.create = function(){		    
+			var data = {
+			    username: $scope.last_user.username,
+				email: $scope.last_user.email,
+				phone: $scope.last_user.phone
+			};
+			var cu = createUser(data);
+			
+			$scope.users.push({
+			  username: cu.username,
+			  email: cu.email,
+			  id: cu.id
+			});
+			$scope.last_user = {};
+			$("#add").modal('hide'); 
+		  };
       });
+	  
       app.controller('pharmaciesList', function($scope, $http) {
-          $http.get("/Pharmacy/find?")
-          .success(function (response) {
-		    $scope.pharmacies = response;	
-			$scope.pharmaciesLoaded = true;
-			//alert(JSON.stringify(response));
-          })
-          .error(function(data, status){
-			$scope.pharmaciesLoaded = false;
-		    alert(status + "\n" + data);
-		  });
-      });	  
-
-				 
+	      $scope.pharmacies = {};
+		  $scope.last_pharmacy = {};
+		  $scope.last_pharmacy.fullName = '';
+		  $scope.last_pharmacy.address = '';
+		  $scope.last_pharmacy.email = '';
+		  
+		  $scope.pharmacies = getPharmacies();
+	    
+          $scope.create = function(){
+		    
+			var data = {
+			    fullName: $scope.last_pharmacy.fullName,
+				address: $scope.last_pharmacy.address,
+				email: $scope.last_pharmacy.email
+			};
+			var cp = createPharmacy(data);
+			
+			$scope.pharmacies.push({
+			  fullName: cp.fullName,
+			  address: cp.address,
+			  email: cp.email,
+			  id: cp.id
+			});
+			$scope.last_pharmacy = {};
+			$("#pharmacy_add").modal('hide'); 
+		  };
+      });	
+	  
 	 $("button#addPharmacy").click(function(){
 		var data = {fullName: $('input#p_fullName').val(), 
 					address: $('input#p_address').val(), 
@@ -454,28 +650,7 @@
 				}
 			});
 	 });	 
-	 
-	 $("button#addMerchant").click(function(){
-		var str = $('input#name').val();
-		var names = str.split(" ");
-		var data = {firstName: names[0], 
-					middleName: names[1], 
-					lastName: names[2],
-					email: $('input#email').val(),
-					password: '12345678'}; 
-			$.ajax({
-				type: "POST",
-				url: "/User/create?",
-				dataType: 'json',
-				data: data,
-				success: function(msg){
-				   $("#add").modal('hide'); 
-				},
-				error: function(err){
-				   alert(JSON.stringify(err));
-				}
-			});
-	 });	 
+
 
 	$('#pharmacy_upd').on('show.bs.modal', function (event) {
 	  var button = $(event.relatedTarget); 
