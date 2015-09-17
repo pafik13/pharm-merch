@@ -6,7 +6,7 @@ var _super = require('sails-auth/api/controllers/AuthController');
 _.merge(exports, _super);
 _.merge(exports, {
 
-  // Extend with custom logic here by adding additional fields, methods, etc.
+	// Extend with custom logic here by adding additional fields, methods, etc.
   
 	/**
 	 * Log out a user and return them to the homepage
