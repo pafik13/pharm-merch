@@ -236,6 +236,7 @@
 
 						</div>
 						<!-- /.row -->
+						<!-- FILTER -->
 						<div class="row">
 							<div class="span12">
 								<form id="custom-search-form" class="form-search form-horizontal pull-left">
@@ -248,7 +249,7 @@
 						</div>
 						<div class="row">
 						{% raw %}
-							<p> Кол-во: {{users.length}}</p>
+							<span class="label label-default">{{users.length}}</span>
 							<div class="col-lg-6 col-md-6" ng-repeat="user in users | filter:{ username: filter }">					
 								<div class="panel panel-primary">
 									<div class="panel-heading">
@@ -284,13 +285,22 @@
 										</div>
 										<div class="modal-body">
 											<div class="form-group">
-												<input class="form-control " ng-model="last_user.username" type="text" id="name" placeholder="Имя Фамилия Отчество">
+												<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
 											</div>
 											<div class="form-group">
-												<input class="form-control " ng-model="last_user.phone" type="text" id="phone" placeholder="Телефон">
+												<input class="form-control " ng-model="last_user.middletName" type="text" placeholder="Отчество">
 											</div>
 											<div class="form-group">
-												<input class="form-control " ng-model="last_user.email"  type="text" id="email" placeholder="Эл. почта">
+												<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
+											</div>		
+											<div class="checkbox">
+												<label><input type="checkbox" value="">Пол</label>
+											</div>										
+											<div class="form-group">
+												<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
+											</div>
+											<div class="form-group">
+												<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
 											</div>					
 										</div>
 										<div class="modal-footer ">
@@ -314,11 +324,21 @@
 
 						</div>
 						<!-- /.row -->
-					
+						<!-- FILTER -->
+						<div class="row">
+							<div class="span12">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="filter" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>					
 						<div class="row">
 						{% raw %}
-							<h3>Кол-во: {{pharmacies.length}}</h3>
-							<div class="col-lg-6 col-md-6" ng-repeat="x in pharmacies">					
+							<span class="label label-default">Кол-во: {{pharmacies.length}}</span>
+							<div class="col-lg-6 col-md-6" ng-repeat="x in pharmacies | filter:{ fullName: filter }">					
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
@@ -372,6 +392,36 @@
 								</div>
 							</div>	
 							
+							<div class="modal fade" id="pharmacy_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="modal-title">Новая аптека</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_address" placeholder="Адрес">
+											</div>					
+											<div class="form-group">
+												<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
+											</div>					
+										</div>
+										<div class="modal-footer ">
+											<button id="updPharmacy" ng-click="pharmaciesLoad = false" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
 						{% endraw %}	
 						</div>
 						<!-- /.row -->
@@ -387,46 +437,10 @@
 				</div>				
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
-	
-
-	
-
-	
-	<div class="modal fade" id="pharmacy_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
-        <div class="modal-dialog">		    
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-					<h4 class="modal-title custom_align" id="modal-title">Новая аптека</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
-					</div>
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_address" placeholder="Адрес">
-					</div>					
-					<div class="form-group">
-						<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
-					</div>					
-				</div>
-				<div class="modal-footer ">
-					<button id="updPharmacy" ng-click="pharmaciesLoad = false" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-					<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-				</div>
-
-			</div>
-		</div>
-    </div>		
 
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
@@ -443,12 +457,16 @@
     <script src="/js/plugins/morris/morris-data.js"></script>
 	
 	<script>
+	var manager = {};
+	//SWIG Injection!!! How to another get user.id in the page?
+	manager.id = {{user.id}};
+	
 	  function getUsers(){
 	    var users = {};
 		$.ajax(
 		{
 		  async: false,
-		  url: "/User/find?", 
+		  url: "/Merchant/find?manager="+manager.id, 
 		  success: function (data) {
 		    users = data;	
 		  },
@@ -465,7 +483,7 @@
 	    $.ajax(
 		{
 		  async: false,
-		  url: "/User/find/?email="+email, 
+		  url: "/Merchant/find/?email="+email, 
 		  success: function (data) {
 		    u = data;
 		    alert(JSON.stringify(u));
@@ -481,15 +499,15 @@
 	  
 	  function createUser(data){	  
 	    var d = {};
+		data.manager = manager.id;
 		$.ajax({
 		    async: false,
 			type: "POST",
-			url: "/User/create?",
+			url: "/Merchant/create?",
 			dataType: 'json',
 			data: data,
 			success: function(msg){
-			   d = msg;				   				   
-			   //$("#add").modal('hide'); 
+			   d = msg;				   	
 			},
 			error: function(xhr, status, data){
 			   alert(status + " ERROR " + JSON.stringify(data));
@@ -543,8 +561,7 @@
 		  
 		  $scope.users = getUsers();
 		  
-		  $scope.create = function(){
-		    
+		  $scope.create = function(){		    
 			var data = {
 			    username: $scope.last_user.username,
 				email: $scope.last_user.email,

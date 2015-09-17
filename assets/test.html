@@ -3,8 +3,8 @@
   <title>test</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css"></link>
 </head>
-<body>
-<div class="container" ng-app="app" ng-controller="mainController">
+<body ng-app="app" ng-controller="mainController">
+<div class="container" >
   
   <div class="text-center">
     <p>Example of Angular and the normal Bootstrap JavaScript components</p>
@@ -36,22 +36,24 @@
 				
 				</div>
 				<div class="modal-footer ">
-					<button data-dismiss="modal" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-ok-sign"></span> Close</button>
+					<button data-dismiss="modal" ng-model="names" ng-click="names = bigData" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-ok-sign"></span> Close</button>
 				</div>
 
 			</div>
 		</div>
     </div>
 
-  <div class="text-center" ng-repeat="name in names">
-	<p>{{name}}</p>
-  </div>  
+
+  
   
   <pre><code>{{ bigData | json }}</code></pre>
   
   <pre><code>{{ names | json }}</code></pre>
   
+  <p ng-model="names" ng-repeat="name in names">{{ name }}</p>
   
+  <input ng-model="new_email" type="text"></input>
+  <button class="btn btn-default" ng-click="getuser()">get user</button>
   
   <h2>Collapse</h2>
   
@@ -86,18 +88,52 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
 
   <script>
+	  function createUser(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/User/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   				   
+			   //$("#add").modal('hide'); 
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };
+  
+  
   angular.module('app', ['ui.bootstrap'])
 
 .controller('mainController', function($scope) {
   
   $scope.bigData = {};
+  $scope.new_email = '';
     
   $scope.bigData.breakfast = false;
   $scope.bigData.lunch = false;
   $scope.bigData.dinner = false;
   $scope.bigData.text = '';
   
-  $scope.names = '';
+  $scope.names = {asd:'asdf', fff:"asdf asdf as"};
+  $scope.update = function(data){
+	$scope.names = [data.breakfast,data.lunch, data.dinner, data.text];
+    scope.bigData.breakfast = false;
+    $scope.bigData.lunch = false;
+    $scope.bigData.dinner = false;
+    $scope.bigData.text = '';
+  };
+  
+  $scope.getuser = function(){
+    var user = {username:$scope.new_email,email:$scope.new_email,phone:'123456789'};
+	var nuser = createUser(user);
+    alert(JSON.stringify(nuser));
+  };
   
   $scope.isCollapsed = false;
   
