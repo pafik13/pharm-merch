@@ -238,37 +238,50 @@
 						<!-- /.row -->
 						<!-- FILTER -->
 						<div class="row">
-							<div class="span12">
+							<div class="col-md-1 col-lg-6 ">
 								<form id="custom-search-form" class="form-search form-horizontal pull-left">
 									<div class="input-append span12">
-										<input type="text" ng-model="filter" class="search-query mac-style" placeholder="Поиск">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
 										<button type="submit" class="btn"><i class="icon-search"></i></button>
 									</div>
 								</form>
 							</div>
-						</div>
-						<div class="row">
+						</div>		
 						{% raw %}
-							<span class="label label-default">{{users.length}}</span>
-							<div class="col-lg-6 col-md-6" ng-repeat="user in users | filter:{ username: filter }">					
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во: {{users.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">						
+							<div class="col-lg-6 col-md-6" ng-repeat="user in users | filter:search">					
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
 												<i class="fa fa-user-md fa-5x"></i>
-												<h3>{{user.email}}</h3>
 											</div>
 											<div class="col-xs-9 text-right">
-												<div class="huge">{{user.id}}</div>
-												<div>{{user.username}}</div>										
+												<div class="huge" ng-bind="user.id"></div>
+												<label ng-bind="user.email"></label>
 											</div>
 										</div>
+										<div class="row">
+											<div class="col-xs-8">
+												<label ng-bind="user.firstName"></label>&nbsp;
+												<label ng-bind="user.middleName"></label>&nbsp;
+												<label ng-bind="user.lastName"></label>
+
+											</div>
+										</div>										
 									</div>
-									<a href="#">
+									<a href="#update" data-target="#update" ng-click="init_update(user.id)" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений" data-id="{{x.id}}">
 										<div class="panel-footer">
-											<span class="pull-left">Отчеты</span>
-											<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-											<div class="clearfix"></div>
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
 										</div>
 									</a>
 								</div>
@@ -276,40 +289,72 @@
 						{% endraw %}	
 						</div>
 						<!-- /.row -->
-							<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-								<div class="modal-dialog">		    
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+						<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+							<div class="modal-dialog">		    
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
 										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
-											</div>
-											<div class="form-group">
-												<input class="form-control " ng-model="last_user.middletName" type="text" placeholder="Отчество">
-											</div>
-											<div class="form-group">
-												<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
-											</div>		
-											<div class="checkbox">
-												<label><input type="checkbox" value="">Пол</label>
-											</div>										
-											<div class="form-group">
-												<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
-											</div>
-											<div class="form-group">
-												<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-											</div>					
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
 										</div>
-										<div class="modal-footer ">
-											<button id="addMerchant" ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
+										</div>		
+										<div class="checkbox">
+											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+										</div>										
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
 										</div>
-
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
+										</div>					
+									</div>
+									<div class="modal-footer ">
+										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
 									</div>
 								</div>
 							</div>
+						</div>	
+						<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+							<div class="modal-dialog">		    
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
+										</div>		
+										<div class="checkbox">
+											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+										</div>										
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
+										</div>					
+									</div>
+									<div class="modal-footer ">
+										<button ng-click="update(last_user.id)" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+									</div>
+								</div>
+							</div>
+						</div>												
 					</div>
 
 					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
@@ -326,19 +371,25 @@
 						<!-- /.row -->
 						<!-- FILTER -->
 						<div class="row">
-							<div class="span12">
+							<div class="col-md-1 col-lg-6 ">
 								<form id="custom-search-form" class="form-search form-horizontal pull-left">
 									<div class="input-append span12">
-										<input type="text" ng-model="filter" class="search-query mac-style" placeholder="Поиск">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
 										<button type="submit" class="btn"><i class="icon-search"></i></button>
 									</div>
 								</form>
 							</div>
-						</div>					
-						<div class="row">
+						</div>
 						{% raw %}
-							<span class="label label-default">Кол-во: {{pharmacies.length}}</span>
-							<div class="col-lg-6 col-md-6" ng-repeat="x in pharmacies | filter:{ fullName: filter }">					
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во: {{pharmacies.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-lg-6 col-md-6" ng-repeat="x in pharmacies | filter: search">					
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
@@ -478,16 +529,14 @@
        return users;   
 	  };
 	  
-  	  function getUserByEmail(email){
+  	  function getUser(id){
 	    var u = {};
 	    $.ajax(
 		{
 		  async: false,
-		  url: "/Merchant/find/?email="+email, 
+		  url: "/Merchant/find?manager=" + manager.id + "&id="+id, 
 		  success: function (data) {
-		    u = data;
-		    alert(JSON.stringify(u));
-			return data;
+		    u = data;			
 		  },
 		  error: function(xhr, status, data){
 			alert(status + "\n" + data);
@@ -515,6 +564,25 @@
 		});
 		return d;
 	  };
+	  
+	  function updateUser(data){	  
+	    var d = {};
+		data.manager = manager.id;
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Merchant/update?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };	  
 
 	  function getPharmacies(){
 	    var pharmacies = {};
@@ -555,28 +623,55 @@
       app.controller('merchantList', function($scope, $http) {
           $scope.users = {};
 		  $scope.last_user = {};
-		  $scope.last_user.username = '';
+		  $scope.last_user.firstName = '';
+		  $scope.last_user.middleName = '';
+		  $scope.last_user.lastName = '';
+		  $scope.last_user.sex = 0;
 		  $scope.last_user.phone = '';
 		  $scope.last_user.email = '';
+		  $scope.last_user.id    = 0;
 		  
 		  $scope.users = getUsers();
 		  
 		  $scope.create = function(){		    
 			var data = {
-			    username: $scope.last_user.username,
-				email: $scope.last_user.email,
-				phone: $scope.last_user.phone
+			    username:   $scope.last_user.username,
+				firstName:  $scope.last_user.firstName,
+				middleName: $scope.last_user.middleName,
+				lastName:   $scope.last_user.lastName,
+				sex:        $scope.last_user.sex,
+				email:      $scope.last_user.email,
+				phone:      $scope.last_user.phone
 			};
 			var cu = createUser(data);
 			
 			$scope.users.push({
-			  username: cu.username,
-			  email: cu.email,
-			  id: cu.id
+			    username:   cu.username,
+				firstName:  cu.firstName,
+				middleName: cu.middleName,
+				lastName:   cu.lastName,
+				sex:        cu.sex,
+				email:      cu.email,
+				phone:      cu.phone,
+			    id:         cu.id
 			});
 			$scope.last_user = {};
 			$("#add").modal('hide'); 
 		  };
+		  $scope.init_update = function(id){
+		    var cu = getUser(id);
+			
+			$scope.last_user.username = cu.username;
+			$scope.last_user.firstName = cu.firstName,
+			$scope.last_user.middleName = cu.middleName;			 
+			$scope.last_user.lastName = cu.lastName;
+			$scope.last_user.sex = cu.sex;
+			$scope.last_user.email = cu.email;
+			$scope.last_user.phone = cu.phone;			
+		  };
+		  $scope.update = function(id){
+		    
+		  }
       });
 	  
       app.controller('pharmaciesList', function($scope, $http) {
