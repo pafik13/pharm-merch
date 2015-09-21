@@ -350,7 +350,7 @@
 										</div>					
 									</div>
 									<div class="modal-footer ">
-										<button ng-click="update(last_user.id)" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										<button ng-click="update(last_user.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
 									</div>
 								</div>
 							</div>
@@ -571,7 +571,7 @@
 		$.ajax({
 		    async: false,
 			type: "POST",
-			url: "/Merchant/update?",
+			url: "/Merchant/update/"+data.id+"/?",
 			dataType: 'json',
 			data: data,
 			success: function(msg){
@@ -656,7 +656,7 @@
 			    id:         cu.id
 			});
 			$scope.last_user = {};
-			$("#add").modal('hide'); 
+			$("#add").modal('hide');  
 		  };
 		  $scope.init_update = function(id){
 		    var cu = getUser(id);
@@ -667,10 +667,39 @@
 			$scope.last_user.lastName = cu.lastName;
 			$scope.last_user.sex = cu.sex;
 			$scope.last_user.email = cu.email;
-			$scope.last_user.phone = cu.phone;			
+			$scope.last_user.phone = cu.phone;	
+			$scope.last_user.id    = cu.id;
 		  };
 		  $scope.update = function(id){
-		    
+		    var data = {
+			    username:   $scope.last_user.username,
+				firstName:  $scope.last_user.firstName,
+				middleName: $scope.last_user.middleName,
+				lastName:   $scope.last_user.lastName,
+				sex:        $scope.last_user.sex,
+				email:      $scope.last_user.email,
+				phone:      $scope.last_user.phone,
+				id:			id
+			};
+			var cu = updateUser(data);
+			var idx = 0;
+			var old = $.grep($scope.users,function(u,i){
+			          if (u.id == id){					    
+			            idx = i;
+					  }					  
+			        });				
+			$scope.users[idx] = {
+			    username:   cu.username,
+				firstName:  cu.firstName,
+				middleName: cu.middleName,
+				lastName:   cu.lastName,
+				sex:        cu.sex,
+				email:      cu.email,
+				phone:      cu.phone,
+			    id:         cu.id
+			};
+			$scope.last_user = {};
+			$("#update").modal('hide');
 		  }
       });
 	  
