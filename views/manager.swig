@@ -327,7 +327,7 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-										<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+										<h4 ng-bind="last_user.firstName" class="modal-title custom_align" id="Heading"></h4>
 									</div>
 									<div class="modal-body">
 										<div class="form-group">
@@ -389,22 +389,22 @@
 							</div>
 						</div>	
 						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="x in pharmacies | filter: search">					
+							<div class="col-lg-6 col-md-6" ng-repeat="pharmacy in pharmacies | filter: search">					
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
 												<i class="fa fa-building fa-5x"></i>
-												<h3>{{x.email}}</h3>
+												<h3 ng-bind="pharmacy.email"></h3>
 											</div>
 											<div class="col-xs-9 text-right">
-												<div class="huge">{{x.id}}</div>
-												<div>{{x.fullName}}</div>										
-												<div>{{x.address}}</div>	
+												<div class="huge" ng-bind="pharmacy.id"></div>
+												<div ng-bind="pharmacy.fullName"></div>										
+												<div ng-bind="pharmacy.address"></div>	
 											</div>
 										</div>
 									</div>
-									<a href="#pharmacy_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений" data-id="{{x.id}}">
+									<a ng-click="init_update(pharmacy.id)" href="#pharmacy_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
 										<div class="panel-footer">
 										<span class="pull-left"><h4>Подробнее</h4></span>
 										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
@@ -448,24 +448,24 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="modal-title">Новая аптека</h4>
+											<h4 class="modal-title custom_align" id="modal-title"></h4>
 										</div>
 										<div class="modal-body">
 											<div class="form-group">
-												<input class="form-control " type="text" id="p_fullName" placeholder="Полное наименование">
+												<input class="form-control " type="text" ng-model="last_pharmacy.fullName" placeholder="Полное наименование">
 											</div>
 											<div class="form-group">
-												<input class="form-control " type="text" id="p_phone" placeholder="Телефон">
+												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
 											</div>
 											<div class="form-group">
-												<input class="form-control " type="text" id="p_address" placeholder="Адрес">
+												<input class="form-control " type="text" ng-model="last_pharmacy.address" placeholder="Адрес">
 											</div>					
 											<div class="form-group">
-												<input class="form-control " type="text" id="p_email" placeholder="Эл. почта">
+												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
 											</div>					
 										</div>
 										<div class="modal-footer ">
-											<button id="updPharmacy" ng-click="pharmaciesLoad = false" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+											<button ng-click="update(last_pharmacy.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
 											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
 										</div>
 
@@ -600,6 +600,23 @@
 		});
        return pharmacies;   
 	  };	
+	  
+	  function getPharmacy(id){
+	    var p = {};
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/Pharmacy/find?id="+id, 
+		  success: function (data) {
+		    p = data;			
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+        return p;
+	  };
 
 	  function createPharmacy(data){	  
 	    var d = {};
@@ -617,7 +634,25 @@
 			}
 		});
 		return d;
-	  };	  
+	  };
+
+	  function updatePharmacy(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Pharmacy/update/"+data.id+"/?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };	  	  
 	  
       var app = angular.module('App', []);
       app.controller('merchantList', function($scope, $http) {
@@ -658,6 +693,9 @@
 			$scope.last_user = {};
 			$("#add").modal('hide');  
 		  };
+		  $scope.clear_last  = function(){
+		    $scope.last_user = {};
+		  };
 		  $scope.init_update = function(id){
 		    var cu = getUser(id);
 			
@@ -682,7 +720,7 @@
 				id:			id
 			};
 			var cu = updateUser(data);
-			var idx = 0;
+			var idx = -1;
 			var old = $.grep($scope.users,function(u,i){
 			          if (u.id == id){					    
 			            idx = i;
@@ -700,15 +738,21 @@
 			};
 			$scope.last_user = {};
 			$("#update").modal('hide');
-		  }
+		  };
+		  $('#add').on('show.bs.modal', function (event) {
+		    $scope.$apply(function(){
+			  $scope.last_user = {};
+			});
+		  });			  
       });
-	  
-      app.controller('pharmaciesList', function($scope, $http) {
+	  /*--------------- PHARMACIES -----------------------------------*/
+      app.controller('pharmaciesList', function($scope) {
 	      $scope.pharmacies = {};
 		  $scope.last_pharmacy = {};
 		  $scope.last_pharmacy.fullName = '';
 		  $scope.last_pharmacy.address = '';
 		  $scope.last_pharmacy.email = '';
+		  $scope.last_pharmacy.id = 0;
 		  
 		  $scope.pharmacies = getPharmacies();
 	    
@@ -717,6 +761,7 @@
 			var data = {
 			    fullName: $scope.last_pharmacy.fullName,
 				address: $scope.last_pharmacy.address,
+				phone: $scope.last_pharmacy.phone,
 				email: $scope.last_pharmacy.email
 			};
 			var cp = createPharmacy(data);
@@ -724,14 +769,58 @@
 			$scope.pharmacies.push({
 			  fullName: cp.fullName,
 			  address: cp.address,
+			  phone: cp.phone,
 			  email: cp.email,
 			  id: cp.id
 			});
 			$scope.last_pharmacy = {};
 			$("#pharmacy_add").modal('hide'); 
 		  };
+		  $scope.clear_last = function(){
+		    $scope.last_pharmacy = {};
+		  };
+		  $scope.init_update = function(id){
+		    var cu = getPharmacy(id);
+			
+			$scope.last_pharmacy.fullName = cu.fullName;
+		    $scope.last_pharmacy.address  = cu.address;
+			$scope.last_pharmacy.phone    = cu.phone;
+		    $scope.last_pharmacy.email    = cu.email;
+			$scope.last_pharmacy.id       = cu.id;
+		  };
+		  $scope.update = function(id){
+		    var data = {
+			    fullName: $scope.last_pharmacy.fullName,
+				address:  $scope.last_pharmacy.address,
+				phone:    $scope.last_pharmacy.phone,
+				email:    $scope.last_pharmacy.email,
+				id:       $scope.last_pharmacy.id
+			};
+			
+			var cu = updatePharmacy(data);
+			var idx = -1;
+			var old = $.grep($scope.pharmacies,function(u,i){
+			          if (u.id == id){					    
+			            idx = i;
+					  }					  
+			        });				
+			$scope.pharmacies[idx] = {
+			    fullName: cu.fullName,
+				address: cu.address,
+				phone: cu.phone,
+				email: cu.email,
+				id: cu.id
+			};
+			$scope.last_pharmacy = {};
+			$("#pharmacy_upd").modal('hide');
+		  };
+		  $('#pharmacy_add').on('show.bs.modal', function (event) {
+		    $scope.$apply(function(){
+			  $scope.last_pharmacy = {};
+			});
+		  });	
       });	
-	  
+	 /* 
 	 $("button#addPharmacy").click(function(){
 		var data = {fullName: $('input#p_fullName').val(), 
 					address: $('input#p_address').val(), 
@@ -799,7 +888,7 @@
 			}
 		});
 
-	});	
+	});	*/
  
 	$(document).ready(function(){
 	    $("[data-toggle=tooltip]").tooltip();
