@@ -12,7 +12,6 @@ module.exports = {
             unique: true,
             index: true
         },
-        fullName: 'string',
         officialName: {
             type: 'string',
             unique: true,
