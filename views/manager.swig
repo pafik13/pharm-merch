@@ -206,10 +206,11 @@
                         <a href="/login"><i class="fa fa-fw fa-bar-chart-o"></i> Логин</a>
                     </li>
                     <li>
-                        <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-arrows-v"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
                    
-						<ul  id="dictionary" class="collapse" class="nav nav-pills">
-							<li class="active"><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
+						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
+							<li class="active"><a data-toggle="pill" href="#projects">Проекты</a></li>					
+							<li><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
 							<li><a data-toggle="pill" href="#pharmacies">Аптеки</a></li>
 							<li><a data-toggle="pill" href="#drugs">Препараты</a></li>
 							<li><a data-toggle="pill" href="#companies">Компании</a></li>
@@ -226,7 +227,7 @@
 
             <div class="container-fluid">
 				<div class="tab-content">
-					<div  id="merchants" class="tab-pane fade in active" ng-controller="merchantList">
+					<div  id="merchants" class="tab-pane fade" ng-controller="merchantList">
 					<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
@@ -724,8 +725,117 @@
 						</div>
 						<!-- /.row -->
 													
-					</div>					
+					</div>	
 					
+					<div id="projects" class="tab-pane fade in active" ng-controller="projectsList">
+						<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Проекты <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить проект"><button class="btn btn-danger btn-xs" data-title="project_add" data-toggle="modal" data-target="#project_add" ><i class="fa fa-plus"></i></button</p>
+								</h1>
+							</div>
+
+						</div>
+						<!-- /.row -->
+						<!-- FILTER -->
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во проектов: {{projects.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-lg-6 col-md-6" ng-repeat="project in projects | filter: search">					
+								<div class="panel panel-yellow">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-users fa-5x"></i>
+												<h3 ng-bind="project.fullName"></h3>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge" ng-bind="project.id"></div>
+												<div ng-bind="project.fullName"></div>										
+												<div ng-bind="project.description"></div>	
+											</div>
+										</div>
+									</div>
+									<a ng-click="init_update(project.id)" href="#project_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+										<div class="panel-footer">
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						<!-- MODAL -->	
+							<div class="modal fade" id="project_add" tabindex="-1" role="dialog" aria-labelledby="company_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="Heading">Новый проект</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_project.fullName" placeholder="Полное наименование">
+											</div>
+											<div class="form-group">
+												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
+											</div>				
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+							<div class="modal fade" id="project_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" ng-bind="last_project.fullName" id="modal-title"></h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_project.fullName" placeholder="Полное наименование">
+											</div>
+											<div class="form-group">
+												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
+											</div>				
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="update(last_project.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+													
+					</div>		
 					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
 					</div>
 					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
@@ -737,7 +847,11 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
-
+	<script>
+      var manager = {};
+	  //SWIG Injection!!! How to another get user.id in the page?
+	  manager.id = {{user.id}};
+	</script>		
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 	
@@ -746,624 +860,17 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
+	
+	<!-- Angular application -->
+	<script src="/js/app.js"></script>
 
     <!-- Morris Charts JavaScript -->
+	<!--
     <script src="/js/plugins/morris/raphael.min.js"></script>
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
-	
-	<script>
-	var manager = {};
-	//SWIG Injection!!! How to another get user.id in the page?
-	manager.id = {{user.id}};
-	  /*----------------------- MERCHANTS --------------------------------*/
-	  function getUsers(){
-	    var users = {};
-		$.ajax(
-		{
-		  async: false,
-		  url: "/Merchant/find?manager="+manager.id, 
-		  success: function (data) {
-		    users = data;	
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-       return users;   
-	  };
-	  
-  	  function getUser(id){
-	    var u = {};
-	    $.ajax(
-		{
-		  async: false,
-		  url: "/Merchant/find?manager=" + manager.id + "&id="+id, 
-		  success: function (data) {
-		    u = data;			
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-        return u;
-	  };
-	  
-	  function createUser(data){	  
-	    var d = {};
-		data.manager = manager.id;
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Merchant/create?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;				   	
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };
-	  
-	  function updateUser(data){	  
-	    var d = {};
-		data.manager = manager.id;
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Merchant/update/"+data.id+"/?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;				   	
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };	  
-	  /*--------------------- PHARMACIES -------------------------*/	
-	  function getPharmacies(){
-	    var pharmacies = {};
-		$.ajax(
-		{
-		  async: false,
-		  url: "/Pharmacy/find?", 
-		  success: function (data) {
-		    pharmacies = data;	
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-       return pharmacies;   
-	  };	
-	  
-	  function getPharmacy(id){
-	    var p = {};
-	    $.ajax(
-		{
-		  async: false,
-		  url: "/Pharmacy/find?id="+id, 
-		  success: function (data) {
-		    p = data;			
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-        return p;
-	  };
-
-	  function createPharmacy(data){	  
-	    var d = {};
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Pharmacy/create?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg; 
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };
-
-	  function updatePharmacy(data){	  
-	    var d = {};
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Pharmacy/update/"+data.id+"/?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;				   	
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };	  	 
-	  /*----------------------- DRUGS --------------------------------*/
-	  function getDrugs(){
-	    var drugs = {};
-		$.ajax(
-		{
-		  async: false,
-		  url: "/Drug/find?", 
-		  success: function (data) {
-		    drugs = data;	
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-       return drugs;   
-	  };
-	  
-  	  function getDrug(id){
-	    var d = {};
-	    $.ajax(
-		{
-		  async: false,
-		  url: "/Drug/find?id="+id, 
-		  success: function (data) {
-		    d = data;			
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-        return d;
-	  };
-	  
-	  function createDrug(data){	  
-	    var d = {};
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Drug/create?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;				   	
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };
-	  
-	  function updateDrug(data){	  
-	    var d = {};
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Drug/update/"+data.id+"/?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;				   	
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };		
-	  /*----------------------- COMPANIES --------------------------------*/
-	  function getCompanies(){
-	    var d = {};
-		$.ajax(
-		{
-		  async: false,
-		  url: "/Company/find?", 
-		  success: function (data) {
-		    d = data;	
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-       return d;   
-	  };
-	  
-  	  function getCompany(id){
-	    var d = {};
-	    $.ajax(
-		{
-		  async: false,
-		  url: "/Company/find?id="+id, 
-		  success: function (data) {
-		    d = data;			
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
-		  },
-		  dataType: 'json'
-		});
-        return d;
-	  };
-	  
-	  function createCompany(data){	  
-	    var d = {};
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Company/create?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;				   	
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };
-	  
-	  function updateCompany(data){	  
-	    var d = {};
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Company/update/"+data.id+"/?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;				   	
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
-	  };	
-	  
-	  /*-------------------------- ANGULAR APP -----------------------------------------*/
-      var app = angular.module('App', []);
-	  /*--------------------------- MERCHANTS ------------------------------------------*/
-      app.controller('merchantList', function($scope, $http) {
-          $scope.users = {};
-		  $scope.last_user = {};
-		  $scope.last_user.firstName = '';
-		  $scope.last_user.middleName = '';
-		  $scope.last_user.lastName = '';
-		  $scope.last_user.sex = 0;
-		  $scope.last_user.phone = '';
-		  $scope.last_user.email = '';
-		  $scope.last_user.id    = 0;
-		  
-		  $scope.users = getUsers();
-		  
-		  $scope.create = function(){		    
-			var data = {
-			    username:   $scope.last_user.username,
-				firstName:  $scope.last_user.firstName,
-				middleName: $scope.last_user.middleName,
-				lastName:   $scope.last_user.lastName,
-				sex:        $scope.last_user.sex,
-				email:      $scope.last_user.email,
-				phone:      $scope.last_user.phone
-			};
-			var cu = createUser(data);
-			
-			$scope.users.push({
-			    username:   cu.username,
-				firstName:  cu.firstName,
-				middleName: cu.middleName,
-				lastName:   cu.lastName,
-				sex:        cu.sex,
-				email:      cu.email,
-				phone:      cu.phone,
-			    id:         cu.id
-			});
-			$scope.last_user = {};
-			$("#add").modal('hide');  
-		  };
-		  $scope.clear_last  = function(){
-		    $scope.last_user = {};
-		  };
-		  $scope.init_update = function(id){
-		    var cu = getUser(id);
-			
-			$scope.last_user.username = cu.username;
-			$scope.last_user.firstName = cu.firstName,
-			$scope.last_user.middleName = cu.middleName;			 
-			$scope.last_user.lastName = cu.lastName;
-			$scope.last_user.sex = cu.sex;
-			$scope.last_user.email = cu.email;
-			$scope.last_user.phone = cu.phone;	
-			$scope.last_user.id    = cu.id;
-		  };
-		  $scope.update = function(id){
-		    var data = {
-			    username:   $scope.last_user.username,
-				firstName:  $scope.last_user.firstName,
-				middleName: $scope.last_user.middleName,
-				lastName:   $scope.last_user.lastName,
-				sex:        $scope.last_user.sex,
-				email:      $scope.last_user.email,
-				phone:      $scope.last_user.phone,
-				id:			id
-			};
-			var cu = updateUser(data);
-			var idx = -1;
-			var old = $.grep($scope.users,function(u,i){
-			          if (u.id == id){					    
-			            idx = i;
-					  }					  
-			        });				
-			$scope.users[idx] = {
-			    username:   cu.username,
-				firstName:  cu.firstName,
-				middleName: cu.middleName,
-				lastName:   cu.lastName,
-				sex:        cu.sex,
-				email:      cu.email,
-				phone:      cu.phone,
-			    id:         cu.id
-			};
-			$scope.last_user = {};
-			$("#update").modal('hide');
-		  };
-		  $('#add').on('show.bs.modal', function (event) {
-		    $scope.$apply(function(){
-			  $scope.last_user = {};
-			});
-		  });			  
-      });
-	  /*---------------------------- PHARMACIES -----------------------------------*/
-      app.controller('pharmaciesList', function($scope) {
-	      $scope.pharmacies = {};
-		  $scope.last_pharmacy = {};
-		  $scope.last_pharmacy.fullName = '';
-		  $scope.last_pharmacy.address = '';
-		  $scope.last_pharmacy.email = '';
-		  $scope.last_pharmacy.id = 0;
-		  
-		  $scope.pharmacies = getPharmacies();
-	    
-          $scope.create = function(){
-		    
-			var data = {
-			    fullName: $scope.last_pharmacy.fullName,
-				address: $scope.last_pharmacy.address,
-				phone: $scope.last_pharmacy.phone,
-				email: $scope.last_pharmacy.email
-			};
-			var cp = createPharmacy(data);
-			
-			$scope.pharmacies.push({
-			  fullName: cp.fullName,
-			  address: cp.address,
-			  phone: cp.phone,
-			  email: cp.email,
-			  id: cp.id
-			});
-			$scope.last_pharmacy = {};
-			$("#pharmacy_add").modal('hide'); 
-		  };
-		  $scope.clear_last = function(){
-		    $scope.last_pharmacy = {};
-		  };
-		  $scope.init_update = function(id){
-		    var cu = getPharmacy(id);
-			
-			$scope.last_pharmacy.fullName = cu.fullName;
-		    $scope.last_pharmacy.address  = cu.address;
-			$scope.last_pharmacy.phone    = cu.phone;
-		    $scope.last_pharmacy.email    = cu.email;
-			$scope.last_pharmacy.id       = cu.id;
-		  };
-		  $scope.update = function(id){
-		    var data = {
-			    fullName: $scope.last_pharmacy.fullName,
-				address:  $scope.last_pharmacy.address,
-				phone:    $scope.last_pharmacy.phone,
-				email:    $scope.last_pharmacy.email,
-				id:       $scope.last_pharmacy.id
-			};
-			
-			var cu = updatePharmacy(data);
-			var idx = -1;
-			var old = $.grep($scope.pharmacies,function(u,i){
-			          if (u.id == id){					    
-			            idx = i;
-					  }					  
-			        });				
-			$scope.pharmacies[idx] = {
-			    fullName: cu.fullName,
-				address: cu.address,
-				phone: cu.phone,
-				email: cu.email,
-				id: cu.id
-			};
-			$scope.last_pharmacy = {};
-			$("#pharmacy_upd").modal('hide');
-		  };
-		  $('#pharmacy_add').on('show.bs.modal', function (event) {
-		    $scope.$apply(function(){
-			  $scope.last_pharmacy = {};
-			});
-		  });	
-      });	
-
-	  /*------------------------------- DRUGS -----------------------------------*/
-      app.controller('drugsList', function($scope) {
-          $scope.drugs = {};
-		  $scope.last_drug = {};
-		  $scope.last_drug.fullName = '';
-		  $scope.last_drug.officialName = '';
-		  $scope.last_drug.description = '';
-		  $scope.last_drug.barcode = 0;
-		  $scope.last_drug.id    = 0;
-		  
-		  $scope.drugs = getDrugs();
-		  
-		  $scope.create = function(){		    
-			var data = {
-			    fullName:     $scope.last_drug.fullName,
-				officialName: $scope.last_drug.officialName,
-				description:  $scope.last_drug.description,
-				barcode:      $scope.last_drug.barcode
-			};
-			var cu = createDrug(data);
-			
-			$scope.drugs.push({
-			    fullName:     cu.fullName,
-				officialName: cu.officialName,
-				description:  cu.description,
-				barcode:      cu.barcode,
-			    id:           cu.id
-			});
-			$scope.last_drug = {};
-			$("#drug_add").modal('hide');  
-		  };
-		  $scope.clear_last  = function(){
-		    $scope.last_drug = {};
-		  };
-		  $scope.init_update = function(id){
-		    var cu = getDrug(id);
-			
-			$scope.last_drug.fullName     = cu.fullName;
-		    $scope.last_drug.officialName = cu.officialName;
-		    $scope.last_drug.description  = cu.description;
-		    $scope.last_drug.barcode      = cu.barcode;
-		    $scope.last_drug.id           = cu.id;
-		  };
-		  $scope.update = function(id){
-		    var data = {
-			    fullName:     $scope.last_drug.fullName,
-				officialName: $scope.last_drug.officialName,
-				description:  $scope.last_drug.description,
-				barcode:      $scope.last_drug.barcode,
-				id:			  id
-			};
-			var cu = updateDrug(data);
-			var idx = -1;
-			var old = $.grep($scope.drugs,function(u,i){
-			          if (u.id == id){					    
-			            idx = i;
-					  }					  
-			        });				
-			$scope.drugs[idx] = {
-			    fullName:     cu.fullName,
-				officialName: cu.officialName,
-				description:  cu.description,
-				barcode:      cu.barcode,
-			    id:           cu.id
-			};
-			$scope.last_drug = {};
-			$("#drug_upd").modal('hide');
-		  };
-		  $('#drug_add').on('show.bs.modal', function (event) {
-		    $scope.$apply(function(){
-			  $scope.last_drug = {};
-			});
-		  });			  
-      });	  
-      /*----------------------------- COMPANIES -----------------------------------*/
-	  app.controller('companiesList', function($scope) {
-          $scope.companies = {};
-		  $scope.last_company = {};
-		  $scope.last_company.fullName = '';
-		  $scope.last_company.shortName = '';
-		  $scope.last_company.officialName = '';
-		  $scope.last_company.description = '';
-		  $scope.last_company.id = 0;
-		  
-		  $scope.companies = getCompanies();
-		  
-		  $scope.create = function(){		    
-			var data = {
-			    fullName:     $scope.last_company.fullName,
-				shortName:    $scope.last_company.shortName,
-				officialName: $scope.last_company.officialName,
-				description:  $scope.last_company.description
-			};
-			var cu = createCompany(data);
-			
-			$scope.companies.push({
-			    fullName:     cu.fullName,
-				shortName:	  cu.shortName,
-				officialName: cu.officialName,
-				description:  cu.description,
-			    id:           cu.id
-			});
-			$scope.last_company = {};
-			$("#company_add").modal('hide');  
-		  };
-		  $scope.clear_last = function(){
-		    $scope.last_company = {};
-		  };
-		  $scope.init_update = function(id){
-		    var cu = getCompany(id);
-			
-			$scope.last_company.fullName     = cu.fullName;
-			$scope.last_company.shortName    = cu.shortName;
-		    $scope.last_company.officialName = cu.officialName;
-		    $scope.last_company.description  = cu.description;
-		    $scope.last_company.id           = cu.id;
-		  };
-		  $scope.update = function(id){
-		    var data = {
-			    fullName:     $scope.last_company.fullName,
-				shortName:    $scope.last_company.shortName,
-				officialName: $scope.last_company.officialName,
-				description:  $scope.last_company.description,
-				barcode:      $scope.last_company.barcode,
-				id:			  id
-			};
-			var cu = updateCompany(data);
-			var idx = -1;
-			var old = $.grep($scope.companies,function(u,i){
-			          if (u.id == id){					    
-			            idx = i;
-					  }					  
-			        });				
-			$scope.companies[idx] = {
-			    fullName:     cu.fullName,
-				shortName:	  cu.shortName,
-				officialName: cu.officialName,
-				description:  cu.description,
-				barcode:      cu.barcode,
-			    id:           cu.id
-			};
-			$scope.last_company = {};
-			$("#company_upd").modal('hide');
-		  };
-		  $('#company_add').on('show.bs.modal', function (event) {
-		    $scope.$apply(function(){
-			  $scope.last_company = {};
-			});
-		  });			  
-      });	  
-	$(document).ready(function(){
-	    $("[data-toggle=tooltip]").tooltip();
-		
-			
-	});	    	
-	</script>	  
+	-->
+  
 
 </body>
 

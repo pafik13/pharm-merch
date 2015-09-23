@@ -21,7 +21,7 @@ module.exports = {
         barcode: 'string',
         articul: 'string',
         instruction: 'text',
-        receller: {
+        reseller: {
             model: 'Company'
         }
     }
