@@ -12,7 +12,6 @@ module.exports = {
             unique: true,
             index: true
         },
-        fullName: 'string',
         officialName: {
             type: 'string',
             unique: true,
@@ -22,7 +21,7 @@ module.exports = {
         barcode: 'string',
         articul: 'string',
         instruction: 'text',
-        receller: {
+        reseller: {
             model: 'Company'
         }
     }
