@@ -78,6 +78,14 @@
     .search-query:focus{
         width: 260px;
     }   
+	
+	.btn span.glyphicon {    			
+		opacity: 0;				
+	}
+	
+	.btn.active span.glyphicon {				
+		opacity: 1;				
+	}
 
 </style>
 
@@ -820,7 +828,22 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>				
+											</div>	
+											<div class="table-responsive">
+												<table class="table  table-bordred table-striped">
+													<tr ng-repeat="drug in last_project.drugs">
+														<td>
+															<div  class="btn-group" data-toggle="buttons">
+																<div class="btn btn-success pull-left">
+																	<input type="checkbox" autocomplete="off">
+																	<span class="glyphicon glyphicon-ok"></span>
+																	{{drug.shortName}} - {{drug.reseller.fullName}}
+																</div>
+															</div>
+														</td>												
+													</tr>
+												</table>	
+											</div>  
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_project.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>

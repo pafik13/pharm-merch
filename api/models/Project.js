@@ -10,10 +10,10 @@ module.exports = {
     attributes: {
         fullName: 'string',
         description: 'text',
-		manager:{
-			model: 'User',
+        manager: {
+            model: 'User',
             required: true
-		},		
+        },
         drugs: {
             collection: 'Drug'
         }

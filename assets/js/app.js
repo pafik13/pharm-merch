@@ -1,4 +1,4 @@
-	  /*----------------------- MERCHANTS --------------------------------*/
+﻿	  /*----------------------- MERCHANTS --------------------------------*/
 	  function getUsers(){
 	    var users = {};
 		$.ajax(
@@ -677,6 +677,13 @@
 		  $scope.last_project.fullName = '';
 		  $scope.last_project.description = '';
 		  $scope.last_project.id = 0;
+		  
+		  $scope.last_project.drugs = [{shortName: 'Анальгин', reseller:{fullName: 'ООО "ФармКом +"'}},
+									   {shortName: 'Аспирин', reseller:{fullName: 'ООО "Аспирин"'}},
+									   {shortName: 'Бромгексин', reseller:{fullName: 'АО "БерлинХеми""'}},
+									   {shortName: 'Бронхикум', reseller:{fullName: 'ЗАО "Веселые лекарства"'}},
+									   {shortName: 'Глицерин', reseller:{fullName: 'АО "Уральский завод хим реактивов"'}}];
+		  
 		  
 		  $scope.projects = getProjects();
 		  
