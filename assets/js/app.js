@@ -678,11 +678,19 @@
 		  $scope.last_project.description = '';
 		  $scope.last_project.id = 0;
 		  
-		  $scope.last_project.drugs = [{shortName: 'Анальгин', reseller:{fullName: 'ООО "ФармКом +"'}},
-									   {shortName: 'Аспирин', reseller:{fullName: 'ООО "Аспирин"'}},
-									   {shortName: 'Бромгексин', reseller:{fullName: 'АО "БерлинХеми""'}},
-									   {shortName: 'Бронхикум', reseller:{fullName: 'ЗАО "Веселые лекарства"'}},
-									   {shortName: 'Глицерин', reseller:{fullName: 'АО "Уральский завод хим реактивов"'}}];
+		  $scope.last_project.drugs = [{shortName: 'Анальгин', id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
+									   {shortName: 'Аспирин', id: 10, reseller:{fullName: 'ООО "Аспирин"'}},
+									   {shortName: 'Бромгексин', id: 25, reseller:{fullName: 'АО "БерлинХеми""'}},
+									   {shortName: 'Бронхикум', id: 11, reseller:{fullName: 'ЗАО "Веселые лекарства"'}},
+									   {shortName: 'Анальгин', id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
+									   {shortName: 'Аспирин', id: 10, reseller:{fullName: 'ООО "Аспирин"'}},
+									   {shortName: 'Бромгексин', id: 25, reseller:{fullName: 'АО "БерлинХеми""'}},
+									   {shortName: 'Бронхикум', id: 11, reseller:{fullName: 'ЗАО "Веселые лекарства"'}},
+									   {shortName: 'Анальгин', id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
+									   {shortName: 'Аспирин', id: 10, reseller:{fullName: 'ООО "Аспирин"'}},
+									   {shortName: 'Бромгексин', id: 25, reseller:{fullName: 'АО "БерлинХеми""'}},
+									   {shortName: 'Бронхикум', id: 11, reseller:{fullName: 'ЗАО "Веселые лекарства"'}},
+									   {shortName: 'Глицерин', id: 17, reseller:{fullName: 'АО "Уральский завод хим реактивов"'}}];
 		  
 		  
 		  $scope.projects = getProjects();
