@@ -78,15 +78,7 @@
     .search-query:focus{
         width: 260px;
     }   
-	
-	.btn span.glyphicon {    			
-		opacity: 0;				
-	}
-	
-	.btn.active span.glyphicon {				
-		opacity: 1;				
-	}
-	
+
 .two-columns {
     -moz-column-count: 2;
     -moz-column-gap: 10px;
@@ -846,30 +838,33 @@
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
 											</div>	
-											<input type="text" ng-model="drugFilter" id="drugFilter" />
-											<div class="well two-columns" style="width: 100%">											
-												<div class="column"  ng-repeat="drug in last_project.drugs| filter: drugFilter">
-													<div class="btn-group btn btn-success" data-toggle="buttons" style="width: 100%">
-														<div  >															
-															<div class="row">
-																<div class="col-md-8">
-																  <input type="checkbox" autocomplete="off" style="display: none;" ng-value="status" btn-checkbox>
-															      <span class="glyphicon glyphicon-ok"></span>
-																  <label ng-bind="drug.shortName"></label>
+											<div class="form-group">
+												<input type="text" ng-model="drugFilter" id="drugFilter" />
+												<div class="well two-columns" style="width: 100%">											
+													<div class="column"  ng-repeat="drug in last_project.drugs| filter: drugFilter">
+														<div class="btn-group btn btn-success" data-toggle="buttons" style="width: 100%" ng-class = "{'active' : (drug.status == true)}" ng-click="drug.status = !drug.status">
+															<div>															
+																<div class="row">
+																	<div class="col-md-8">
+																	  <input type="checkbox" autocomplete="off" style="display: none;">
+																	 
+																	  <span class="glyphicon pull-left" ng-model="drug.status" ng-class="drug.status == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
+																	  <label ng-bind="drug.shortName"></label>
+																	</div>
+																	<div class="col-md-4">
+																	  <label ng-bind="drug.id"></label>
+																	</div>
 																</div>
-																<div class="col-md-4">
-																  <label ng-bind="drug.id"></label>
+																<div class="row">
+																	<small>{{drug.reseller.fullName}}</small>
+																	<small>{{drug.status}}</small>
 																</div>
-															</div>
-															<div class="row">
-																<small>{{drug.reseller.fullName}}</small>
 															</div>
 														</div>
+																
 													</div>
-															
-												</div>
-											</div>		
-														
+												</div>		
+											</div>	
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_project.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
