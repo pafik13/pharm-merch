@@ -453,7 +453,13 @@
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>					
+											</div>	
+											<div class="form-group">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
+													<label class="pull-right">Проверено</label>													
+												</div>	
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -482,7 +488,13 @@
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>					
+											</div>	
+											<div class="form-group">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
+													<label class="pull-right">Проверено</label>													
+												</div>	
+											</div>											
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_pharmacy.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -860,8 +872,7 @@
 																	<small>{{drug.status}}</small>
 																</div>
 															</div>
-														</div>
-																
+														</div>																
 													</div>
 												</div>		
 											</div>	

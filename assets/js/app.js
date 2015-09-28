@@ -454,6 +454,7 @@
 		  $scope.last_pharmacy.address = '';
 		  $scope.last_pharmacy.email = '';
 		  $scope.last_pharmacy.id = 0;
+		  $scope.last_pharmacy.validated = false;
 		  
 		  $scope.pharmacies = getPharmacies();
 	    
@@ -463,16 +464,18 @@
 			    fullName: $scope.last_pharmacy.fullName,
 				address: $scope.last_pharmacy.address,
 				phone: $scope.last_pharmacy.phone,
-				email: $scope.last_pharmacy.email
+				email: $scope.last_pharmacy.email,
+				validated: $scope.last_pharmacy.validated
 			};
 			var cp = createPharmacy(data);
 			
 			$scope.pharmacies.push({
-			  fullName: cp.fullName,
-			  address: cp.address,
-			  phone: cp.phone,
-			  email: cp.email,
-			  id: cp.id
+			  fullName:  cp.fullName,
+			  address:   cp.address,
+			  phone:     cp.phone,
+			  email:     cp.email,
+			  id:        cp.id,
+			  validated: cp.validated
 			});
 			$scope.last_pharmacy = {};
 			$("#pharmacy_add").modal('hide'); 
@@ -483,19 +486,21 @@
 		  $scope.init_update = function(id){
 		    var cu = getPharmacy(id);
 			
-			$scope.last_pharmacy.fullName = cu.fullName;
-		    $scope.last_pharmacy.address  = cu.address;
-			$scope.last_pharmacy.phone    = cu.phone;
-		    $scope.last_pharmacy.email    = cu.email;
-			$scope.last_pharmacy.id       = cu.id;
+			$scope.last_pharmacy.fullName  = cu.fullName;
+		    $scope.last_pharmacy.address   = cu.address;
+			$scope.last_pharmacy.phone     = cu.phone;
+		    $scope.last_pharmacy.email     = cu.email;
+			$scope.last_pharmacy.id        = cu.id;
+			$scope.last_pharmacy.validated = cu.validated;
 		  };
 		  $scope.update = function(id){
 		    var data = {
-			    fullName: $scope.last_pharmacy.fullName,
-				address:  $scope.last_pharmacy.address,
-				phone:    $scope.last_pharmacy.phone,
-				email:    $scope.last_pharmacy.email,
-				id:       $scope.last_pharmacy.id
+			    fullName:  $scope.last_pharmacy.fullName,
+				address:   $scope.last_pharmacy.address,
+				phone:     $scope.last_pharmacy.phone,
+				email:     $scope.last_pharmacy.email,
+				id:        $scope.last_pharmacy.id,
+				validated: $scope.last_pharmacy.validated
 			};
 			
 			var cu = updatePharmacy(data);
@@ -506,11 +511,12 @@
 					  }					  
 			        });				
 			$scope.pharmacies[idx] = {
-			    fullName: cu.fullName,
-				address: cu.address,
-				phone: cu.phone,
-				email: cu.email,
-				id: cu.id
+			    fullName:  cu.fullName,
+				address:   cu.address,
+				phone:     cu.phone,
+				email:     cu.email,
+				id:        cu.id,
+				valicated: cu.validated
 			};
 			$scope.last_pharmacy = {};
 			$("#pharmacy_upd").modal('hide');
