@@ -538,6 +538,9 @@
 		  $scope.last_drug.barcode = 0;
 		  $scope.last_drug.id    = 0;
 		  
+		  $scope.view = 'grid';
+		  
+		  
 		  $scope.drugs = getDrugs();
 		  
 		  $scope.create = function(){		    

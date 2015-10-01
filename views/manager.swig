@@ -538,37 +538,60 @@
 						</div>
 						{% raw %}
 						<div class="row">
-							<div class="col-md-1 text-right">
+							<div class="col-lg-8 pull-left">
 								<div class="panel">
 									<div class="label label-default">Кол-во: {{drugs.length}}</div>
 								</div>
 							</div>
-						</div>	
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="drug in drugs | filter: search">					
-								<div class="panel panel-green">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-flask fa-5x"></i>
-												<h3 ng-bind="drug.email"></h3>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="drug.id"></div>
-												<div ng-bind="drug.fullName"></div>										
-												<div ng-bind="drug.address"></div>	
-											</div>
-										</div>
-									</div>
-									<a ng-click="init_update(drug.id)" href="#drug_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
-										<div class="panel-footer">
-										<span class="pull-left"><h4>Подробнее</h4></span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-										<div class="clearfix"></div>
-										</div>
-									</a>
+							<div class="col-lg-1 pull-right">
+								<div class="btn btn-checkbox" ng-model="view" ng-click="view = view == 'grid'? 'tile': 'grid'">
+									<span class="glyphicon" ng-class="view == 'grid'? 'glyphicon glyphicon-list':'glyphicon glyphicon-th'"></span>
 								</div>
 							</div>
+						</div>	
+						<div class="row" ng-switch on="view">
+							<div ng-switch-when="tile">
+								<div class="col-lg-6 col-md-6" ng-repeat="drug in drugs | filter: search">					
+										<div class="panel panel-green">
+											<div class="panel-heading">
+												<div class="row">
+													<div class="col-xs-3">
+														<i class="fa fa-flask fa-5x"></i>
+														<h3 ng-bind="drug.email"></h3>
+													</div>
+													<div class="col-xs-9 text-right">
+														<div class="huge" ng-bind="drug.id"></div>
+														<div ng-bind="drug.fullName"></div>										
+														<div ng-bind="drug.barcode"></div>	
+													</div>
+												</div>
+											</div>
+											<a ng-click="init_update(drug.id)" href="#drug_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+												<div class="panel-footer">
+												<span class="pull-left"><h4>Подробнее</h4></span>
+												<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+												<div class="clearfix"></div>
+												</div>
+											</a>
+										</div>
+									
+								</div>
+							</div>
+								<div ng-switch-when="grid">
+									<div class="table-responsive">
+									  <table id="mytable" class="table table-bordered table-striped">
+										<tr ng-repeat="drug in drugs | filter: search">
+										  <td><input type="checkbox" /></td>
+										  <td>{{ drug.fullName }}</td>							 
+										  <td>{{ drug.id }}</td>
+										  <td>{{ drug.barcode }}</td>
+										  <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+										  <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+										</tr>
+									  </table>
+									</div>								
+								</div>
+							
 						<!-- MODAL -->	
 							<div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
 								<div class="modal-dialog">		    
