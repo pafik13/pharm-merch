@@ -55,8 +55,7 @@ module.exports = {
         // Lifecycle Callbacks
         afterUpdate: function(values, cb) {
             if (values.validated) {
-                values.validateAt = new Date();
-                values.validator = User.find(1);
+                values.validatedAt = new Date();
                 cb();
             }
         }
