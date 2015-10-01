@@ -8,6 +8,18 @@
 module.exports = {
 
     attributes: {
-
+		firstName: 'string',
+        middleName: 'string',
+        lastName: 'string',
+        sex: 'integer',
+        phone: 'string',
+        email: 'string',
+        job_role: 'string',
+        manager: {
+            model: 'Manager'
+        },
+        user: {
+            model: 'User'
+        },
     }
 };
