@@ -45,8 +45,20 @@ module.exports = {
         },
         merchant: {
             model: 'Merchant'
-        }
+        },
+        validated: 'boolean',
+        validator: {
+            model: 'User'
+        },
+        validatedAt: 'datetime',
 
+        // Lifecycle Callbacks
+        afterUpdate: function(values, cb) {
+            if (values.validated) {
+                values.validatedAt = new Date();
+                cb();
+            }
+        }
 
     }
 };

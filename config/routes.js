@@ -45,6 +45,9 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  '/' : 'MainController.main',
-  '/manager/' : 'ManagerController.main'
+  '/'                     : 'MainController.main',
+  '/manager/'             : 'MainController.manager',
+  '/Pharmacy/:action/:id' : 'PharmacyController.main',
+  '/Merchant/:action/:id' : 'MerchantController.main',
+  '/Merchant/:action'     : 'MerchantController.main'
 };

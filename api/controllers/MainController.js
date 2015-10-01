@@ -8,6 +8,8 @@
 module.exports = {
     main: function(req, res) {
         return res.view('main');
+    },
+    manager: function(req, res) {
+        return res.view('manager');
     }
-
 };

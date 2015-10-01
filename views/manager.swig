@@ -79,6 +79,23 @@
         width: 260px;
     }   
 
+.two-columns {
+    -moz-column-count: 2;
+    -moz-column-gap: 10px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 10px;
+    column-count: 2;
+    column-gap: 10px;
+    width: 360px;
+}
+
+.two-columns .column {
+    display: inline-block;
+    width: 100%;
+    background-color: #ccc;
+   margin:2px;
+}	
+
 </style>
 
     <div id="wrapper">
@@ -436,7 +453,13 @@
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>					
+											</div>	
+											<div class="form-group">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
+													<label class="pull-right">Проверено</label>													
+												</div>	
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -465,7 +488,13 @@
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>					
+											</div>	
+											<div class="form-group">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
+													<label class="pull-right">Проверено</label>													
+												</div>	
+											</div>											
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_pharmacy.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -820,7 +849,33 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>				
+											</div>	
+											<div class="form-group">
+												<input type="text" ng-model="drugFilter" id="drugFilter" />
+												<div class="well two-columns" style="width: 100%">											
+													<div class="column"  ng-repeat="drug in last_project.drugs| filter: drugFilter">
+														<div class="btn-group btn btn-success" data-toggle="buttons" style="width: 100%" ng-class = "{'active' : (drug.status == true)}" ng-click="drug.status = !drug.status">
+															<div>															
+																<div class="row">
+																	<div class="col-md-8">
+																	  <input type="checkbox" autocomplete="off" style="display: none;">
+																	 
+																	  <span class="glyphicon pull-left" ng-model="drug.status" ng-class="drug.status == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
+																	  <label ng-bind="drug.shortName"></label>
+																	</div>
+																	<div class="col-md-4">
+																	  <label ng-bind="drug.id"></label>
+																	</div>
+																</div>
+																<div class="row">
+																	<small>{{drug.reseller.fullName}}</small>
+																	<small>{{drug.status}}</small>
+																</div>
+															</div>
+														</div>																
+													</div>
+												</div>		
+											</div>	
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_project.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
