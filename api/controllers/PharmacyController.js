@@ -8,22 +8,21 @@
 module.exports = {
     main: function(req, res, next) {
         var action = req.param('action');
-        console.log(action);
+
         if (action == 'update') {
             var params = req.params.all();
             delete params.action;
 
-            console.log('params: %j', params);
-
             if (params.validated && params.id) {
 
-                params.validator = req.session.user.id;
+                params.validator = req.user.id;
                 Pharmacy.update(params);
-                console.log('params: %j', params);
                 return res.json(200, params);
-            }
+            } else {
+				next();
+			}
 
-            next();
+            
         }
     }
 };
