@@ -16,7 +16,7 @@ module.exports = {
         email: 'string',
         job_role: 'string',
         manager: {
-            model: 'User',
+            model: 'Manager',
             required: true
         },
         user: {
