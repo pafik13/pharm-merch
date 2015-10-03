@@ -9,6 +9,7 @@ module.exports = {
 
     attributes: {
 		name: 'string',
-		info: 'text'
+		info: 'text',
+		baseCity: 'string'
     }
 };

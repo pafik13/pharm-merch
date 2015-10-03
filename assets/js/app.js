@@ -351,7 +351,78 @@
 			}
 		});
 		return d;
-	  };	 	 
+	  };
+	  
+	  /*----------------------- TERRITORIES --------------------------------*/
+	  function getTerritories(){
+	    var d = {};
+		$.ajax(
+		{
+		  async: false,
+		  url: "/Territory/find?", 
+		  success: function (data) {
+		    d = data;	
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+       return d;   
+	  };
+	  
+  	  function getTerritory(id){
+	    var d = {};
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/Territory/find?id="+id, 
+		  success: function (data) {
+		    d = data;			
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+        return d;
+	  };
+	  
+	  function createTerritory(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Territory/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };
+	  
+	  function updateTerritory(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Territory/update/"+data.id+"/?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };		  
 	  
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);
@@ -752,7 +823,77 @@
 			});
 		  });			  
       });		  
+	
+	 /*----------------------------- Territories -----------------------------------*/
+	  app.controller('territoriesList', function($scope) {
+          $scope.territories = {};
+		  $scope.last_territory = {};
+		  $scope.last_territory.name = '';
+		  $scope.last_territory.info = '';
+		  $scope.last_territory.baseCity = '';
+		  $scope.last_territory.id = 0;
+		  
+		  $scope.territories = getTerritory();
+		  
+		  $scope.create = function(){		    
+			var data = {
+			    name:     $scope.last_territory.name,
+				info:    $scope.last_company.info,
+				baseCity: $scope.last_company.baseCity
+			};
+			var cu = createCompany(data);
+			
+			$scope.territories.push({
+			    name:     cu.name,
+				info:	  cu.info,
+				baseCity: cu.baseCity,
+			    id:       cu.id
+			});
+			$scope.last_territory = {};
+			$("#company_add").modal('hide');  
+		  };
+		  $scope.clear_last = function(){
+		    $scope.last_territory = {};
+		  };
+		  $scope.init_update = function(id){
+		    var cu = getTerritory(id);
+			
+			$scope.last_territory.name     = cu.name;
+			$scope.last_territory.info     = cu.info;
+		    $scope.last_territory.baseCity = cu.baseCity;
+		    $scope.last_territory.id       = cu.id;
+		  };
+		  $scope.update = function(id){
+		    var data = {
+			    name:     $scope.last_territory.name,
+				info:     $scope.last_territory.info,
+				baseCity: $scope.last_territory.baseCity,
+				id:			  id
+			};
+			var cu = updateTerritory(data);
+			var idx = -1;
+			var old = $.grep($scope.territories,function(u,i){
+			          if (u.id == id){					    
+			            idx = i;
+					  }					  
+			        });				
+			$scope.territories[idx] = {
+			    name:      cu.name,
+				info:      cu.info,
+				baseCity:  cu.baseCity,
+			    id:        cu.id
+			};
+			$scope.last_territory = {};
+			$("#territory_upd").modal('hide');
+		  };
+		  $('#territory_add').on('show.bs.modal', function (event) {
+		    $scope.$apply(function(){
+			  $scope.last_territory = {};
+			});
+		  });			  
+      });	  
 	  
+	//Tooltips  
 	$(document).ready(function(){
 	    $("[data-toggle=tooltip]").tooltip();
 	});	    	
