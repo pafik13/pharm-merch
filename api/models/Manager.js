@@ -8,7 +8,7 @@
 module.exports = {
 
     attributes: {
-		firstName: 'string',
+        firstName: 'string',
         middleName: 'string',
         lastName: 'string',
         sex: 'integer',

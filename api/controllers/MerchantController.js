@@ -35,17 +35,25 @@ module.exports = {
                     password: pwd,
                     protocol: "local"
                 };
-                console.log('CREATE PASSPORT');
+                //console.log('CREATE PASSPORT');
                 Passport.create(data_passport).exec(function(err, passport) {
                     //console.log("user: %j", passport);
-                    if (err) return res.json(400, err);
+                    if (err) {
+                        User.destroy(user.id);
+                        return res.json(400, err);
+                    }
                     //res.passports = pwd.id;
                     //User.update(res);
                     params.initPwd = pwd;
 
                     //console.log('UPDATE MERCHANT');
                     Merchant.create(params).exec(function(err, merch) {
-                        if (err) return res.json(400, err);
+                        if (err) { 
+                            User.destroy(user.id);
+                            Passport.destroy(passport.id);
+                            return res.json(400, err);
+                        }
+                        
                         res.json(200, merch);;
                     });
 

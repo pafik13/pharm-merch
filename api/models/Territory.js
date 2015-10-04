@@ -8,8 +8,8 @@
 module.exports = {
 
     attributes: {
-		name: 'string',
-		info: 'text',
-		baseCity: 'string'
+        name: 'string',
+        info: 'text',
+        baseCity: 'string'
     }
 };
