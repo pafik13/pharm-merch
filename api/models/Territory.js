@@ -8,7 +8,11 @@
 module.exports = {
 
     attributes: {
-		name: 'string',
-		info: 'text'
+        name: 'string',
+        info: 'text',
+        pharmacies: {
+            collection: 'Pharmacy',
+            via: 'territory'
+        }
     }
 };

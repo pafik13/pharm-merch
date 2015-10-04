@@ -16,11 +16,9 @@ module.exports = {
             index: true
         },
         description: 'string',
-        company: {
-            model: 'Company'
-        },
         pharmacies: {
-            collection: 'Pharmacy'
+            collection: 'Pharmacy',
+            via: 'tradenet'
         }
 
     }

@@ -10,12 +10,15 @@ module.exports = {
     attributes: {
         fullName: 'string',
         description: 'text',
-        manager: {
-            model: 'User',
-            required: true
-        },
+        // manager: {
+        //     model: 'Manager',
+        //     required: true
+        // },
         drugs: {
             collection: 'Drug'
+        },
+        merchants: {
+            collection: 'Merchant'
         }
 
     }
