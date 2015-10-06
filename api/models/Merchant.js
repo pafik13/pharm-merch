@@ -20,12 +20,16 @@ module.exports = {
             required: true
         },
         user: {
-            model: 'User'
+            model: 'User',
+            required: true
+        },
+        project: {
+            model: 'Project'
         },
         territory: {
             collection: 'Territory'
         },
-        initPwd: 'string',
+        //        initPwd: 'string',
 
         // Lifecycle Callbacks
         beforeCreate: function(values, next) {

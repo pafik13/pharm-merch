@@ -9,22 +9,19 @@ module.exports = {
     attributes: {
         fullName: {
             type: 'string',
-            unique: true,
-            index: true
         },
         shortName: {
             type: 'string',
-            unique: true,
-            index: true
         },
         officialName: {
             type: 'string',
-            unique: true,
-            index: true
         },
         address: {
             type: 'string',
             required: true
+        },
+        territory: {
+            model: 'Territory'
         },
         subway: 'string',
         phone: 'string',
@@ -34,7 +31,7 @@ module.exports = {
         traffic: 'integer',
         // reference to trademark
         tradenet: {
-            model: 'Company'
+            model: 'Tradenet'
         },
         // reference to hospitals
         hospitals: {
