@@ -41,11 +41,11 @@ module.exports = {
 
         if (!!values.firstName) {
             values.shortName = values.shortName + " " + values.firstName.substring(0, 1) + ".";
-            values.fullName = values.shortName + " " + values.firstName;
+            values.fullName = values.fullName + " " + values.firstName;
 
             if (!!values.middleName) {
                 values.shortName = values.shortName + " " + values.middleName.substring(0, 1) + ".";
-                values.fullName = values.shortName + " " + values.middleName;
+                values.fullName = values.fullName + " " + values.middleName;
             }
         }
 
