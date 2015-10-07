@@ -98,7 +98,7 @@
 
 </style>
 
-    <div id="wrapper">
+    <div id="wrapper"  ng-controller="menuController">
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -121,7 +121,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong> {{ user.username }}</strong>
@@ -136,7 +136,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>{{ user.username }}</strong>
@@ -151,7 +151,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>{{ user.username }}</strong>
@@ -228,7 +228,7 @@
 						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
 							<li class="active"><a data-toggle="pill" href="#projects">Проекты</a></li>					
 							<li><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
-							<li><a data-toggle="pill" href="#pharmacies">Аптеки</a></li>
+							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="menuPharmacies = menuPharmacies + 1">Аптеки</a></li>
 							<li><a data-toggle="pill" href="#drugs">Препараты</a></li>
 							<li><a data-toggle="pill" href="#companies">Компании</a></li>
 							<li><a data-toggle="pill" href="#territories">Территории</a></li>
@@ -456,7 +456,7 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
 											</div>	
 											<div class="form-group">
-											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class="last_pharmacy.validated == true ? 'btn btn-default active': 'btn btn-default'" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
 													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
 													<label class="pull-right">Проверено</label>													
 												</div>	
@@ -491,7 +491,7 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
 											</div>	
 											<div class="form-group">
-											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class="last_pharmacy.validated == true ? 'btn btn-default active': 'btn btn-default'" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
 													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
 													<label class="pull-right">Проверено</label>													
 												</div>	
@@ -972,7 +972,7 @@
 								</div>
 							</div>
 						<!-- MODAL -->	
-							<div class="modal fade" id="territory_add" tabindex="-1" role="dialog" aria-labelledby="company_add" aria-hidden="true">
+							<div class="modal fade" id="territory_add" tabindex="-1" role="dialog" aria-labelledby="territory_add" aria-hidden="true">
 								<div class="modal-dialog">		    
 									<div class="modal-content">
 										<div class="modal-header">

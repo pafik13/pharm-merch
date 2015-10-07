@@ -1,15 +1,15 @@
-﻿	  /*----------------------- MERCHANTS --------------------------------*/
+	  /*----------------------- MERCHANTS --------------------------------*/
 	  function getUsers(){
 	    var users = {};
 		$.ajax(
 		{
 		  async: false,
-		  url: "/Merchant/find?manager="+manager.id, 
+		  url: "/Merchant/find?manager="+manager.id, /*global manager*/
 		  success: function (data) {
 		    users = data;	
 		  },
 		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
+			alert(status + "\n" + data + "\n" + 'getUsers');
 		  },
 		  dataType: 'json'
 		});
@@ -81,7 +81,7 @@
 		    pharmacies = data;	
 		  },
 		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
+			alert(status + "\n" + data + "\n" + 'getPharmacies');
 		  },
 		  dataType: 'json'
 		});
@@ -151,7 +151,7 @@
 		    drugs = data;	
 		  },
 		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
+			alert(status + "\n" + data+ "\n" + 'getDrugs');
 		  },
 		  dataType: 'json'
 		});
@@ -221,7 +221,7 @@
 		    d = data;	
 		  },
 		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
+			alert(status + "\n" + data+ "\n" + 'getCompanies');
 		  },
 		  dataType: 'json'
 		});
@@ -286,12 +286,12 @@
 		$.ajax(
 		{
 		  async: false,
-		  url: "/Project/find?manager="+manager.id, 
+		  url: "/Project/find?", 
 		  success: function (data) {
 		    users = data;	
 		  },
 		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
+			alert(status + "\n" + data + "\n" + 'getProjects');
 		  },
 		  dataType: 'json'
 		});
@@ -303,7 +303,7 @@
 	    $.ajax(
 		{
 		  async: false,
-		  url: "/Project/find?manager=" + manager.id + "&id="+id, 
+		  url: "/Project/find?id="+id, 
 		  success: function (data) {
 		    d = data;			
 		  },
@@ -317,7 +317,7 @@
 	  
 	  function createProject(data){	  
 	    var d = {};
-		data.manager = manager.id;
+		//data.manager = manager.id;
 		$.ajax({
 		    async: false,
 			type: "POST",
@@ -336,7 +336,7 @@
 	  
 	  function updateProject(data){	  
 	    var d = {};
-		data.manager = manager.id;
+		//data.manager = manager.id;
 		$.ajax({
 		    async: false,
 			type: "POST",
@@ -364,7 +364,7 @@
 		    d = data;	
 		  },
 		  error: function(xhr, status, data){
-			alert(status + "\n" + data);
+			alert(status + "\n" + data + "\n" + 'getTerritories');
 		  },
 		  dataType: 'json'
 		});
@@ -425,10 +425,10 @@
 	  };		  
 	  
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
-      var app = angular.module('App', []);
+      var app = angular.module('App', []);  /*global angular*/
 	  /*--------------------------- MERCHANTS ------------------------------------------*/
       app.controller('merchantList', function($scope, $http) {
-          $scope.users = {};
+          $scope.users = [];
 		  $scope.last_user = {};
 		  $scope.last_user.firstName = '';
 		  $scope.last_user.middleName = '';
@@ -519,15 +519,18 @@
       });
 	  /*---------------------------- PHARMACIES -----------------------------------*/
       app.controller('pharmaciesList', function($scope) {
-	      $scope.pharmacies = {};
+	      $scope.pharmacies = [];
 		  $scope.last_pharmacy = {};
 		  $scope.last_pharmacy.fullName = '';
 		  $scope.last_pharmacy.address = '';
 		  $scope.last_pharmacy.email = '';
 		  $scope.last_pharmacy.id = 0;
 		  $scope.last_pharmacy.validated = false;
-		  
-		  $scope.pharmacies = getPharmacies();
+		
+		  $scope.$watch('menuPharmacies', function(oldValue, newValue) {
+		  	$scope.pharmacies = getPharmacies();
+		  	//alert('pharmaciesList ' + oldValue + ' ' + newValue);
+		  }, true);
 	    
           $scope.create = function(){
 		    
@@ -601,7 +604,7 @@
 
 	  /*------------------------------- DRUGS -----------------------------------*/
       app.controller('drugsList', function($scope) {
-          $scope.drugs = {};
+          $scope.drugs = [];
 		  $scope.last_drug = {};
 		  $scope.last_drug.fullName = '';
 		  $scope.last_drug.officialName = '';
@@ -678,7 +681,7 @@
       });	  
       /*----------------------------- COMPANIES -----------------------------------*/
 	  app.controller('companiesList', function($scope) {
-          $scope.companies = {};
+          $scope.companies = [];
 		  $scope.last_company = {};
 		  $scope.last_company.fullName = '';
 		  $scope.last_company.shortName = '';
@@ -752,7 +755,7 @@
       });	  
       /*----------------------------- PROJECTS -----------------------------------*/
 	  app.controller('projectsList', function($scope) {
-          $scope.projects = {};
+          $scope.projects = [];
 		  $scope.last_project = {};
 		  $scope.last_project.fullName = '';
 		  $scope.last_project.description = '';
@@ -833,24 +836,24 @@
 		  $scope.last_territory.baseCity = '';
 		  $scope.last_territory.id = 0;
 		  
-		  $scope.territories = getTerritory();
+		  $scope.territories = getTerritories();
 		  
 		  $scope.create = function(){		    
 			var data = {
 			    name:     $scope.last_territory.name,
-				info:    $scope.last_company.info,
-				baseCity: $scope.last_company.baseCity
+				info:     $scope.last_territory.info,
+				baseCity: $scope.last_territory.baseCity
 			};
-			var cu = createCompany(data);
+			var cu = createTerritory(data);
 			
-			$scope.territories.push({
+			$scope.territory.push({
 			    name:     cu.name,
 				info:	  cu.info,
 				baseCity: cu.baseCity,
 			    id:       cu.id
 			});
 			$scope.last_territory = {};
-			$("#company_add").modal('hide');  
+			$("#territory_add").modal('hide');  
 		  };
 		  $scope.clear_last = function(){
 		    $scope.last_territory = {};
@@ -868,7 +871,7 @@
 			    name:     $scope.last_territory.name,
 				info:     $scope.last_territory.info,
 				baseCity: $scope.last_territory.baseCity,
-				id:			  id
+				id:		  id
 			};
 			var cu = updateTerritory(data);
 			var idx = -1;
@@ -892,7 +895,19 @@
 			});
 		  });			  
       });	  
-	  
+      
+	// Menu controller
+	app.controller('menuController', function($scope) {
+		$scope.menuPharmacies = 0;
+		/*
+		$scope.update_p = function(){
+			
+			$scope.$apply(function(){
+				$scope.menuPharmacies += 1;
+				
+			});
+		};*/
+	});
 	//Tooltips  
 	$(document).ready(function(){
 	    $("[data-toggle=tooltip]").tooltip();
