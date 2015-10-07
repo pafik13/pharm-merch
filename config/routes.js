@@ -33,7 +33,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/login': {
-    view: 'homepage'
+    view: 'login'
   },
 
   /***************************************************************************
@@ -46,7 +46,8 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
   '/'                     : 'MainController.main',
-  '/manager/'             : 'MainController.manager',
+  '/admin'                : 'MainController.admin',
+  '/guest'				  : 'MainController.guest',
   '/Manager/:action'      : 'ManagerController.main',
   '/Pharmacy/:action/:id' : 'PharmacyController.main',
   '/Merchant/:action/:id' : 'MerchantController.main',
