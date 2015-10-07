@@ -10,9 +10,11 @@ module.exports = {
     attributes: {
         name: 'string',
         info: 'text',
+        baseCity: 'string',
         pharmacies: {
             collection: 'Pharmacy',
             via: 'territory'
         }
+
     }
 };

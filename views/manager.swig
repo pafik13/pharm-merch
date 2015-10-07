@@ -98,7 +98,7 @@
 
 </style>
 
-    <div id="wrapper">
+    <div id="wrapper"  ng-controller="menuController">
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -121,7 +121,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong> {{ user.username }}</strong>
@@ -136,7 +136,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>{{ user.username }}</strong>
@@ -151,7 +151,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>{{ user.username }}</strong>
@@ -228,9 +228,10 @@
 						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
 							<li class="active"><a data-toggle="pill" href="#projects">Проекты</a></li>					
 							<li><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
-							<li><a data-toggle="pill" href="#pharmacies">Аптеки</a></li>
+							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="menuPharmacies = menuPharmacies + 1">Аптеки</a></li>
 							<li><a data-toggle="pill" href="#drugs">Препараты</a></li>
 							<li><a data-toggle="pill" href="#companies">Компании</a></li>
+							<li><a data-toggle="pill" href="#territories">Территории</a></li>
 							<li><a data-toggle="pill" href="#hospitals">Поликлиники</a></li>
 							<li><a data-toggle="pill" href="#tradenets">Сети</a></li>
 						</ul>
@@ -455,7 +456,7 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
 											</div>	
 											<div class="form-group">
-											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class="last_pharmacy.validated == true ? 'btn btn-default active': 'btn btn-default'" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
 													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
 													<label class="pull-right">Проверено</label>													
 												</div>	
@@ -490,7 +491,7 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
 											</div>	
 											<div class="form-group">
-											    <div class="btn btn-default" data-toggle="buttons" ng-class = "{'active' : (last_pharmacy.validated == true);}" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
+											    <div class="btn btn-default" data-toggle="buttons" ng-class="last_pharmacy.validated == true ? 'btn btn-default active': 'btn btn-default'" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
 													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
 													<label class="pull-right">Проверено</label>													
 												</div>	
@@ -913,7 +914,123 @@
 						</div>
 						<!-- /.row -->
 													
-					</div>		
+					</div>
+					<div id="territories" class="tab-pane fade" ng-controller="territoriesList">
+						<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Территории <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить территорию"><button class="btn btn-danger btn-xs" data-title="territory_add" data-toggle="modal" data-target="#territory_add" ><i class="fa fa-plus"></i></button</p>
+								</h1>
+							</div>
+
+						</div>
+						<!-- /.row -->
+						<!-- FILTER -->
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во территорий: {{territories.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-lg-6 col-md-6" ng-repeat="territory in territories | filter: search">					
+								<div class="panel panel-yellow">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-users fa-5x"></i>
+												<h3 ng-bind="territory.name"></h3>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge" ng-bind="territory.id"></div>
+												<div ng-bind="territory.info"></div>										
+												<div ng-bind="territory.baseCity"></div>	
+											</div>
+										</div>
+									</div>
+									<a ng-click="init_update(territory.id)" href="#territory_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+										<div class="panel-footer">
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						<!-- MODAL -->	
+							<div class="modal fade" id="territory_add" tabindex="-1" role="dialog" aria-labelledby="territory_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="Heading">Новая территория</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_territory.name" placeholder="Наименование">
+											</div>
+											<div class="form-group">
+												<textarea class="form-control " type="text" ng-model="last_territory.info" placeholder="Описание"></textarea>
+											</div>	
+											<div class="form-group">
+												<textarea class="form-control " type="text" ng-model="last_territory.baseCity" placeholder="Основной город"></textarea>
+											</div>
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+							<div class="modal fade" id="territory_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" ng-bind="last_territory.name" id="modal-title"></h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_territory.name" placeholder="Наименование">
+											</div>
+											<div class="form-group">
+												<textarea class="form-control " type="text" ng-model="last_territory.info" placeholder="Описание"></textarea>
+											</div>	
+											<div class="form-group">
+												<textarea class="form-control " type="text" ng-model="last_territory.baseCity" placeholder="Основной город"></textarea>
+											</div>
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="update(last_territory.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+													
+					</div>
+					
 					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
 					</div>
 					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
