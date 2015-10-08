@@ -18,7 +18,7 @@
 ################################################
 pharm-merch.sublime-project
 pharm-merch.sublime-workspace
-
+*.bak
 
 ################################################
 # Local Configuration

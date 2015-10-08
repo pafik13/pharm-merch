@@ -27,7 +27,7 @@ module.exports = {
             model: 'Project'
         },
         territory: {
-            collection: 'Territory'
+            model: 'Territory'
         },
         //        initPwd: 'string',
 
