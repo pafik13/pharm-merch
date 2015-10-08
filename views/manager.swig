@@ -226,14 +226,15 @@
                         <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
                    
 						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
-							<li class="active"><a data-toggle="pill" href="#projects">Проекты</a></li>					
-							<li><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
-							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="menuPharmacies = menuPharmacies + 1">Аптеки</a></li>
-							<li><a data-toggle="pill" href="#drugs">Препараты</a></li>
-							<li><a data-toggle="pill" href="#companies">Компании</a></li>
-							<li><a data-toggle="pill" href="#territories">Территории</a></li>
-							<li><a data-toggle="pill" href="#hospitals">Поликлиники</a></li>
-							<li><a data-toggle="pill" href="#tradenets">Сети</a></li>
+							<li class="active"><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>					
+							<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
+							<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
+							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
+							<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
+							<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
+							<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
+							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
+							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
 						</ul>
                     </li>
                 </ul>
@@ -377,7 +378,140 @@
 							</div>
 						</div>												
 					</div>
+					<!-- START MANAGERS -->
+					<div  id="managers" class="tab-pane fade" ng-controller="managersList">
+					<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Менеджеры <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить нового менеджера"><button class="btn btn-danger btn-xs" data-title="manager_add" data-toggle="modal" id="add_plugin" data-target="#manager_add" ><i class="fa fa-plus"></i></button></p>
+								</h1>
+							</div>
 
+						</div>
+						<!-- /.row -->
+						<!-- FILTER -->
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>		
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во: {{managers.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">						
+							<div class="col-lg-6 col-md-6" ng-repeat="manager in managers | filter:search">					
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-user-md fa-5x"></i>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge" ng-bind="manager.id"></div>
+												<label ng-bind="manager.email"></label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-8">
+												<label ng-bind="manager.firstName"></label>&nbsp;
+												<label ng-bind="manager.middleName"></label>&nbsp;
+												<label ng-bind="manager.lastName"></label>
+
+											</div>
+										</div>										
+									</div>
+									<a href="#manager_update" data-target="#manager_update" ng-click="init_update(manager.id)" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+										<div class="panel-footer">
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+						<div class="modal fade" id="manager_add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+							<div class="modal-dialog">		    
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.firstName" type="text" placeholder="Имя">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.middleName" type="text" placeholder="Отчество">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
+										</div>		
+										<div class="checkbox">
+											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
+										</div>										
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.phone" type="text" placeholder="Телефон">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
+										</div>					
+									</div>
+									<div class="modal-footer ">
+										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+									</div>
+								</div>
+							</div>
+						</div>	
+						<div class="modal fade" id="manager_update" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+							<div class="modal-dialog">		    
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										<h4 ng-bind="last_manager.firstName" class="modal-title custom_align" id="Heading"></h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.firstName" type="text" placeholder="Имя">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.middleName" type="text" placeholder="Отчество">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
+										</div>		
+										<div class="checkbox">
+											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+										</div>										
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.phone" type="text" placeholder="Телефон">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
+										</div>					
+									</div>
+									<div class="modal-footer ">
+										<button ng-click="update(last_manager.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+									</div>
+								</div>
+							</div>
+						</div>												
+					</div>
+					<!-- END MANAGERS -->
 					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
 						<!-- Page Heading -->
 						<div class="row">
@@ -1045,7 +1179,7 @@
 	<script>
       var manager = {};
 	  //SWIG Injection!!! How to another get user.id in the page?
-	  manager.id = {{user.id}};
+	  manager.id = {{manager.id}};
 	</script>		
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>

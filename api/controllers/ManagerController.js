@@ -13,8 +13,8 @@ module.exports = {
             delete params.action;
 
             var ext = require('../extensions.js');
-
             var rnd = Math.floor((Math.random() * 1000));
+            params.user = {};
             params.user.username = ext.transliterate(params.lastName) + rnd;
             params.user.password = Math.floor((Math.random() * 1000000000));
             params.initUsr = params.user.username;
@@ -28,6 +28,7 @@ module.exports = {
 
                 Manager.create(params).exec(function(err, manager) {
                     if (err) {
+                        console.log('ERROR: %j', err);
                         console.log('Before USER delete : ' + JSON.stringify(params.user));
                         User.destroy({
                             "id": params.user.id

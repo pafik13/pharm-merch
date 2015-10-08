@@ -1,3 +1,75 @@
+	  /*----------------------- MANAGERS --------------------------------*/
+	  function getManagers(){
+	    var users = [];
+		$.ajax(
+		{
+		  async: false,
+		  url: "/Manager/find?",
+		  success: function (data) {
+		    users = data;	
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data + "\n" + 'getUsers');
+		  },
+		  dataType: 'json'
+		});
+       return users;   
+	  };
+	  
+  	  function getManager(id){
+	    var u = {};
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/Manager/find?id="+id, 
+		  success: function (data) {
+		    u = data;			
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+        return u;
+	  };
+	  
+	  function createManager(data){	  
+	    var d = {};
+		data.manager = manager.id;
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Manager/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };
+	  
+	  function updateManager(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Manager/update/"+data.id+"/?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  };	  
+	  
 	  /*----------------------- MERCHANTS --------------------------------*/
 	  function getUsers(){
 	    var users = {};
@@ -424,8 +496,105 @@
 		return d;
 	  };		  
 	  
+	  
+	  
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
+      
+      
+	  /*--------------------------- MANAGERS ------------------------------------------*/
+      app.controller('managersList', function($scope, $http) {
+          $scope.managers = [];
+		  $scope.last_manager = {};
+		  $scope.last_manager.firstName = '';
+		  $scope.last_manager.middleName = '';
+		  $scope.last_manager.lastName = '';
+		  $scope.last_manager.sex = 0;
+		  $scope.last_manager.phone = '';
+		  $scope.last_manager.email = '';
+		  $scope.last_manager.id    = 0;
+		  
+		  $scope.$watch('menuManagers', function(oldValue, newValue) {
+		  	$scope.managers = getManagers();
+		  }, true);
+		  
+		  $scope.create = function(){		    
+			var data = {
+			    username:   $scope.last_manager.username,
+				firstName:  $scope.last_manager.firstName,
+				middleName: $scope.last_manager.middleName,
+				lastName:   $scope.last_manager.lastName,
+				sex:        $scope.last_manager.sex,
+				email:      $scope.last_manager.email,
+				phone:      $scope.last_manager.phone
+			};
+			var cu = createManager(data);
+			
+			$scope.users.push({
+			    username:   cu.username,
+				firstName:  cu.firstName,
+				middleName: cu.middleName,
+				lastName:   cu.lastName,
+				sex:        cu.sex,
+				email:      cu.email,
+				phone:      cu.phone,
+			    id:         cu.id
+			});
+			$scope.last_manager = {};
+			$("#manager_add").modal('hide');  
+		  };
+		  $scope.clear_last  = function(){
+		    $scope.last_manager = {};
+		  };
+		  $scope.init_update = function(id){
+		    var cu = getManager(id);
+			
+			$scope.last_manager.username = cu.username;
+			$scope.last_manager.firstName = cu.firstName,
+			$scope.last_manager.middleName = cu.middleName;			 
+			$scope.last_manager.lastName = cu.lastName;
+			$scope.last_manager.sex = cu.sex;
+			$scope.last_manager.email = cu.email;
+			$scope.last_manager.phone = cu.phone;	
+			$scope.last_manager.id    = cu.id;
+		  };
+		  $scope.update = function(id){
+		    var data = {
+			    username:   $scope.last_manager.username,
+				firstName:  $scope.last_manager.firstName,
+				middleName: $scope.last_manager.middleName,
+				lastName:   $scope.last_manager.lastName,
+				sex:        $scope.last_manager.sex,
+				email:      $scope.last_manager.email,
+				phone:      $scope.last_manager.phone,
+				id:			id
+			};
+			var cu = updateManager(data);
+			var idx = -1;
+			var old = $.grep($scope.managers,function(u,i){
+			          if (u.id == id){					    
+			            idx = i;
+					  }					  
+			        });				
+			$scope.managers[idx] = {
+			    username:   cu.username,
+				firstName:  cu.firstName,
+				middleName: cu.middleName,
+				lastName:   cu.lastName,
+				sex:        cu.sex,
+				email:      cu.email,
+				phone:      cu.phone,
+			    id:         cu.id
+			};
+			$scope.last_manager = {};
+			$("#manager_update").modal('hide');
+		  };
+		  $('#manager_add').on('show.bs.modal', function (event) {
+		    $scope.$apply(function(){
+			  $scope.last_manager = {};
+			});
+		  });			  
+      });
 	  /*--------------------------- MERCHANTS ------------------------------------------*/
       app.controller('merchantList', function($scope, $http) {
           $scope.users = [];
@@ -438,7 +607,9 @@
 		  $scope.last_user.email = '';
 		  $scope.last_user.id    = 0;
 		  
-		  $scope.users = getUsers();
+		  $scope.$watch('menuMerchants', function(oldValue, newValue) {
+		  	$scope.users = getUsers();
+		  }, true);
 		  
 		  $scope.create = function(){		    
 			var data = {
@@ -529,7 +700,6 @@
 		
 		  $scope.$watch('menuPharmacies', function(oldValue, newValue) {
 		  	$scope.pharmacies = getPharmacies();
-		  	//alert('pharmaciesList ' + oldValue + ' ' + newValue);
 		  }, true);
 	    
           $scope.create = function(){
@@ -614,9 +784,10 @@
 		  
 		  $scope.view = 'grid';
 		  
-		  
-		  $scope.drugs = getDrugs();
-		  
+		  $scope.$watch('menuDrugs', function(oldValue, newValue) {
+		  	$scope.drugs = getDrugs();
+		  }, true);		  
+
 		  $scope.create = function(){		    
 			var data = {
 			    fullName:     $scope.last_drug.fullName,
@@ -689,8 +860,10 @@
 		  $scope.last_company.description = '';
 		  $scope.last_company.id = 0;
 		  
-		  $scope.companies = getCompanies();
-		  
+  		  $scope.$watch('menuDrugs', function(oldValue, newValue) {
+  		  	$scope.companies = getCompanies();
+		  }, true);		  
+
 		  $scope.create = function(){		    
 			var data = {
 			    fullName:     $scope.last_company.fullName,
@@ -768,9 +941,11 @@
 									   {shortName: 'Анальгин', status: false, id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
 									   {shortName: 'Аспирин', status: true, id: 10, reseller:{fullName: 'ООО "Аспирин"'}}];
 		  
-		  
-		  $scope.projects = getProjects();
-		  
+
+  		  $scope.$watch('menuProjects', function(oldValue, newValue) {
+			$scope.projects = getProjects();
+		  }, true);		  
+
 		  $scope.create = function(){		    
 			var data = {
 			    fullName:     $scope.last_project.fullName,
@@ -829,14 +1004,16 @@
 	
 	 /*----------------------------- Territories -----------------------------------*/
 	  app.controller('territoriesList', function($scope) {
-          $scope.territories = {};
+          $scope.territories = [];
 		  $scope.last_territory = {};
 		  $scope.last_territory.name = '';
 		  $scope.last_territory.info = '';
 		  $scope.last_territory.baseCity = '';
 		  $scope.last_territory.id = 0;
 		  
-		  $scope.territories = getTerritories();
+  		  $scope.$watch('menuTerritories', function(oldValue, newValue) {
+			  $scope.territories = getTerritories();
+		  }, true);		  
 		  
 		  $scope.create = function(){		    
 			var data = {
@@ -899,14 +1076,42 @@
 	// Menu controller
 	app.controller('menuController', function($scope) {
 		$scope.menuPharmacies = 0;
-		/*
-		$scope.update_p = function(){
-			
-			$scope.$apply(function(){
-				$scope.menuPharmacies += 1;
-				
-			});
-		};*/
+		$scope.menuMerchants  = 0;
+		$scope.menuDrugs      = 0;
+		$scope.menuHospitals  = 0;
+		$scope.menuTerritories = 0;
+		$scope.menuProjects    = 0;
+		$scope.menuCompanies   = 0;
+		$scope.menuTradenets   = 0;
+		$scope.menuManagers    = 0;
+		
+		$scope.update_pharmacies = function(){
+			$scope.menuPharmacies = $scope.menuPharmacies + 1;
+		};
+		$scope.update_merchants = function(){
+			$scope.menuMerchants = $scope.menuMerchants + 1;
+		};
+		$scope.update_drugs = function(){
+			$scope.menuDrugs = $scope.menuDrugs + 1;
+		};
+		$scope.update_hospitals = function(){
+			$scope.menuHospitals = $scope.menuHospitals + 1;
+		};
+		$scope.update_territories = function(){
+			$scope.menuTerritories = $scope.menuTerritories + 1;
+		};
+		$scope.update_projects = function(){
+			$scope.menuProjects = $scope.menuProjects + 1;
+		};
+		$scope.update_companies = function(){
+			$scope.menuCompanies = $scope.menuCompanies + 1;
+		};
+		$scope.update_tradenets= function(){
+			$scope.menuTradenets = $scope.menuTradenets + 1;
+		};		
+		$scope.update_managers= function(){
+			$scope.menuManagers = $scope.menuManagers + 1;
+		};	
 	});
 	//Tooltips  
 	$(document).ready(function(){
