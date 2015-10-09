@@ -15,7 +15,8 @@ module.exports = {
         //     required: true
         // },
         drugs: {
-            collection: 'Drug'
+            collection: 'Drug',
+			via: 'projects'
         },
         merchants: {
             collection: 'Merchant'
