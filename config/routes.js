@@ -47,7 +47,7 @@ module.exports.routes = {
   ***************************************************************************/
   '/'                     : 'MainController.main',
   '/admin'                : 'MainController.admin',
-  '/guest'				  : 'MainController.guest',
+  '/guest'				        : 'MainController.guest',
   '/Manager/:action'      : 'ManagerController.main',
   '/Pharmacy/:action/:id' : 'PharmacyController.main',
   '/Merchant/:action/:id' : 'MerchantController.main',

@@ -12,16 +12,16 @@
     <title>ИС - "Аптечные мерчендайзеры"</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="styles/main.css" rel="stylesheet">
+    <link href="/styles/main.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="styles/plugins/morris.css" rel="stylesheet">
+    <link href="/styles/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,9 +32,73 @@
 
 </head>
 
-<body>
+<body ng-app="App">
+<style>
+    #custom-search-form {
+        margin:0;
+        margin-top: 5px;
+        padding: 0;
+    }
+ 
+    #custom-search-form .search-query {
+        padding-right: 3px;
+        padding-right: 4px \9;
+        padding-left: 3px;
+        padding-left: 4px \9;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+ 
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        -webkit-transition: width  0.2s ease-in-out;
+    -moz-transition:width  0.2s ease-in-out;
+    -o-transition: width  0.2s ease-in-out;
+    transition: width  0.2s ease-in-out;
+    }
+ 
+    #custom-search-form button {
+        border: 0;
+        background: none;
+        /** belows styles are working good */
+        padding: 2px 5px;
+        margin-top: 2px;
+        position: relative;
+        left: -28px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+ 
+    .search-query:focus + button {
+        z-index: 3;   
+    }   
+    .search-query:focus{
+        width: 260px;
+    }   
 
-    <div id="wrapper">
+.two-columns {
+    -moz-column-count: 2;
+    -moz-column-gap: 10px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 10px;
+    column-count: 2;
+    column-gap: 10px;
+    width: 360px;
+}
+
+.two-columns .column {
+    display: inline-block;
+    width: 100%;
+    background-color: #ccc;
+   margin:2px;
+}	
+
+</style>
+
+    <div id="wrapper"  ng-controller="menuController">
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -57,7 +121,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong> {{ user.username }}</strong>
@@ -72,7 +136,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>{{ user.username }}</strong>
@@ -87,7 +151,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="" alt="">
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>{{ user.username }}</strong>
@@ -131,7 +195,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ user.username }} <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ manager.shortName }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -159,313 +223,83 @@
                         <a href="/login"><i class="fa fa-fw fa-bar-chart-o"></i> Логин</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Пример выпадающего меню<i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
+                        <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
+                   
+						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
+							<li class="active"><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>					
+							<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
+							<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
+							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
+							<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
+							<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
+							<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
+							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
+							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
+						</ul>
                     </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>
 
-        <div id="page-wrapper">
+        <div id="page-wrapper" >
 
             <div class="container-fluid">
+				<div class="tab-content">
 
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <!-- /.row -->
+{# DRUGS #}
+{% set data = {} %}
+{% set data.tab_id = "drugs" %} 
+{% set data.angularController = 'drugsList' %}
+{% set data.pageCaption = 'Лекарственные препараты' %}
+{% set data.add_form_id = 'drug_add' %}
+{% set data.tail_template = 'partials/drug_tile.swig' %}
+{% set data.grid_template = 'partials/drug_grid.swig' %}
+{% set data.modal_body    = 'partials/drug_modal.swig' %}
+{% set data.angularRepeat = 'drug in drugs' %}
+{% set data.angularElement = 'drug' %}
+{% set data.update_form_id = 'drug_upd' %}
+{% set data.modal_caption = 'Новый препарат' %}
+{% set data.angularElementLast = 'last_drug' %}
+   
+   
+{% include 'model_page.swig' with data %}
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>Like SB Admin?</strong> Try out <a href="http://startbootstrap.com/template-overviews/sb-admin-2" class="alert-link">SB Admin 2</a> for additional features!
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
-                                        <div>New Comments!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>New Tasks!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>New Orders!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
-                                        <div>Support Tickets!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Area Chart</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-area-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> Donut Chart</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-donut-chart"></div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">just now</span>
-                                        <i class="fa fa-fw fa-calendar"></i> Calendar updated
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">4 minutes ago</span>
-                                        <i class="fa fa-fw fa-comment"></i> Commented on a post
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">23 minutes ago</span>
-                                        <i class="fa fa-fw fa-truck"></i> Order 392 shipped
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">46 minutes ago</span>
-                                        <i class="fa fa-fw fa-money"></i> Invoice 653 has been paid
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">1 hour ago</span>
-                                        <i class="fa fa-fw fa-user"></i> A new user has been added
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">2 hours ago</span>
-                                        <i class="fa fa-fw fa-check"></i> Completed task: "pick up dry cleaning"
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">yesterday</span>
-                                        <i class="fa fa-fw fa-globe"></i> Saved the world
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <span class="badge">two days ago</span>
-                                        <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
-                                    </a>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Order #</th>
-                                                <th>Order Date</th>
-                                                <th>Order Time</th>
-                                                <th>Amount (USD)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>3326</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:29 PM</td>
-                                                <td>$321.33</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3325</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:20 PM</td>
-                                                <td>$234.34</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3324</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:03 PM</td>
-                                                <td>$724.17</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3323</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:00 PM</td>
-                                                <td>$23.71</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3322</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:49 PM</td>
-                                                <td>$8345.23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3321</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:23 PM</td>
-                                                <td>$245.12</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3320</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:15 PM</td>
-                                                <td>$5663.54</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3319</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:13 PM</td>
-                                                <td>$943.45</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
+                </div>				
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="js/jquery-1.11.3.js"></script>
+	<script>
+      var manager = {};
+	  //SWIG Injection!!! How to another get user.id in the page?
+	  manager.id =  0{{manager.id}};
+	</script>		
+    <!-- AngularJS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	
+	<!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+	
+	<!-- Angular application -->
+	<script src="/js/app.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
+	<!--
+    <script src="/js/plugins/morris/raphael.min.js"></script>
+    <script src="/js/plugins/morris/morris.min.js"></script>
+    <script src="/js/plugins/morris/morris-data.js"></script>
+	-->
+  
 
 </body>
 
 </html>
+   
+   
+   

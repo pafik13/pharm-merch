@@ -643,9 +643,6 @@
 						{% endraw %}	
 						</div>
 						<!-- /.row -->
-						
-						<!-- Button HTML (to Trigger Modal) -->
-    					
 					</div>
 					
 					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
