@@ -247,23 +247,35 @@
             <div class="container-fluid">
 				<div class="tab-content">
 
-{# DRUGS #}
-{% set data = {} %}
-{% set data.tab_id = "drugs" %} 
-{% set data.angularController = 'drugsList' %}
-{% set data.pageCaption = 'Лекарственные препараты' %}
-{% set data.add_form_id = 'drug_add' %}
-{% set data.tail_template = 'partials/drug_tile.swig' %}
-{% set data.grid_template = 'partials/drug_grid.swig' %}
-{% set data.modal_body    = 'partials/drug_modal.swig' %}
-{% set data.angularRepeat = 'drug in drugs' %}
-{% set data.angularElement = 'drug' %}
-{% set data.update_form_id = 'drug_upd' %}
-{% set data.modal_caption = 'Новый препарат' %}
-{% set data.angularElementLast = 'last_drug' %}
+                    {# DRUGS #}
+                    {% set data = {} %}
+                    {% set data.tab_id = "drugs" %} 
+                    {% set data.angularController = 'drugsList' %}
+                    {% set data.pageCaption = 'Лекарственные препараты' %}
+                    {% set data.add_form_id = 'drug_add' %}
+                    {% set data.upd_form_id = 'drug_upd' %}
+                    {% set data.angularRepeat = 'drug in drugs' %}
+                    {% set data.angularElement = 'drug' %}
+                    {% set data.modal_caption = 'Новый препарат' %}
+                    {% set data.angularElementLast = 'last_drug' %}
+                    {% set data.icon = 'fa-flask' %}
    
+                    {% include 'model_page.swig' with data %}
+                    
+                    {# PROJECTS #}
+                    {% set data = {} %}
+                    {% set data.tab_id = "projects" %} 
+                    {% set data.angularController = 'projectsList' %}
+                    {% set data.pageCaption = 'Проекты' %}
+                    {% set data.add_form_id = 'project_add' %}
+                    {% set data.upd_form_id = 'project_upd' %}
+                    {% set data.angularRepeat = 'project in projects' %}
+                    {% set data.angularElement = 'project' %}
+                    {% set data.modal_caption = 'Новый Проект' %}
+                    {% set data.angularElementLast = 'last_project' %}
+                    {% set data.icon = 'fa-users' %}
    
-{% include 'model_page.swig' with data %}
+                    {% include 'model_page.swig' with data %}
 
                 </div>				
             </div>
