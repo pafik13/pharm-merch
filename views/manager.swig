@@ -1012,7 +1012,7 @@
 												<input type="text" ng-model="drugFilter" id="drugFilter" />
 												<div class="well two-columns" style="width: 100%">											
 													<div class="column"  ng-repeat="drug in last_project.drugs| filter: drugFilter">
-														<div class="btn-group btn btn-success" data-toggle="buttons" style="width: 100%" ng-class = "{'active' : (drug.status == true)}" ng-click="drug.status = !drug.status">
+														<div class="btn-group btn btn-success" data-toggle="buttons" style="width: 100%" ng-click="drug.status = !drug.status">
 															<div>															
 																<div class="row">
 																	<div class="col-md-8">
@@ -1178,7 +1178,7 @@
     <!-- /#wrapper -->
 	<script>
       var manager = {};
-	  //SWIG Injection!!! How to another get user.id in the page?
+	  //SWIG Injection!!! How to another get manager.id in the page?
 	  manager.id = {{manager.id}};
 	</script>		
     <!-- AngularJS -->

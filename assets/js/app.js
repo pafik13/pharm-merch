@@ -14,7 +14,7 @@
 		  dataType: 'json'
 		});
        return users;   
-	  };
+	  }
 	  
   	  function getManager(id){
 	    var u = {};
@@ -31,7 +31,7 @@
 		  dataType: 'json'
 		});
         return u;
-	  };
+	  }
 	  
 	  function createManager(data){	  
 	    var d = {};
@@ -50,7 +50,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateManager(data){	  
 	    var d = {};
@@ -68,11 +68,11 @@
 			}
 		});
 		return d;
-	  };	  
+	  }	  
 	  
 	  /*----------------------- MERCHANTS --------------------------------*/
 	  function getUsers(){
-	    var users = {};
+	    var users = [];
 		$.ajax(
 		{
 		  async: false,
@@ -86,7 +86,7 @@
 		  dataType: 'json'
 		});
        return users;   
-	  };
+	  }
 	  
   	  function getUser(id){
 	    var u = {};
@@ -103,7 +103,7 @@
 		  dataType: 'json'
 		});
         return u;
-	  };
+	  }
 	  
 	  function createUser(data){	  
 	    var d = {};
@@ -122,7 +122,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateUser(data){	  
 	    var d = {};
@@ -141,24 +141,24 @@
 			}
 		});
 		return d;
-	  };	  
+	  }	  
 	  /*--------------------- PHARMACIES -------------------------*/	
 	  function getPharmacies(){
-	    var pharmacies = {};
+	    var d = [];
 		$.ajax(
 		{
 		  async: false,
 		  url: "/Pharmacy/find?", 
 		  success: function (data) {
-		    pharmacies = data;	
+		    d = data;	
 		  },
 		  error: function(xhr, status, data){
 			alert(status + "\n" + data + "\n" + 'getPharmacies');
 		  },
 		  dataType: 'json'
 		});
-       return pharmacies;   
-	  };	
+       return d;   
+	  }	
 	  
 	  function getPharmacy(id){
 	    var p = {};
@@ -175,7 +175,7 @@
 		  dataType: 'json'
 		});
         return p;
-	  };
+	  }
 
 	  function createPharmacy(data){	  
 	    var d = {};
@@ -193,7 +193,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 
 	  function updatePharmacy(data){	  
 	    var d = {};
@@ -211,10 +211,10 @@
 			}
 		});
 		return d;
-	  };	  	 
+	  }	  	 
 	  /*----------------------- DRUGS --------------------------------*/
 	  function getDrugs(){
-	    var drugs = {};
+	    var drugs = [];
 		$.ajax(
 		{
 		  async: false,
@@ -228,7 +228,7 @@
 		  dataType: 'json'
 		});
        return drugs;   
-	  };
+	  }
 	  
   	  function getDrug(id){
 	    var d = {};
@@ -245,7 +245,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createDrug(data){	  
 	    var d = {};
@@ -263,7 +263,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateDrug(data){	  
 	    var d = {};
@@ -281,10 +281,10 @@
 			}
 		});
 		return d;
-	  };		
+	  }		
 	  /*----------------------- COMPANIES --------------------------------*/
 	  function getCompanies(){
-	    var d = {};
+	    var d = [];
 		$.ajax(
 		{
 		  async: false,
@@ -298,7 +298,7 @@
 		  dataType: 'json'
 		});
        return d;   
-	  };
+	  }
 	  
   	  function getCompany(id){
 	    var d = {};
@@ -315,7 +315,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createCompany(data){	  
 	    var d = {};
@@ -333,7 +333,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateCompany(data){	  
 	    var d = {};
@@ -351,24 +351,24 @@
 			}
 		});
 		return d;
-	  };	
+	  }	
 	  /*----------------------- PROJECTS --------------------------------*/
 	  function getProjects(){
-	    var users = {};
+	    var d = [];
 		$.ajax(
 		{
 		  async: false,
 		  url: "/Project/find?", 
 		  success: function (data) {
-		    users = data;	
+		    d = data;	
 		  },
 		  error: function(xhr, status, data){
 			alert(status + "\n" + data + "\n" + 'getProjects');
 		  },
 		  dataType: 'json'
 		});
-       return users;   
-	  };
+       return d;   
+	  }
 	  
   	  function getProject(id){
 	    var d = {};
@@ -385,7 +385,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createProject(data){	  
 	    var d = {};
@@ -404,7 +404,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateProject(data){	  
 	    var d = {};
@@ -423,12 +423,12 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  /*----------------------- TERRITORIES --------------------------------*/
-	  function getTerritories(){
-	    var d = {};
-		$.ajax(
+	  function getTerritories(http){
+	    var d = [];
+	    $.ajax(
 		{
 		  async: false,
 		  url: "/Territory/find?", 
@@ -440,8 +440,8 @@
 		  },
 		  dataType: 'json'
 		});
-       return d;   
-	  };
+	    return d; 
+	  }
 	  
   	  function getTerritory(id){
 	    var d = {};
@@ -458,7 +458,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createTerritory(data){	  
 	    var d = {};
@@ -476,7 +476,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateTerritory(data){	  
 	    var d = {};
@@ -494,7 +494,7 @@
 			}
 		});
 		return d;
-	  };		  
+	  }		  
 	  
 	  
 	  
@@ -530,7 +530,7 @@
 			};
 			var cu = createManager(data);
 			
-			$scope.users.push({
+			$scope.managers.push({
 			    username:   cu.username,
 				firstName:  cu.firstName,
 				middleName: cu.middleName,
