@@ -605,6 +605,10 @@
 		  $scope.last_user.sex = 0;
 		  $scope.last_user.phone = '';
 		  $scope.last_user.email = '';
+		  $scope.last_user.territories = getTerritories();
+		  $scope.last_user.projects = getProjects();
+		  $scope.last_user.territory = {};
+		  $scope.last_user.project = {};
 		  $scope.last_user.id    = 0;
 		  
 		  $scope.$watch('menuMerchants', function(oldValue, newValue) {
@@ -619,7 +623,9 @@
 				lastName:   $scope.last_user.lastName,
 				sex:        $scope.last_user.sex,
 				email:      $scope.last_user.email,
-				phone:      $scope.last_user.phone
+				phone:      $scope.last_user.phone,
+				territory:  $scope.last_user.territory,
+				project:	$scope.last_user.project
 			};
 			var cu = createUser(data);
 			
@@ -631,6 +637,8 @@
 				sex:        cu.sex,
 				email:      cu.email,
 				phone:      cu.phone,
+				territory:  cu.territory,
+				project:	cu.project,
 			    id:         cu.id
 			});
 			$scope.last_user = {};
@@ -649,6 +657,10 @@
 			$scope.last_user.sex = cu.sex;
 			$scope.last_user.email = cu.email;
 			$scope.last_user.phone = cu.phone;	
+			$scope.last_user.territories = getTerritories();
+			$scope.last_user.projects = getProjects();
+			$scope.last_user.territory = cu.territory;
+			$scope.last_user.project = cu.project;
 			$scope.last_user.id    = cu.id;
 		  };
 		  $scope.update = function(id){
@@ -660,6 +672,8 @@
 				sex:        $scope.last_user.sex,
 				email:      $scope.last_user.email,
 				phone:      $scope.last_user.phone,
+				territory:  $scope.last_user.territory,
+				project:	$scope.last_user.project,
 				id:			id
 			};
 			var cu = updateUser(data);
@@ -677,6 +691,8 @@
 				sex:        cu.sex,
 				email:      cu.email,
 				phone:      cu.phone,
+				territory:  cu.territory,
+				project:	cu.project,
 			    id:         cu.id
 			};
 			$scope.last_user = {};
@@ -812,6 +828,14 @@
 		  };
 		  $scope.init_update = function(id){
 		    var cu = getDrug(id);
+		    
+		    //Need finish stoping porpogation!!!
+		    if(!("id" in cu)){
+		    	$("#drug_upd").on('show.bs.modal',function(e){
+		    		e.stopPropagation();
+		    	});
+		    	return;
+		    }
 			
 			$scope.last_drug.fullName     = cu.fullName;
 		    $scope.last_drug.officialName = cu.officialName;
@@ -828,6 +852,8 @@
 				id:			  id
 			};
 			var cu = updateDrug(data);
+			if(!cu)
+			  return;
 			var idx = -1;
 			var old = $.grep($scope.drugs,function(u,i){
 			          if (u.id == id){					    
@@ -1023,7 +1049,7 @@
 			};
 			var cu = createTerritory(data);
 			
-			$scope.territory.push({
+			$scope.territories.push({
 			    name:     cu.name,
 				info:	  cu.info,
 				baseCity: cu.baseCity,

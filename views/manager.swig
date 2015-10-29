@@ -329,14 +329,24 @@
 											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
 										</div>		
 										<div class="checkbox">
-											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
 										</div>										
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-										</div>					
+										</div>	
+										<div class="form-group">
+											<label for="merchantTerritory">Территория:</label>
+											<select name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="merchantProject">Проект:</label>
+											<select name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
+											</select>
+										</div>	
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -362,14 +372,24 @@
 											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
 										</div>		
 										<div class="checkbox">
-											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
 										</div>										
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-										</div>					
+										</div>
+										<div class="form-group">
+											<label for="merchantTerritory">Территория:</label>
+											<select name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="merchantProject">Проект:</label>
+											<select name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
+											</select>
+										</div>										
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="update(last_user.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -495,7 +515,7 @@
 											<input class="form-control " ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
 										</div>		
 										<div class="checkbox">
-											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
 										</div>										
 										<div class="form-group">
 											<input class="form-control " ng-model="last_manager.phone" type="text" placeholder="Телефон">
