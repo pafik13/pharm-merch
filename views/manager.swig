@@ -339,12 +339,12 @@
 										</div>	
 										<div class="form-group">
 											<label for="merchantTerritory">Территория:</label>
-											<select name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
+											<select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
 											</select>
 										</div>
 										<div class="form-group">
 											<label for="merchantProject">Проект:</label>
-											<select name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
+											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
 											</select>
 										</div>	
 									</div>
@@ -382,12 +382,12 @@
 										</div>
 										<div class="form-group">
 											<label for="merchantTerritory">Территория:</label>
-											<select name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
+											<select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
 											</select>
 										</div>
 										<div class="form-group">
 											<label for="merchantProject">Проект:</label>
-											<select name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
+											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
 											</select>
 										</div>										
 									</div>
@@ -473,22 +473,22 @@
 									</div>
 									<div class="modal-body">
 										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.firstName" type="text" placeholder="Имя">
+											<input class="form-control" ng-model="last_manager.firstName" type="text" placeholder="Имя">
 										</div>
 										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.middleName" type="text" placeholder="Отчество">
+											<input class="form-control" ng-model="last_manager.middleName" type="text" placeholder="Отчество">
 										</div>
 										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
+											<input class="form-control" ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
 										</div>		
 										<div class="checkbox">
 											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
 										</div>										
 										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.phone" type="text" placeholder="Телефон">
+											<input class="form-control" ng-model="last_manager.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
+											<input class="form-control" ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
 										</div>					
 									</div>
 									<div class="modal-footer ">
@@ -1004,7 +1004,14 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>				
+											</div>	
+											<div class="form-group">
+												<div class="form-group">
+													<label for="projectDrugs">Лекарственные препараты:</label>
+													<select class="form-control" name="projectDrugs" id="projectDrugs"  ng-options="option.fullName for option in last_project.drugList track by option.id" ng-model="last_project.drugs" multiple>
+													</select>
+												</div>
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -1029,30 +1036,11 @@
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
 											</div>	
 											<div class="form-group">
-												<input type="text" ng-model="drugFilter" id="drugFilter" />
-												<div class="well two-columns" style="width: 100%">											
-													<div class="column"  ng-repeat="drug in last_project.drugs| filter: drugFilter">
-														<div class="btn-group btn btn-success" data-toggle="buttons" style="width: 100%" ng-click="drug.status = !drug.status">
-															<div>															
-																<div class="row">
-																	<div class="col-md-8">
-																	  <input type="checkbox" autocomplete="off" style="display: none;">
-																	 
-																	  <span class="glyphicon pull-left" ng-model="drug.status" ng-class="drug.status == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
-																	  <label ng-bind="drug.shortName"></label>
-																	</div>
-																	<div class="col-md-4">
-																	  <label ng-bind="drug.id"></label>
-																	</div>
-																</div>
-																<div class="row">
-																	<small>{{drug.reseller.fullName}}</small>
-																	<small>{{drug.status}}</small>
-																</div>
-															</div>
-														</div>																
-													</div>
-												</div>		
+												<div class="form-group">
+													<label for="projectDrugs">Лекарственные препараты:</label>
+													<select class="form-control" name="projectDrugs" id="projectDrugs"  ng-options="option.fullName for option in last_project.drugList track by option.id" ng-model="last_project.drugs" multiple>
+													</select>
+												</div>
 											</div>	
 										</div>
 										<div class="modal-footer ">

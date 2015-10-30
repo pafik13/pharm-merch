@@ -959,14 +959,8 @@
 		  $scope.last_project.fullName = '';
 		  $scope.last_project.description = '';
 		  $scope.last_project.id = 0;
-		  
-		  $scope.last_project.drugs = [{shortName: 'Анальгин', status: true, id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
-									   {shortName: 'Аспирин', status: false, id: 10, reseller:{fullName: 'ООО "Аспирин"'}},
-									   {shortName: 'Бромгексин', status: true, id: 25, reseller:{fullName: 'АО "БерлинХеми""'}},
-									   {shortName: 'Бронхикум', status: false, id: 11, reseller:{fullName: 'ЗАО "Веселые лекарства"'}},
-									   {shortName: 'Анальгин', status: false, id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
-									   {shortName: 'Аспирин', status: true, id: 10, reseller:{fullName: 'ООО "Аспирин"'}}];
-		  
+		  $scope.last_project.drugList = getDrugs();
+		  $scope.last_project.drugs = [];
 
   		  $scope.$watch('menuProjects', function(oldValue, newValue) {
 			$scope.projects = getProjects();
@@ -981,9 +975,8 @@
 			
 			$scope.projects.push({
 			    fullName:     cu.fullName,
-				shortName:	  cu.shortName,
-				officialName: cu.officialName,
 				description:  cu.description,
+				drugs:        cu.drugs,
 			    id:           cu.id
 			});
 			$scope.last_project = {};
@@ -998,12 +991,15 @@
 			
 			$scope.last_project.fullName     = cu.fullName;
 		    $scope.last_project.description  = cu.description;
+		    $scope.last_project.drugList     = getDrugs();
+		    $scope.last_project.drugs        = cu.drugs;
 		    $scope.last_project.id           = cu.id;
 		  };
 		  $scope.update = function(id){
 		    var data = {
 			    fullName:     $scope.last_project.fullName,
 				description:  $scope.last_project.description,
+				drugs:        $scope.last_project.drugs,
 				id:			  id
 			};
 			var cu = updateProject(data);
@@ -1016,6 +1012,7 @@
 			$scope.projects[idx] = {
 			    fullName:     cu.fullName,
 				description:  cu.description,
+				drugs:        cu.drugs,
 			    id:           cu.id
 			};
 			$scope.last_project = {};
