@@ -52,5 +52,6 @@ module.exports.routes = {
   '/Pharmacy/:action/:id' : 'PharmacyController.main',
   '/Merchant/:action/:id' : 'MerchantController.main',
   '/Merchant/:action'     : 'MerchantController.main',
-  '/Attendance_image/:action': 'Attendance_imageController.main'
+  '/Attendance_image/:action': 'Attendance_imageController.main',
+  '/download'                : 'DownloadController.main'
 };
