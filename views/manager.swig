@@ -233,6 +233,7 @@
 							<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
 							<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
 							<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
+							<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы данных</a></li>
 							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
 							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
 						</ul>
@@ -1172,7 +1173,125 @@
 						<!-- /.row -->
 													
 					</div>
-					
+					<div id="druginfotypes" class="tab-pane fade" ng-controller="drugInfoTypesList">
+						<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Типы данных <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить новый тип информации"><button class="btn btn-danger btn-xs" data-title="druginfotype_add" data-toggle="modal" data-target="#druginfotype_add" ><i class="fa fa-plus"></i></button</p>
+								</h1>
+							</div>
+
+						</div>
+						<!-- /.row -->
+						<!-- FILTER -->
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во типов информации: {{druginfotypes.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-lg-6 col-md-6" ng-repeat="druginfotype in drugInfoTypes | filter: search">					
+								<div class="panel panel-yellow">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-users fa-5x"></i>
+												<h3 ng-bind="territory.name"></h3>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge" ng-bind="druginfotype.id"></div>
+												<div ng-bind="druginfotype.name"></div>										
+												<div ng-bind="druginfotype.valueType"></div>	
+											</div>
+										</div>
+									</div>
+									<a ng-click="init_update(druginfotype.id)" href="#druginfotype_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+										<div class="panel-footer">
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						<!-- MODAL -->	
+							<div class="modal fade" id="druginfotype_add" tabindex="-1" role="dialog" aria-labelledby="druginfotype_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="Heading">Новый тип</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_drugInfoType.name" placeholder="Наименование">
+											</div>
+											<div class="form-group">
+												<select class="form-control " type="text" ng-model="last_drugInfoType.valueType" placeholder="Значение">
+													<option>boolean</option>
+													<option>number</option>
+													<option>list</option>
+													<option>string</option>
+												</select>
+											</div>
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+							<div class="modal fade" id="druginfotype_upd" tabindex="-1" role="dialog" aria-labelledby="druginfotype_upd" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" ng-bind="last_drugInfoType.name" id="modal-title"></h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_drugInfoType.name" placeholder="Наименование">
+											</div>
+											<div class="form-group">
+												<select class="form-control " type="text" ng-model="last_drugInfoType.valueType" placeholder="Значение">
+													<option>boolean</option>
+													<option>number</option>
+													<option>list</option>
+													<option>string</option>
+												</select>
+											</div>
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="update(last_drugInfoType.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+													
+					</div>					
 					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
 					</div>
 					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
@@ -1187,7 +1306,7 @@
 	<script>
       var manager = {};
 	  //SWIG Injection!!! How to another get manager.id in the page?
-	  manager.id = {{manager.id}};
+	  manager.id = 0{{manager.id}};
 	</script>		
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>

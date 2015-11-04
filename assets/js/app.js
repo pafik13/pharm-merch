@@ -1203,8 +1203,8 @@
 		  };
 		  $scope.update = function(id){
 		    var data = {
-			    name:      $scope.last_company.name,
-				valueType: $scope.last_company.valueType,
+			    name:      $scope.last_drugInfoType.name,
+				valueType: $scope.last_drugInfoType.valueType,
 				id:		   id
 			};
 			var cu = updateDrugInfoType(data);
@@ -1214,7 +1214,7 @@
 			            idx = i;
 					  }					  
 			        });				
-			$scope.companies[idx] = {
+			$scope.drugInfoTypes[idx] = {
 			    name:      cu.name,
 				valueType: cu.valueType,
 			    id:        cu.id
