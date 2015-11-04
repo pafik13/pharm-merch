@@ -494,8 +494,77 @@
 			}
 		});
 		return d;
-	  }		  
+	  }	 
+	  /*----------------------- DRUGINFOTYPES --------------------------------*/
+	  function getDrugInfoTypes(){
+	    var d = [];
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/DrugInfoType/find?", 
+		  success: function (data) {
+		    d = data;	
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data + "\n" + 'getDrugInfoTypes');
+		  },
+		  dataType: 'json'
+		});
+	    return d; 
+	  }
 	  
+  	  function getDrugInfoType(id){
+	    var d = {};
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/DrugInfoType/find?id="+id, 
+		  success: function (data) {
+		    d = data;			
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+        return d;
+	  }
+	  
+	  function createDrugInfoType(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/DrugInfoType/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  }
+	  
+	  function updateDrugInfoType(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/DrugInfoType/update/"+data.id+"/?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  }	 	  
 	  
 	  
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
@@ -1095,7 +1164,71 @@
 			});
 		  });			  
       });	  
-      
+      /*----------------------------- DRUGINFOTYPES -----------------------------------*/
+	  app.controller('drugInfoTypesList', function($scope) {
+          $scope.drugInfoTypes = [];
+		  $scope.last_drugInfoType = {};
+		  $scope.last_drugInfoType.name = '';
+		  $scope.last_drugInfoType.valueType = '';
+		  $scope.last_drugInfoType.id = 0;
+		  
+  		  $scope.$watch('menuDrugInfoTypes', function(oldValue, newValue) {
+  		  	$scope.drugInfoTypes = getDrugInfoTypes();
+		  }, true);		  
+
+		  $scope.create = function(){		    
+			var data = {
+			    name:      $scope.last_drugInfoType.name,
+				valueType: $scope.last_drugInfoType.valueType
+			};
+			var cu = createDrugInfoType(data);
+			
+			$scope.drugInfoTypes.push({
+			    fullName:     cu.name,
+				shortName:	  cu.valueType,
+			    id:           cu.id
+			});
+			$scope.last_drugInfoType = {};
+			$("#druginfotype_add").modal('hide');  
+		  };
+		  $scope.clear_last = function(){
+		    $scope.last_drugInfoType = {};
+		  };
+		  $scope.init_update = function(id){
+		    var cu = getDrugInfoType(id);
+			
+			$scope.last_drugInfoType.name      = cu.name;
+			$scope.last_drugInfoType.valueType = cu.valueType;
+		    $scope.last_drugInfoType.id        = cu.id;
+		  };
+		  $scope.update = function(id){
+		    var data = {
+			    name:      $scope.last_company.name,
+				valueType: $scope.last_company.valueType,
+				id:		   id
+			};
+			var cu = updateDrugInfoType(data);
+			var idx = -1;
+			var old = $.grep($scope.drugInfoTypes,function(u,i){
+			          if (u.id == id){					    
+			            idx = i;
+					  }					  
+			        });				
+			$scope.companies[idx] = {
+			    name:      cu.name,
+				valueType: cu.valueType,
+			    id:        cu.id
+			};
+			$scope.last_drugInfoType = {};
+			$("#druginfotype_upd").modal('hide');
+		  };
+		  $('#druginfotype_add').on('show.bs.modal', function (event) {
+		    $scope.$apply(function(){
+			  $scope.last_drugInfoType = {};
+			});
+		  });			  
+      });	  
+       
 	// Menu controller
 	app.controller('menuController', function($scope) {
 		$scope.menuPharmacies = 0;
@@ -1107,6 +1240,7 @@
 		$scope.menuCompanies   = 0;
 		$scope.menuTradenets   = 0;
 		$scope.menuManagers    = 0;
+		$scope.menuDrugInfoTypes = 0;
 		
 		$scope.update_pharmacies = function(){
 			$scope.menuPharmacies = $scope.menuPharmacies + 1;
@@ -1134,6 +1268,9 @@
 		};		
 		$scope.update_managers= function(){
 			$scope.menuManagers = $scope.menuManagers + 1;
+		};		
+		$scope.update_druginfotypes = function(){
+			$scope.menuManagers = $scope.menuDrugInfoTypes + 1;
 		};	
 	});
 	//Tooltips  
