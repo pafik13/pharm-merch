@@ -15,10 +15,15 @@ module.exports = {
         //     required: true
         // },
         drugs: {
-            collection: 'Drug'
+            collection: 'Drug',
+            via: 'projects'
+        },
+        infos: {
+            collection: 'DrugInfoType'
         },
         merchants: {
-            collection: 'Merchant'
+            collection: 'Merchant',
+            via: 'project'
         }
 
     }

@@ -1,5 +1,5 @@
 /**
- * Attendance_image.js
+ * AttendancePhoto.js
  *
  * @description :: Фотографии с посещения
  * @docs        :: http://sailsjs.org/#!documentation/models
@@ -16,6 +16,9 @@ module.exports = {
         drug: {
             model: 'Drug'
         },
-        image_path: 'string'
+        longitude: 'float',
+        latitude: 'float',
+        photoPath: 'string',
+        stamp: 'datetime'
     }
 };

@@ -8,10 +8,10 @@
 module.exports = {
     main: function(req, res) {
         User.findOne(req.user.id).exec(function(err, found) {
-            if (err) return res.notFound(err);
+            if (err) return res.serverError(err);
 
             if (!found) {
-                return res.notFound('Не найден USER в MainController.main при запросе VIEW');
+                return res.notFound('Не найден USER в MainController.main');
             };
 
             switch (found.username) {
@@ -28,11 +28,30 @@ module.exports = {
                         if (err) return res.notFound(err);
 
                         if (!manager) {
-                            return res.notFound('Не найден MANAGER в MainController.main  при запросе VIEW');
+                            return res.notFound('Не найден MANAGER в MainController.main');
                         };
 
+                        var ext = require('../extensions.js');
+
+                        var now = new Date();
+                        var date = [now.getFullYear(), ext.addLeadZero(now.getMonth() + 1), ext.addLeadZero(now.getDate())].join("-");
+                        // now.getFullYear() + "-" + now.getMonth() + "-" + now.getDate();
+
+                        var mon = new Date(now);
+                        mon.setDate(now.getDate() - now.getDay() + 1);
+                        var date1 = [mon.getFullYear(), ext.addLeadZero(mon.getMonth() + 1), ext.addLeadZero(mon.getDate())].join("-");
+                        // mon.getFullYear() + "-" + mon.getMonth() + "-" + mon.getDate();
+
+                        var sun = new Date(now);
+                        sun.setDate(mon.getDate() + 6);
+                        var date2 = [sun.getFullYear(), ext.addLeadZero(sun.getMonth() + 1), ext.addLeadZero(sun.getDate())].join("-");
+                        // sun.getFullYear() + "-" + sun.getMonth(sun) + "-" + sun.getDate();
+
                         return res.view('manager', {
-                            "manager": manager
+                            "manager": manager,
+                            date: date,
+                            date1: date1,
+                            date2: date2
                         });
                     });
             };

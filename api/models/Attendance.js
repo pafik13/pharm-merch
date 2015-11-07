@@ -7,12 +7,21 @@
 
 module.exports = {
     attributes: {
-        user: {
+        merchant: {
             model: 'Merchant'
         },
         pharmacy: {
             model: 'Pharmacy'
         },
-        attendance_date: 'date'
+        date: 'datetime',
+        distance: 'float',
+        results: {
+            collection: 'AttendanceResult',
+            via: 'attendance'
+        },
+        photos: {
+            collection: 'AttendancePhoto',
+            via: 'attendance'
+        }
     }
 };
