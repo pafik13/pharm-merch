@@ -221,9 +221,6 @@
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
                     </li>
                     <li>
-                        <a href="/login"><i class="fa fa-fw fa-bar-chart-o"></i> Логин</a>
-                    </li>
-                    <li>
                         <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
                    
 						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
@@ -238,6 +235,14 @@
 							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
 							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
 						</ul>
+                    </li>
+                    <li>
+                        <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
+                   
+                        <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants">Мерчендайзеры</a></li>
+                            <li><a href="/Report/DailyAll?date={{date}}">Отчет ежедневный</a></li>
+                            <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

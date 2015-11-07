@@ -23,6 +23,10 @@ module.exports = {
         instruction: 'text',
         reseller: {
             model: 'Company'
+        },
+        projects: {
+            collection: 'Project',
+            via: 'drugs'
         }
     }
 };

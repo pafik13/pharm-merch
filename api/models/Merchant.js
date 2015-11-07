@@ -29,6 +29,10 @@ module.exports = {
         territory: {
             model: 'Territory'
         },
+        attendances: {
+            collection: 'Attendance',
+            via: 'merchant'
+        },
         //        initPwd: 'string',
 
         // Lifecycle Callbacks

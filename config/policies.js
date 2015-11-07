@@ -60,6 +60,10 @@ module.exports.policies = {
 	
 	PharmaciesController: {
 		'*': true
-	}
+	},
+
+	// ReportController: {
+	// 	'*': true
+	// }
 	
 };
