@@ -17,6 +17,9 @@ module.exports = {
         drugs: {
             collection: 'Drug'
         },
+        druginfotypes: {
+            collection: 'DrugInfoType'
+        },
         merchants: {
             collection: 'Merchant'
         }

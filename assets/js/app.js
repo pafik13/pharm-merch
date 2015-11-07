@@ -426,7 +426,7 @@
 	  }
 	  
 	  /*----------------------- TERRITORIES --------------------------------*/
-	  function getTerritories(http){
+	  function getTerritories(){
 	    var d = [];
 	    $.ajax(
 		{
@@ -440,7 +440,8 @@
 		  },
 		  dataType: 'json'
 		});
-	    return d; 
+		
+		return d; 
 	  }
 	  
   	  function getTerritory(id){
@@ -674,8 +675,8 @@
 		  $scope.last_user.sex = 0;
 		  $scope.last_user.phone = '';
 		  $scope.last_user.email = '';
-		  $scope.last_user.territories = getTerritories();
-		  $scope.last_user.projects = getProjects();
+		  $scope.last_user.territories = [];
+		  $scope.last_user.projects = [];
 		  $scope.last_user.territory = {};
 		  $scope.last_user.project = {};
 		  $scope.last_user.id    = 0;
@@ -683,6 +684,12 @@
 		  $scope.$watch('menuMerchants', function(oldValue, newValue) {
 		  	$scope.users = getUsers();
 		  }, true);
+		  
+		  $scope.init_create = function(){
+		  	$scope.last_user = {};
+		  	$scope.last_user.territories = getTerritories();
+		    $scope.last_user.projects    = getProjects();
+		  }
 		  
 		  $scope.create = function(){		    
 			var data = {
@@ -769,7 +776,7 @@
 		  };
 		  $('#add').on('show.bs.modal', function (event) {
 		    $scope.$apply(function(){
-			  $scope.last_user = {};
+			  $scope.init_create();
 			});
 		  });			  
       });
@@ -782,19 +789,29 @@
 		  $scope.last_pharmacy.email = '';
 		  $scope.last_pharmacy.id = 0;
 		  $scope.last_pharmacy.validated = false;
+		  $scope.last_pharmacy.territories = [];
+		  $scope.last_pharmacy.territory = {};
 		
 		  $scope.$watch('menuPharmacies', function(oldValue, newValue) {
 		  	$scope.pharmacies = getPharmacies();
 		  }, true);
+		  
+		  $scope.init_create = function(){
+		  	$scope.last_pharmacy = {};
+		  	$scope.last_pharmacy.territories = getTerritories();
+		  	
+		  	$scope.last_pharmacy.fullName = 'asdfasdfasdfsdfsdf';
+		  };
 	    
           $scope.create = function(){
 		    
 			var data = {
-			    fullName: $scope.last_pharmacy.fullName,
-				address: $scope.last_pharmacy.address,
-				phone: $scope.last_pharmacy.phone,
-				email: $scope.last_pharmacy.email,
-				validated: $scope.last_pharmacy.validated
+			    fullName:  $scope.last_pharmacy.fullName,
+				address:   $scope.last_pharmacy.address,
+				phone:     $scope.last_pharmacy.phone,
+				email:     $scope.last_pharmacy.email,
+				validated: $scope.last_pharmacy.validated,
+				territory: $scope.last_pharmacy.territory
 			};
 			var cp = createPharmacy(data);
 			
@@ -804,7 +821,8 @@
 			  phone:     cp.phone,
 			  email:     cp.email,
 			  id:        cp.id,
-			  validated: cp.validated
+			  validated: cp.validated,
+			  territory: cp.territory
 			});
 			$scope.last_pharmacy = {};
 			$("#pharmacy_add").modal('hide'); 
@@ -821,6 +839,9 @@
 		    $scope.last_pharmacy.email     = cu.email;
 			$scope.last_pharmacy.id        = cu.id;
 			$scope.last_pharmacy.validated = cu.validated;
+			$scope.last_pharmacy.territories = getTerritories();
+			$scope.last_pharmacy.territory = cu.territory;	
+		
 		  };
 		  $scope.update = function(id){
 		    var data = {
@@ -829,10 +850,11 @@
 				phone:     $scope.last_pharmacy.phone,
 				email:     $scope.last_pharmacy.email,
 				id:        $scope.last_pharmacy.id,
-				validated: $scope.last_pharmacy.validated
+				validated: $scope.last_pharmacy.validated,
+				territory: $scope.last_pharmacy.territory
 			};
-			
 			var cu = updatePharmacy(data);
+			
 			var idx = -1;
 			var old = $.grep($scope.pharmacies,function(u,i){
 			          if (u.id == id){					    
@@ -845,14 +867,15 @@
 				phone:     cu.phone,
 				email:     cu.email,
 				id:        cu.id,
-				valicated: cu.validated
+				valicated: cu.validated,
+				territory: cu.territory
 			};
 			$scope.last_pharmacy = {};
 			$("#pharmacy_upd").modal('hide');
 		  };
 		  $('#pharmacy_add').on('show.bs.modal', function (event) {
 		    $scope.$apply(function(){
-			  $scope.last_pharmacy = {};
+			  $scope.init_create();
 			});
 		  });	
       });	
@@ -867,7 +890,7 @@
 		  $scope.last_drug.barcode = 0;
 		  $scope.last_drug.id    = 0;
 		  
-		  $scope.view = 'grid';
+		  $scope.view = 'tile';
 		  
 		  $scope.$watch('menuDrugs', function(oldValue, newValue) {
 		  	$scope.drugs = getDrugs();
@@ -1028,25 +1051,35 @@
 		  $scope.last_project.fullName = '';
 		  $scope.last_project.description = '';
 		  $scope.last_project.id = 0;
-		  $scope.last_project.drugList = getDrugs();
+		  $scope.last_project.drugList = [];
 		  $scope.last_project.drugs = [];
+		  $scope.last_project.drugInfoTypesList = [];
+		  $scope.last_project.druginfotypes = [];
 
   		  $scope.$watch('menuProjects', function(oldValue, newValue) {
 			$scope.projects = getProjects();
 		  }, true);		  
-
+		  
+		  $scope.init_create = function(){
+		  	$scope.last_project = {};
+			$scope.last_project.drugList = getDrugs();
+			$scope.last_project.drugInfoTypesList = getDrugInfoTypes();
+		  };
 		  $scope.create = function(){		    
 			var data = {
-			    fullName:     $scope.last_project.fullName,
-				description:  $scope.last_project.description
+			    fullName:      $scope.last_project.fullName,
+				description:   $scope.last_project.description,
+				drugs:		   $scope.last_project.drugs,
+				druginfotypes: $scope.last_project.druginfotypes
 			};
 			var cu = createProject(data);
 			
 			$scope.projects.push({
-			    fullName:     cu.fullName,
-				description:  cu.description,
-				drugs:        cu.drugs,
-			    id:           cu.id
+			    fullName:      cu.fullName,
+				description:   cu.description,
+				drugs:         cu.drugs,
+				druginfotypes: cu.druginfotypes,
+			    id:            cu.id
 			});
 			$scope.last_project = {};
 			$("#project_add").modal('hide');  
@@ -1057,19 +1090,22 @@
 		  };
 		  $scope.init_update = function(id){
 		    var cu = getProject(id);
-			
-			$scope.last_project.fullName     = cu.fullName;
-		    $scope.last_project.description  = cu.description;
-		    $scope.last_project.drugList     = getDrugs();
-		    $scope.last_project.drugs        = cu.drugs;
-		    $scope.last_project.id           = cu.id;
+		    
+			$scope.last_project.fullName      = cu.fullName;
+		    $scope.last_project.description   = cu.description;
+		    $scope.last_project.drugList      = getDrugs();
+		    $scope.last_project.grugInfoTypesList = getDrugInfoTypes();
+		    $scope.last_project.drugs         = cu.drugs;
+		    $scope.last_project.druginfotypes = cu.druginfotypes;
+		    $scope.last_project.id            = cu.id;
 		  };
 		  $scope.update = function(id){
 		    var data = {
-			    fullName:     $scope.last_project.fullName,
-				description:  $scope.last_project.description,
-				drugs:        $scope.last_project.drugs,
-				id:			  id
+			    fullName:      $scope.last_project.fullName,
+				description:   $scope.last_project.description,
+				drugs:         $scope.last_project.drugs,
+				druginfotypes: $scope.last_project.druginfotypes,
+				id:			   id
 			};
 			var cu = updateProject(data);
 			var idx = -1;
@@ -1079,17 +1115,18 @@
 					  }					  
 			        });				
 			$scope.projects[idx] = {
-			    fullName:     cu.fullName,
-				description:  cu.description,
-				drugs:        cu.drugs,
-			    id:           cu.id
+			    fullName:      cu.fullName,
+				description:   cu.description,
+				drugs:         cu.drugs,
+				druginfotypes: cu.druginfotypes,
+			    id:            cu.id
 			};
 			$scope.last_project = {};
 			$("#project_upd").modal('hide');
 		  };
 		  $('#project_add').on('show.bs.modal', function (event) {
 		    $scope.$apply(function(){
-			  $scope.last_project = {};
+			  $scope.init_create();
 			});
 		  });			  
       });		  

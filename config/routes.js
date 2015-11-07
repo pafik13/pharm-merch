@@ -53,5 +53,6 @@ module.exports.routes = {
   '/Merchant/:action/:id' : 'MerchantController.main',
   '/Merchant/:action'     : 'MerchantController.main',
   '/Attendance_image/:action': 'Attendance_imageController.main',
-  '/download'                : 'DownloadController.main'
+  '/download'                : 'DownloadController.main',
+  '/import'                  : 'ImportExcelController.import'
 };
