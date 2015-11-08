@@ -96,6 +96,10 @@
    margin:2px;
 }	
 
+.table th {
+    text-align: center;
+}
+
 </style>
 
     <div id="wrapper"  ng-controller="menuController">
@@ -223,8 +227,8 @@
                         <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
                    
                         <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants">Мерчендайзеры</a></li>
-                            <li><a href="/Report/DailyAll?date={{date}}">Отчет ежедневный</a></li>
-                            <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li>
+                            <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
+<!--                             <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li> -->
                         </ul>
                     </li>
                 </ul>
@@ -251,6 +255,10 @@
 						<!-- FILTER -->
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
+                                <button type="button" id="bExport" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    Выгрузить в Excel
+                                </button> 
 								<form id="custom-search-form" class="form-search form-horizontal pull-left">
 									<div class="input-append span12">
 										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
@@ -262,13 +270,13 @@
 						<div class="row">
 						  <div class="col-lg-12">
                             <h2>Список мерчендайзеров</h2>
-                                <div class="table-responsive">
+                                <div id="tData" class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>ФИО мерчендайзера</th>
                                                 <th>Город</th>
-                                                <th>Всего посящений</th>
+                                                <th>Всего посещений</th>
                                                 <th>Отчеты</th>
                                             </tr>
                                         </thead>
@@ -280,8 +288,9 @@
                                                 <td> {{ row.attendances.length }} </td>
                                                 <td> 
                                                     <ul>
-                                                        <li><a href="/Report/Daily?id={{ row.id }}&date={{date}}"> За день </a></li> 
-                                                        <li><a href="/Report/Weekly?id={{ row.id }}&date1={{date1}}&date2={{date2}}"> За неделю </a></li>
+                                                        <li><a href="/Report/Daily?id={{ row.id }}&date={{dDate|date('Y-m-d')}}"> За день ({{dDate|date('d.m')}})</a></li> 
+                                                        <li><a href="/Report/Weekly?id={{ row.id }}&date1={{wDate1|date('Y-m-d')}}&date2={{wDate2 | date('Y-m-d')}}"> За неделю ({{wDate1|date('d.m')}} - {{wDate2|date('d.m')}})
+                                                        </a></li>
                                                     </ul>
                                                 </td>
                                               </tr>
@@ -326,7 +335,14 @@
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
   
-
+    <script type="text/javascript">
+        // Export to Excel
+        $('#bExport').click(function (e){
+            window.open('data:application/vnd.ms-excel,' + 
+                encodeURIComponent($('#tData').html()));
+            e.preventDefault();
+        });
+    </script>
 </body>
 
 </html>

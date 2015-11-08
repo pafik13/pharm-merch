@@ -49,7 +49,7 @@ module.exports = {
 
                         return res.view('manager', {
                             "manager": manager,
-                            date: date,
+                            dDate: now,
                             date1: date1,
                             date2: date2
                         });

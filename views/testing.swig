@@ -94,11 +94,19 @@
     width: 100%;
     background-color: #ccc;
    margin:2px;
-}   
-
-.table th {
-    text-align: center;
 }
+
+/*
+    Carusel
+ */
+.modal-dialog {}
+.thumbnail {margin-bottom:6px;}
+
+.carousel-control.left,.carousel-control.right{
+  background-image:none;
+  margin-top:10%;
+  width:5%;
+}	
 
 </style>
 
@@ -226,8 +234,7 @@
                     <li>
                         <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
                    
-                        <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants"
-                            >Мерчендайзеры</a></li>
+                        <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants">Мерчендайзеры</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -238,105 +245,205 @@
         <div id="page-wrapper" >
 
             <div class="container-fluid">
-                <div class="tab-content">       
-                    
-                    <div id="report" class="tab-pane fade in active" ng-controller="projectsList">
-                        <!-- Page Heading -->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h1 class="page-header">
-                                    Отчеты <small>Мерчендайзеры - {{title}}</small>
-                                </h1>
-                            </div>
+				<div class="tab-content">		
+					
+					<div id="report" class="tab-pane fade in active" ng-controller="projectsList">
+						<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Отчеты <small>Мерчендайзеры - {{title}}</small>
+								</h1>
+							</div>
 
-                        </div>
-                        <!-- /.row -->
-                        <!-- FILTER -->
-                        <div class="row">
-                            <div class="col-md-1 col-lg-6 ">
-                                <button type="button" id="bExport" class="btn btn-success">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
-                                    Выгрузить в Excel
-                                </button> 
-                                <form id="custom-search-form" class="form-search form-horizontal pull-left">
-                                    <div class="input-append span12">
-                                        <input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-                                        <button type="submit" class="btn"><i class="icon-search"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <h2> {{subtitle}}</h2>
-                                <div id="tData" class="table-responsive">
-                                    <table class="table table-bordered table-hover">
+						</div>
+						<!-- /.row -->
+						<!-- FILTER -->
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
+						  <div class="col-lg-12">
+                            <h2>{{ subtitle }}</h2>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Город</th>
                                                 <th>ФИО мерчендайзера</th>
-                                                <th>План</th>
-                                                <th>Кол-во визитов за неделю</th>
-                                                <th>Кол-во потдвержденных визитов</th>
-                                                <th>Долг</th>
+                                                <th>Название аптеки</th>
+                                                <th>Адрес аптеки</th>
+                                                <th>Дата-время визита</th>
+                                                <th>Фото</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for row in reportRows %}
-                                              <tr> 
-                                                <td> {{ row.city }} </td>
-                                                <td> {{ row.FIO }} </td>
-                                                <td> {{ row.plan }} </td>
-                                                <td> {{ row.attendances }} </td>
-                                                <td> {{ row.accepted }} </td>
-                                                <td> {{ row.debt }} </td>
+
+                                              <tr
+                                                {% if row.gpsDist %}
+                                                    {% if row.gpsDist < 701 %}
+                                                        class="success"
+                                                    {% elseif row.gpsDist >= 701&& row.gpsDist <= 1000 %}
+                                                      class="warning"
+                                                    {% elseif row.gpsDist > 1000 %}
+                                                      class="danger"
+                                                    {% else %}
+                                                    {% endif %}
+                                                {% endif %}
+                                              >
+                                                <td> {{ row.merchant.FIO}} </td> 
+                                                <td> {{ row.pharmacy.fullName }} </td>
+                                                <td> {{ row.pharmacy.address }} </td>
+                                                <td> {{ row.date | date('d.m.y H:i:s O') }} </td>
+                                                <td> 
+                                                    {% if row.photos.length %}
+                                                        <a id="image-{{row.id}}" class="btn btn-primary btn-lg" title="Посмотреть фото" href="#"> 
+                                                            <i class="glyphicon glyphicon-eye-open"></i> Фото
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
                                               </tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>                  
-                        </div>
-                        <!-- /.row -->
-                                                    
-                    </div>
+                            </div>					
+						</div>
+						<!-- /.row -->
+													
+					</div>
 
-                </div>              
+				</div>				
             </div>
             <!-- /.container-fluid -->
-        </div>
+
         <!-- /#page-wrapper -->
+
+        <div class="hidden" id="img-repo">
+            {% for row in reportRows %}
+                {% for photo in row.photos %}
+                    <div class="item" id="image-{{ row.id }}">
+                        <img class="thumbnail img-responsive" 
+                        title="Аптека: {{row.pharmacy.fullName}}, Адрес: {{row.pharmacy.address}}, Дата: {{ row.date | date('d.m.y')  }}"
+                        imagetitle="Фото : {{ loop.index }}"
+                        src="{{ photo.relPath }}">
+                    </div>     
+                {% endfor %}
+            {% endfor %}      
+        </div>
+    
+        <div class="modal" id="modal-gallery" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <button class="close" type="button" data-dismiss="modal">×</button>
+                  <h5 class="modal-title"></h5>
+              </div>
+              <div class="modal-body">
+                  <div id="modal-carousel" class="carousel">
+           
+                    <div class="carousel-inner">           
+                    </div>
+                    
+                    <a class="carousel-control left" href="#modal-carousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                    <a class="carousel-control right" href="#modal-carousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                    <b class="image-title"></b>
+
+                  </div>
+
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal">Закрыть</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
     </div>
     <!-- /#wrapper -->
-    <script>
+	<script>
       var manager = {};
-      //SWIG Injection!!! How to another get manager.id in the page?
-      manager.id = 0{{manager.id}};
-    </script>       
+	  //SWIG Injection!!! How to another get manager.id in the page?
+	  manager.id = 0{{manager.id}};
+	</script>		
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    
-    <!-- jQuery -->
+	
+	<!-- jQuery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <!--
+	<!--
     <script src="/js/plugins/morris/raphael.min.js"></script>
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
-    -->
-  
+	-->
     <script type="text/javascript">
-        // Export to Excel
-        $('#bExport').click(function (e){
-            window.open('data:application/vnd.ms-excel,' + 
-                encodeURIComponent($('#tData').html()));
-            e.preventDefault();
+        /* activate the carousel */
+        $("#modal-carousel").carousel({interval:false});
+
+        /* change modal title when slide changes */
+        $("#modal-carousel").on("slid.bs.carousel", function () {
+          $(".modal-title").html($(this).find(".active img").attr("title"));
+          $(".image-title").html($(this).find(".active img").attr("imagetitle"));
+        })
+
+        /* when clicking a thumbnail */
+        // $(".row .thumbnail").click(function(){
+        //     var content = $(".carousel-inner");
+        //     var title = $(".modal-title");
+          
+        //     content.empty();  
+        //     title.empty();
+          
+        //     var id = this.id;  
+        //     var repo = $("#img-repo .item");
+        //     var repoCopy = repo.filter("#" + id).clone();
+        //     var active = repoCopy.first();
+          
+        //     active.addClass("active");
+        //     title.html(active.find("img").attr("title"));
+        //     content.append(repoCopy);
+
+        //     // show the modal
+        //     $("#modal-gallery").modal("show");
+        // });
+
+        /* when clicking a thumbnail */
+        $(".row .btn").click(function(){
+            var content = $(".carousel-inner");
+            var title = $(".modal-title");
+            var i_title = $(".image-title");
+
+            content.empty();  
+            title.empty();
+          
+            var id = this.id;  
+            var repo = $("#img-repo .item");
+            var repoCopy = repo.filter("#" + id).clone();
+            var active = repoCopy.first();
+          
+            active.addClass("active");
+            title.html(active.find("img").attr("title"));
+            i_title.html(active.find("img").attr("imagetitle"));
+            content.append(repoCopy);
+
+            // show the modal
+            $("#modal-gallery").modal("show");
         });
     </script>
+
 </body>
 
 </html>

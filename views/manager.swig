@@ -239,8 +239,8 @@
                         <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
                    
                         <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants">Мерчендайзеры</a></li>
-                            <li><a href="/Report/DailyAll?date={{date}}">Отчет ежедневный</a></li>
-                            <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li>
+                            <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
+<!--                             <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li> -->
                         </ul>
                     </li>
                 </ul>
