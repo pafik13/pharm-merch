@@ -327,12 +327,12 @@
         var link = document.createElement('a');
         document.body.appendChild(link);
         
-        link.href = 'data:application/application/vnd.ms-excel,' +
-                    '<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
-                    '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' + 
+        var header = 'data:application/vnd.ms-excel;base64,';
+                    //'<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+        var body =   '<meta  http-equiv="Content-Type"  content="text/html;  charset=UTF-8">' + 
                     '<style>table, table td, table td tr {    border: 1px solid black; }</style>' + 
-                    $('table:visible')[0].outerHTML + 
-                    '</html>';
+                    $('table:visible')[0].outerHTML;
+        link.href = header + window.btoa(unescape(encodeURIComponent(body)));            
         $(link).attr('download','Отчет.xls');
         link.click();
       });
