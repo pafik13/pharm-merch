@@ -1,6 +1,78 @@
+	  /*----------------------- MANAGERS --------------------------------*/
+	  function getManagers(){
+	    var users = [];
+		$.ajax(
+		{
+		  async: false,
+		  url: "/Manager/find?",
+		  success: function (data) {
+		    users = data;	
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data + "\n" + 'getUsers');
+		  },
+		  dataType: 'json'
+		});
+       return users;   
+	  }
+	  
+  	  function getManager(id){
+	    var u = {};
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/Manager/find?id="+id, 
+		  success: function (data) {
+		    u = data;			
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+        return u;
+	  }
+	  
+	  function createManager(data){	  
+	    var d = {};
+		data.manager = manager.id;
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Manager/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  }
+	  
+	  function updateManager(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/Manager/update/"+data.id+"/?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  }	  
+	  
 	  /*----------------------- MERCHANTS --------------------------------*/
 	  function getUsers(){
-	    var users = {};
+	    var users = [];
 		$.ajax(
 		{
 		  async: false,
@@ -14,7 +86,7 @@
 		  dataType: 'json'
 		});
        return users;   
-	  };
+	  }
 	  
   	  function getUser(id){
 	    var u = {};
@@ -31,7 +103,7 @@
 		  dataType: 'json'
 		});
         return u;
-	  };
+	  }
 	  
 	  function createUser(data){	  
 	    var d = {};
@@ -50,7 +122,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateUser(data){	  
 	    var d = {};
@@ -69,24 +141,24 @@
 			}
 		});
 		return d;
-	  };	  
+	  }	  
 	  /*--------------------- PHARMACIES -------------------------*/	
 	  function getPharmacies(){
-	    var pharmacies = {};
+	    var d = [];
 		$.ajax(
 		{
 		  async: false,
 		  url: "/Pharmacy/find?", 
 		  success: function (data) {
-		    pharmacies = data;	
+		    d = data;	
 		  },
 		  error: function(xhr, status, data){
 			alert(status + "\n" + data + "\n" + 'getPharmacies');
 		  },
 		  dataType: 'json'
 		});
-       return pharmacies;   
-	  };	
+       return d;   
+	  }	
 	  
 	  function getPharmacy(id){
 	    var p = {};
@@ -103,7 +175,7 @@
 		  dataType: 'json'
 		});
         return p;
-	  };
+	  }
 
 	  function createPharmacy(data){	  
 	    var d = {};
@@ -121,7 +193,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 
 	  function updatePharmacy(data){	  
 	    var d = {};
@@ -139,10 +211,10 @@
 			}
 		});
 		return d;
-	  };	  	 
+	  }	  	 
 	  /*----------------------- DRUGS --------------------------------*/
 	  function getDrugs(){
-	    var drugs = {};
+	    var drugs = [];
 		$.ajax(
 		{
 		  async: false,
@@ -156,7 +228,7 @@
 		  dataType: 'json'
 		});
        return drugs;   
-	  };
+	  }
 	  
   	  function getDrug(id){
 	    var d = {};
@@ -173,7 +245,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createDrug(data){	  
 	    var d = {};
@@ -191,7 +263,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateDrug(data){	  
 	    var d = {};
@@ -209,10 +281,10 @@
 			}
 		});
 		return d;
-	  };		
+	  }		
 	  /*----------------------- COMPANIES --------------------------------*/
 	  function getCompanies(){
-	    var d = {};
+	    var d = [];
 		$.ajax(
 		{
 		  async: false,
@@ -226,7 +298,7 @@
 		  dataType: 'json'
 		});
        return d;   
-	  };
+	  }
 	  
   	  function getCompany(id){
 	    var d = {};
@@ -243,7 +315,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createCompany(data){	  
 	    var d = {};
@@ -261,7 +333,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateCompany(data){	  
 	    var d = {};
@@ -279,24 +351,24 @@
 			}
 		});
 		return d;
-	  };	
+	  }	
 	  /*----------------------- PROJECTS --------------------------------*/
 	  function getProjects(){
-	    var users = {};
+	    var d = [];
 		$.ajax(
 		{
 		  async: false,
 		  url: "/Project/find?", 
 		  success: function (data) {
-		    users = data;	
+		    d = data;	
 		  },
 		  error: function(xhr, status, data){
 			alert(status + "\n" + data + "\n" + 'getProjects');
 		  },
 		  dataType: 'json'
 		});
-       return users;   
-	  };
+       return d;   
+	  }
 	  
   	  function getProject(id){
 	    var d = {};
@@ -313,7 +385,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createProject(data){	  
 	    var d = {};
@@ -332,7 +404,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateProject(data){	  
 	    var d = {};
@@ -351,12 +423,12 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  /*----------------------- TERRITORIES --------------------------------*/
 	  function getTerritories(){
-	    var d = {};
-		$.ajax(
+	    var d = [];
+	    $.ajax(
 		{
 		  async: false,
 		  url: "/Territory/find?", 
@@ -368,8 +440,9 @@
 		  },
 		  dataType: 'json'
 		});
-       return d;   
-	  };
+		
+		return d; 
+	  }
 	  
   	  function getTerritory(id){
 	    var d = {};
@@ -386,7 +459,7 @@
 		  dataType: 'json'
 		});
         return d;
-	  };
+	  }
 	  
 	  function createTerritory(data){	  
 	    var d = {};
@@ -404,7 +477,7 @@
 			}
 		});
 		return d;
-	  };
+	  }
 	  
 	  function updateTerritory(data){	  
 	    var d = {};
@@ -422,10 +495,176 @@
 			}
 		});
 		return d;
-	  };		  
+	  }	 
+	  /*----------------------- DRUGINFOTYPES --------------------------------*/
+	  function getDrugInfoTypes(){
+	    var d = [];
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/DrugInfoType/find?", 
+		  success: function (data) {
+		    d = data;	
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data + "\n" + 'getDrugInfoTypes');
+		  },
+		  dataType: 'json'
+		});
+	    return d; 
+	  }
+	  
+  	  function getDrugInfoType(id){
+	    var d = {};
+	    $.ajax(
+		{
+		  async: false,
+		  url: "/DrugInfoType/find?id="+id, 
+		  success: function (data) {
+		    d = data;			
+		  },
+		  error: function(xhr, status, data){
+			alert(status + "\n" + data);
+		  },
+		  dataType: 'json'
+		});
+        return d;
+	  }
+	  
+	  function createDrugInfoType(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/DrugInfoType/create?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  }
+	  
+	  function updateDrugInfoType(data){	  
+	    var d = {};
+		$.ajax({
+		    async: false,
+			type: "POST",
+			url: "/DrugInfoType/update/"+data.id+"/?",
+			dataType: 'json',
+			data: data,
+			success: function(msg){
+			   d = msg;				   	
+			},
+			error: function(xhr, status, data){
+			   alert(status + " ERROR " + JSON.stringify(data));
+			}
+		});
+		return d;
+	  }	 	  
+	  
 	  
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
+      
+      
+	  /*--------------------------- MANAGERS ------------------------------------------*/
+      app.controller('managersList', function($scope, $http) {
+          $scope.managers = [];
+		  $scope.last_manager = {};
+		  $scope.last_manager.firstName = '';
+		  $scope.last_manager.middleName = '';
+		  $scope.last_manager.lastName = '';
+		  $scope.last_manager.sex = 0;
+		  $scope.last_manager.phone = '';
+		  $scope.last_manager.email = '';
+		  $scope.last_manager.id    = 0;
+		  
+		  $scope.$watch('menuManagers', function(oldValue, newValue) {
+		  	$scope.managers = getManagers();
+		  }, true);
+		  
+		  $scope.create = function(){		    
+			var data = {
+			    username:   $scope.last_manager.username,
+				firstName:  $scope.last_manager.firstName,
+				middleName: $scope.last_manager.middleName,
+				lastName:   $scope.last_manager.lastName,
+				sex:        $scope.last_manager.sex,
+				email:      $scope.last_manager.email,
+				phone:      $scope.last_manager.phone
+			};
+			var cu = createManager(data);
+			
+			$scope.managers.push({
+			    username:   cu.username,
+				firstName:  cu.firstName,
+				middleName: cu.middleName,
+				lastName:   cu.lastName,
+				sex:        cu.sex,
+				email:      cu.email,
+				phone:      cu.phone,
+			    id:         cu.id
+			});
+			$scope.last_manager = {};
+			$("#manager_add").modal('hide');  
+		  };
+		  $scope.clear_last  = function(){
+		    $scope.last_manager = {};
+		  };
+		  $scope.init_update = function(id){
+		    var cu = getManager(id);
+			
+			$scope.last_manager.username = cu.username;
+			$scope.last_manager.firstName = cu.firstName,
+			$scope.last_manager.middleName = cu.middleName;			 
+			$scope.last_manager.lastName = cu.lastName;
+			$scope.last_manager.sex = cu.sex;
+			$scope.last_manager.email = cu.email;
+			$scope.last_manager.phone = cu.phone;	
+			$scope.last_manager.id    = cu.id;
+		  };
+		  $scope.update = function(id){
+		    var data = {
+			    username:   $scope.last_manager.username,
+				firstName:  $scope.last_manager.firstName,
+				middleName: $scope.last_manager.middleName,
+				lastName:   $scope.last_manager.lastName,
+				sex:        $scope.last_manager.sex,
+				email:      $scope.last_manager.email,
+				phone:      $scope.last_manager.phone,
+				id:			id
+			};
+			var cu = updateManager(data);
+			var idx = -1;
+			var old = $.grep($scope.managers,function(u,i){
+			          if (u.id == id){					    
+			            idx = i;
+					  }					  
+			        });				
+			$scope.managers[idx] = {
+			    username:   cu.username,
+				firstName:  cu.firstName,
+				middleName: cu.middleName,
+				lastName:   cu.lastName,
+				sex:        cu.sex,
+				email:      cu.email,
+				phone:      cu.phone,
+			    id:         cu.id
+			};
+			$scope.last_manager = {};
+			$("#manager_update").modal('hide');
+		  };
+		  $('#manager_add').on('show.bs.modal', function (event) {
+		    $scope.$apply(function(){
+			  $scope.last_manager = {};
+			});
+		  });			  
+      });
 	  /*--------------------------- MERCHANTS ------------------------------------------*/
       app.controller('merchantList', function($scope, $http) {
           $scope.users = [];
@@ -436,9 +675,21 @@
 		  $scope.last_user.sex = 0;
 		  $scope.last_user.phone = '';
 		  $scope.last_user.email = '';
+		  $scope.last_user.territories = [];
+		  $scope.last_user.projects = [];
+		  $scope.last_user.territory = {};
+		  $scope.last_user.project = {};
 		  $scope.last_user.id    = 0;
 		  
-		  $scope.users = getUsers();
+		  $scope.$watch('menuMerchants', function(oldValue, newValue) {
+		  	$scope.users = getUsers();
+		  }, true);
+		  
+		  $scope.init_create = function(){
+		  	$scope.last_user = {};
+		  	$scope.last_user.territories = getTerritories();
+		    $scope.last_user.projects    = getProjects();
+		  }
 		  
 		  $scope.create = function(){		    
 			var data = {
@@ -448,7 +699,9 @@
 				lastName:   $scope.last_user.lastName,
 				sex:        $scope.last_user.sex,
 				email:      $scope.last_user.email,
-				phone:      $scope.last_user.phone
+				phone:      $scope.last_user.phone,
+				territory:  $scope.last_user.territory,
+				project:	$scope.last_user.project
 			};
 			var cu = createUser(data);
 			
@@ -460,6 +713,8 @@
 				sex:        cu.sex,
 				email:      cu.email,
 				phone:      cu.phone,
+				territory:  cu.territory,
+				project:	cu.project,
 			    id:         cu.id
 			});
 			$scope.last_user = {};
@@ -478,6 +733,10 @@
 			$scope.last_user.sex = cu.sex;
 			$scope.last_user.email = cu.email;
 			$scope.last_user.phone = cu.phone;	
+			$scope.last_user.territories = getTerritories();
+			$scope.last_user.projects = getProjects();
+			$scope.last_user.territory = cu.territory;
+			$scope.last_user.project = cu.project;
 			$scope.last_user.id    = cu.id;
 		  };
 		  $scope.update = function(id){
@@ -489,6 +748,8 @@
 				sex:        $scope.last_user.sex,
 				email:      $scope.last_user.email,
 				phone:      $scope.last_user.phone,
+				territory:  $scope.last_user.territory,
+				project:	$scope.last_user.project,
 				id:			id
 			};
 			var cu = updateUser(data);
@@ -506,6 +767,8 @@
 				sex:        cu.sex,
 				email:      cu.email,
 				phone:      cu.phone,
+				territory:  cu.territory,
+				project:	cu.project,
 			    id:         cu.id
 			};
 			$scope.last_user = {};
@@ -513,7 +776,7 @@
 		  };
 		  $('#add').on('show.bs.modal', function (event) {
 		    $scope.$apply(function(){
-			  $scope.last_user = {};
+			  $scope.init_create();
 			});
 		  });			  
       });
@@ -526,20 +789,29 @@
 		  $scope.last_pharmacy.email = '';
 		  $scope.last_pharmacy.id = 0;
 		  $scope.last_pharmacy.validated = false;
+		  $scope.last_pharmacy.territories = [];
+		  $scope.last_pharmacy.territory = {};
 		
 		  $scope.$watch('menuPharmacies', function(oldValue, newValue) {
 		  	$scope.pharmacies = getPharmacies();
-		  	//alert('pharmaciesList ' + oldValue + ' ' + newValue);
 		  }, true);
+		  
+		  $scope.init_create = function(){
+		  	$scope.last_pharmacy = {};
+		  	$scope.last_pharmacy.territories = getTerritories();
+		  	
+		  	$scope.last_pharmacy.fullName = 'asdfasdfasdfsdfsdf';
+		  };
 	    
           $scope.create = function(){
 		    
 			var data = {
-			    fullName: $scope.last_pharmacy.fullName,
-				address: $scope.last_pharmacy.address,
-				phone: $scope.last_pharmacy.phone,
-				email: $scope.last_pharmacy.email,
-				validated: $scope.last_pharmacy.validated
+			    fullName:  $scope.last_pharmacy.fullName,
+				address:   $scope.last_pharmacy.address,
+				phone:     $scope.last_pharmacy.phone,
+				email:     $scope.last_pharmacy.email,
+				validated: $scope.last_pharmacy.validated,
+				territory: $scope.last_pharmacy.territory
 			};
 			var cp = createPharmacy(data);
 			
@@ -549,7 +821,8 @@
 			  phone:     cp.phone,
 			  email:     cp.email,
 			  id:        cp.id,
-			  validated: cp.validated
+			  validated: cp.validated,
+			  territory: cp.territory
 			});
 			$scope.last_pharmacy = {};
 			$("#pharmacy_add").modal('hide'); 
@@ -566,6 +839,9 @@
 		    $scope.last_pharmacy.email     = cu.email;
 			$scope.last_pharmacy.id        = cu.id;
 			$scope.last_pharmacy.validated = cu.validated;
+			$scope.last_pharmacy.territories = getTerritories();
+			$scope.last_pharmacy.territory = cu.territory;	
+		
 		  };
 		  $scope.update = function(id){
 		    var data = {
@@ -574,10 +850,11 @@
 				phone:     $scope.last_pharmacy.phone,
 				email:     $scope.last_pharmacy.email,
 				id:        $scope.last_pharmacy.id,
-				validated: $scope.last_pharmacy.validated
+				validated: $scope.last_pharmacy.validated,
+				territory: $scope.last_pharmacy.territory
 			};
-			
 			var cu = updatePharmacy(data);
+			
 			var idx = -1;
 			var old = $.grep($scope.pharmacies,function(u,i){
 			          if (u.id == id){					    
@@ -590,14 +867,15 @@
 				phone:     cu.phone,
 				email:     cu.email,
 				id:        cu.id,
-				valicated: cu.validated
+				valicated: cu.validated,
+				territory: cu.territory
 			};
 			$scope.last_pharmacy = {};
 			$("#pharmacy_upd").modal('hide');
 		  };
 		  $('#pharmacy_add').on('show.bs.modal', function (event) {
 		    $scope.$apply(function(){
-			  $scope.last_pharmacy = {};
+			  $scope.init_create();
 			});
 		  });	
       });	
@@ -612,11 +890,12 @@
 		  $scope.last_drug.barcode = 0;
 		  $scope.last_drug.id    = 0;
 		  
-		  $scope.view = 'grid';
+		  $scope.view = 'tile';
 		  
-		  
-		  $scope.drugs = getDrugs();
-		  
+		  $scope.$watch('menuDrugs', function(oldValue, newValue) {
+		  	$scope.drugs = getDrugs();
+		  }, true);		  
+
 		  $scope.create = function(){		    
 			var data = {
 			    fullName:     $scope.last_drug.fullName,
@@ -641,6 +920,14 @@
 		  };
 		  $scope.init_update = function(id){
 		    var cu = getDrug(id);
+		    
+		    //Need finish stoping porpogation!!!
+		    if(!("id" in cu)){
+		    	$("#drug_upd").on('show.bs.modal',function(e){
+		    		e.stopPropagation();
+		    	});
+		    	return;
+		    }
 			
 			$scope.last_drug.fullName     = cu.fullName;
 		    $scope.last_drug.officialName = cu.officialName;
@@ -657,6 +944,8 @@
 				id:			  id
 			};
 			var cu = updateDrug(data);
+			if(!cu)
+			  return;
 			var idx = -1;
 			var old = $.grep($scope.drugs,function(u,i){
 			          if (u.id == id){					    
@@ -689,8 +978,10 @@
 		  $scope.last_company.description = '';
 		  $scope.last_company.id = 0;
 		  
-		  $scope.companies = getCompanies();
-		  
+  		  $scope.$watch('menuDrugs', function(oldValue, newValue) {
+  		  	$scope.companies = getCompanies();
+		  }, true);		  
+
 		  $scope.create = function(){		    
 			var data = {
 			    fullName:     $scope.last_company.fullName,
@@ -760,30 +1051,35 @@
 		  $scope.last_project.fullName = '';
 		  $scope.last_project.description = '';
 		  $scope.last_project.id = 0;
+		  $scope.last_project.drugList = [];
+		  $scope.last_project.drugs = [];
+		  $scope.last_project.drugInfoTypesList = [];
+		  $scope.last_project.druginfotypes = [];
+
+  		  $scope.$watch('menuProjects', function(oldValue, newValue) {
+			$scope.projects = getProjects();
+		  }, true);		  
 		  
-		  $scope.last_project.drugs = [{shortName: 'Анальгин', status: true, id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
-									   {shortName: 'Аспирин', status: false, id: 10, reseller:{fullName: 'ООО "Аспирин"'}},
-									   {shortName: 'Бромгексин', status: true, id: 25, reseller:{fullName: 'АО "БерлинХеми""'}},
-									   {shortName: 'Бронхикум', status: false, id: 11, reseller:{fullName: 'ЗАО "Веселые лекарства"'}},
-									   {shortName: 'Анальгин', status: false, id: 1, reseller:{fullName: 'ООО "ФармКом +"'}},
-									   {shortName: 'Аспирин', status: true, id: 10, reseller:{fullName: 'ООО "Аспирин"'}}];
-		  
-		  
-		  $scope.projects = getProjects();
-		  
+		  $scope.init_create = function(){
+		  	$scope.last_project = {};
+			$scope.last_project.drugList = getDrugs();
+			$scope.last_project.drugInfoTypesList = getDrugInfoTypes();
+		  };
 		  $scope.create = function(){		    
 			var data = {
-			    fullName:     $scope.last_project.fullName,
-				description:  $scope.last_project.description
+			    fullName:      $scope.last_project.fullName,
+				description:   $scope.last_project.description,
+				drugs:		   $scope.last_project.drugs,
+				druginfotypes: $scope.last_project.druginfotypes
 			};
 			var cu = createProject(data);
 			
 			$scope.projects.push({
-			    fullName:     cu.fullName,
-				shortName:	  cu.shortName,
-				officialName: cu.officialName,
-				description:  cu.description,
-			    id:           cu.id
+			    fullName:      cu.fullName,
+				description:   cu.description,
+				drugs:         cu.drugs,
+				druginfotypes: cu.druginfotypes,
+			    id:            cu.id
 			});
 			$scope.last_project = {};
 			$("#project_add").modal('hide');  
@@ -794,16 +1090,22 @@
 		  };
 		  $scope.init_update = function(id){
 		    var cu = getProject(id);
-			
-			$scope.last_project.fullName     = cu.fullName;
-		    $scope.last_project.description  = cu.description;
-		    $scope.last_project.id           = cu.id;
+		    
+			$scope.last_project.fullName      = cu.fullName;
+		    $scope.last_project.description   = cu.description;
+		    $scope.last_project.drugList      = getDrugs();
+		    $scope.last_project.grugInfoTypesList = getDrugInfoTypes();
+		    $scope.last_project.drugs         = cu.drugs;
+		    $scope.last_project.druginfotypes = cu.druginfotypes;
+		    $scope.last_project.id            = cu.id;
 		  };
 		  $scope.update = function(id){
 		    var data = {
-			    fullName:     $scope.last_project.fullName,
-				description:  $scope.last_project.description,
-				id:			  id
+			    fullName:      $scope.last_project.fullName,
+				description:   $scope.last_project.description,
+				drugs:         $scope.last_project.drugs,
+				druginfotypes: $scope.last_project.druginfotypes,
+				id:			   id
 			};
 			var cu = updateProject(data);
 			var idx = -1;
@@ -813,30 +1115,34 @@
 					  }					  
 			        });				
 			$scope.projects[idx] = {
-			    fullName:     cu.fullName,
-				description:  cu.description,
-			    id:           cu.id
+			    fullName:      cu.fullName,
+				description:   cu.description,
+				drugs:         cu.drugs,
+				druginfotypes: cu.druginfotypes,
+			    id:            cu.id
 			};
 			$scope.last_project = {};
 			$("#project_upd").modal('hide');
 		  };
 		  $('#project_add').on('show.bs.modal', function (event) {
 		    $scope.$apply(function(){
-			  $scope.last_project = {};
+			  $scope.init_create();
 			});
 		  });			  
       });		  
 	
 	 /*----------------------------- Territories -----------------------------------*/
 	  app.controller('territoriesList', function($scope) {
-          $scope.territories = {};
+          $scope.territories = [];
 		  $scope.last_territory = {};
 		  $scope.last_territory.name = '';
 		  $scope.last_territory.info = '';
 		  $scope.last_territory.baseCity = '';
 		  $scope.last_territory.id = 0;
 		  
-		  $scope.territories = getTerritories();
+  		  $scope.$watch('menuTerritories', function(oldValue, newValue) {
+			  $scope.territories = getTerritories();
+		  }, true);		  
 		  
 		  $scope.create = function(){		    
 			var data = {
@@ -846,7 +1152,7 @@
 			};
 			var cu = createTerritory(data);
 			
-			$scope.territory.push({
+			$scope.territories.push({
 			    name:     cu.name,
 				info:	  cu.info,
 				baseCity: cu.baseCity,
@@ -895,18 +1201,114 @@
 			});
 		  });			  
       });	  
-      
+      /*----------------------------- DRUGINFOTYPES -----------------------------------*/
+	  app.controller('drugInfoTypesList', function($scope) {
+          $scope.drugInfoTypes = [];
+		  $scope.last_drugInfoType = {};
+		  $scope.last_drugInfoType.name = '';
+		  $scope.last_drugInfoType.valueType = '';
+		  $scope.last_drugInfoType.id = 0;
+		  
+  		  $scope.$watch('menuDrugInfoTypes', function(oldValue, newValue) {
+  		  	$scope.drugInfoTypes = getDrugInfoTypes();
+		  }, true);		  
+
+		  $scope.create = function(){		    
+			var data = {
+			    name:      $scope.last_drugInfoType.name,
+				valueType: $scope.last_drugInfoType.valueType
+			};
+			var cu = createDrugInfoType(data);
+			
+			$scope.drugInfoTypes.push({
+			    fullName:     cu.name,
+				shortName:	  cu.valueType,
+			    id:           cu.id
+			});
+			$scope.last_drugInfoType = {};
+			$("#druginfotype_add").modal('hide');  
+		  };
+		  $scope.clear_last = function(){
+		    $scope.last_drugInfoType = {};
+		  };
+		  $scope.init_update = function(id){
+		    var cu = getDrugInfoType(id);
+			
+			$scope.last_drugInfoType.name      = cu.name;
+			$scope.last_drugInfoType.valueType = cu.valueType;
+		    $scope.last_drugInfoType.id        = cu.id;
+		  };
+		  $scope.update = function(id){
+		    var data = {
+			    name:      $scope.last_drugInfoType.name,
+				valueType: $scope.last_drugInfoType.valueType,
+				id:		   id
+			};
+			var cu = updateDrugInfoType(data);
+			var idx = -1;
+			var old = $.grep($scope.drugInfoTypes,function(u,i){
+			          if (u.id == id){					    
+			            idx = i;
+					  }					  
+			        });				
+			$scope.drugInfoTypes[idx] = {
+			    name:      cu.name,
+				valueType: cu.valueType,
+			    id:        cu.id
+			};
+			$scope.last_drugInfoType = {};
+			$("#druginfotype_upd").modal('hide');
+		  };
+		  $('#druginfotype_add').on('show.bs.modal', function (event) {
+		    $scope.$apply(function(){
+			  $scope.last_drugInfoType = {};
+			});
+		  });			  
+      });	  
+       
 	// Menu controller
 	app.controller('menuController', function($scope) {
 		$scope.menuPharmacies = 0;
-		/*
-		$scope.update_p = function(){
-			
-			$scope.$apply(function(){
-				$scope.menuPharmacies += 1;
-				
-			});
-		};*/
+		$scope.menuMerchants  = 0;
+		$scope.menuDrugs      = 0;
+		$scope.menuHospitals  = 0;
+		$scope.menuTerritories = 0;
+		$scope.menuProjects    = 0;
+		$scope.menuCompanies   = 0;
+		$scope.menuTradenets   = 0;
+		$scope.menuManagers    = 0;
+		$scope.menuDrugInfoTypes = 0;
+		
+		$scope.update_pharmacies = function(){
+			$scope.menuPharmacies = $scope.menuPharmacies + 1;
+		};
+		$scope.update_merchants = function(){
+			$scope.menuMerchants = $scope.menuMerchants + 1;
+		};
+		$scope.update_drugs = function(){
+			$scope.menuDrugs = $scope.menuDrugs + 1;
+		};
+		$scope.update_hospitals = function(){
+			$scope.menuHospitals = $scope.menuHospitals + 1;
+		};
+		$scope.update_territories = function(){
+			$scope.menuTerritories = $scope.menuTerritories + 1;
+		};
+		$scope.update_projects = function(){
+			$scope.menuProjects = $scope.menuProjects + 1;
+		};
+		$scope.update_companies = function(){
+			$scope.menuCompanies = $scope.menuCompanies + 1;
+		};
+		$scope.update_tradenets= function(){
+			$scope.menuTradenets = $scope.menuTradenets + 1;
+		};		
+		$scope.update_managers= function(){
+			$scope.menuManagers = $scope.menuManagers + 1;
+		};		
+		$scope.update_druginfotypes = function(){
+			$scope.menuManagers = $scope.menuDrugInfoTypes + 1;
+		};	
 	});
 	//Tooltips  
 	$(document).ready(function(){

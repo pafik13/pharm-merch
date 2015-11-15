@@ -21,7 +21,8 @@
     <link href="/styles/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!--<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -220,21 +221,28 @@
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
                     </li>
                     <li>
-                        <a href="/login"><i class="fa fa-fw fa-bar-chart-o"></i> Логин</a>
-                    </li>
-                    <li>
                         <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
                    
 						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
-							<li class="active"><a data-toggle="pill" href="#projects">Проекты</a></li>					
-							<li><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
-							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="menuPharmacies = menuPharmacies + 1">Аптеки</a></li>
-							<li><a data-toggle="pill" href="#drugs">Препараты</a></li>
-							<li><a data-toggle="pill" href="#companies">Компании</a></li>
-							<li><a data-toggle="pill" href="#territories">Территории</a></li>
-							<li><a data-toggle="pill" href="#hospitals">Поликлиники</a></li>
-							<li><a data-toggle="pill" href="#tradenets">Сети</a></li>
+							<li class="active"><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>					
+							<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
+							<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
+							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
+							<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
+							<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
+							<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
+							<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы данных</a></li>
+							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
+							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
 						</ul>
+                    </li>
+                    <li>
+                        <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
+                   
+                        <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants">Мерчендайзеры</a></li>
+                            <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
+<!--                             <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li> -->
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -319,23 +327,33 @@
 									</div>
 									<div class="modal-body">
 										<div class="form-group">
+											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
+										</div>
+										<div class="form-group">
 											<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
 										</div>		
 										<div class="checkbox">
-											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
 										</div>										
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-										</div>					
+										</div>	
+										<div class="form-group">
+											<label for="merchantTerritory">Территория:</label>
+											<select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="merchantProject">Проект:</label>
+											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
+											</select>
+										</div>	
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -352,23 +370,33 @@
 									</div>
 									<div class="modal-body">
 										<div class="form-group">
+											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
+										</div>
+										<div class="form-group">
 											<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
 										</div>		
 										<div class="checkbox">
-											<label><input type="checkbox" btn-checkbox>Мужчина</label>
+											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
 										</div>										
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-										</div>					
+										</div>
+										<div class="form-group">
+											<label for="merchantTerritory">Территория:</label>
+											<select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="merchantProject">Проект:</label>
+											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
+											</select>
+										</div>										
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="update(last_user.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -377,14 +405,147 @@
 							</div>
 						</div>												
 					</div>
+					<!-- START MANAGERS -->
+					<div  id="managers" class="tab-pane fade" ng-controller="managersList">
+					<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Менеджеры <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить нового менеджера"><button class="btn btn-danger btn-xs" data-title="manager_add" data-toggle="modal" id="add_plugin" data-target="#manager_add" ><i class="fa fa-plus"></i></button></p>
+								</h1>
+							</div>
 
+						</div>
+						<!-- /.row -->
+						<!-- FILTER -->
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>		
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во: {{managers.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">						
+							<div class="col-lg-6 col-md-6" ng-repeat="manager in managers | filter:search">					
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-user-md fa-5x"></i>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge" ng-bind="manager.id"></div>
+												<label ng-bind="manager.email"></label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-8">
+												<label ng-bind="manager.firstName"></label>&nbsp;
+												<label ng-bind="manager.middleName"></label>&nbsp;
+												<label ng-bind="manager.lastName"></label>
+
+											</div>
+										</div>										
+									</div>
+									<a href="#manager_update" data-target="#manager_update" ng-click="init_update(manager.id)" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+										<div class="panel-footer">
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+						<div class="modal fade" id="manager_add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+							<div class="modal-dialog">		    
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<input class="form-control" ng-model="last_manager.firstName" type="text" placeholder="Имя">
+										</div>
+										<div class="form-group">
+											<input class="form-control" ng-model="last_manager.middleName" type="text" placeholder="Отчество">
+										</div>
+										<div class="form-group">
+											<input class="form-control" ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
+										</div>		
+										<div class="checkbox">
+											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
+										</div>										
+										<div class="form-group">
+											<input class="form-control" ng-model="last_manager.phone" type="text" placeholder="Телефон">
+										</div>
+										<div class="form-group">
+											<input class="form-control" ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
+										</div>					
+									</div>
+									<div class="modal-footer ">
+										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+									</div>
+								</div>
+							</div>
+						</div>	
+						<div class="modal fade" id="manager_update" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+							<div class="modal-dialog">		    
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										<h4 ng-bind="last_manager.firstName" class="modal-title custom_align" id="Heading"></h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.firstName" type="text" placeholder="Имя">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.middleName" type="text" placeholder="Отчество">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
+										</div>		
+										<div class="checkbox">
+											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
+										</div>										
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.phone" type="text" placeholder="Телефон">
+										</div>
+										<div class="form-group">
+											<input class="form-control " ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
+										</div>					
+									</div>
+									<div class="modal-footer ">
+										<button ng-click="update(last_manager.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+									</div>
+								</div>
+							</div>
+						</div>												
+					</div>
+					<!-- END MANAGERS -->
 					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
 									Аптеки <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="pharmacy_add" data-toggle="modal" data-target="#pharmacy_add" ><i class="fa fa-plus"></i></button</p>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="pharmacy_add" data-toggle="modal" data-target="#pharmacy_add" ng-click="init_create()"><i class="fa fa-plus"></i></button</p>
 								</h1>
 							</div>
 
@@ -416,7 +577,7 @@
 										<div class="row">
 											<div class="col-xs-3">
 												<i class="fa fa-building fa-5x"></i>
-												<h3 ng-bind="pharmacy.email"></h3>
+												<h3 ng-bind="pharmacy.territory.name"></h3>
 											</div>
 											<div class="col-xs-9 text-right">
 												<div class="huge" ng-bind="pharmacy.id"></div>
@@ -454,12 +615,17 @@
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>	
+											</div>
 											<div class="form-group">
-											    <div class="btn btn-default" data-toggle="buttons" ng-class="last_pharmacy.validated == true ? 'btn btn-default active': 'btn btn-default'" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
-													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
-													<label class="pull-right">Проверено</label>													
-												</div>	
+											    <div class="checkbox">
+													<label><input type="checkbox" ng-model="last_pharmacy.validated" ng-checked="last_pharmacy.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
+												</div>		
+											</div>
+											<div class="form-group">
+												<label for="territory">Территория:</label>
+												<select class="form-control" name="territory" id="territory"  ng-model="last_pharmacy.territory">
+													<option ng-repeat="option in last_pharmacy.territories" value="{{option.id}}">{{option.name}}</option>
+												</select>
 											</div>
 										</div>
 										<div class="modal-footer ">
@@ -491,11 +657,15 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
 											</div>	
 											<div class="form-group">
-											    <div class="btn btn-default" data-toggle="buttons" ng-class="last_pharmacy.validated == true ? 'btn btn-default active': 'btn btn-default'" ng-click="last_pharmacy.validated = !last_pharmacy.validated">
-													<span class="glyphicon pull-left" ng-model="last_pharmacy.validated" ng-class="last_pharmacy.validated == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
-													<label class="pull-right">Проверено</label>													
+											    <div class="checkbox">
+													<label><input type="checkbox" ng-model="last_pharmacy.validated" ng-checked="last_pharmacy.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
 												</div>	
-											</div>											
+											</div>
+											<div class="form-group">
+												<label for="territory">Территория:</label>
+												<select class="form-control" name="territory" id="territory"  ng-options="option.name for option in last_pharmacy.territories track by option.id" ng-model="last_pharmacy.territory">
+												</select>
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_pharmacy.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -558,7 +728,7 @@
 												<div class="row">
 													<div class="col-xs-3">
 														<i class="fa fa-flask fa-5x"></i>
-														<h3 ng-bind="drug.email"></h3>
+														<h3 ng-bind="drug.officialName"></h3>
 													</div>
 													<div class="col-xs-9 text-right">
 														<div class="huge" ng-bind="drug.id"></div>
@@ -581,20 +751,28 @@
 								<div ng-switch-when="grid">
 									<div class="table-responsive">
 									  <table id="mytable" class="table table-bordered table-striped">
+									  	<tr>
+									  		<td><input type="checkbox" /></td>
+										    <td>Полное наименование</td>							 
+										    <td>Идентификатор</td>
+										    <td>Штрихкод</td>
+										    <td>&nbsp;</td>
+									  	</tr>
 										<tr ng-repeat="drug in drugs | filter: search">
 										  <td><input type="checkbox" /></td>
 										  <td>{{ drug.fullName }}</td>							 
 										  <td>{{ drug.id }}</td>
 										  <td>{{ drug.barcode }}</td>
-										  <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-										  <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+										  <td><div class="pull-left" data-placement="top" data-toggle="tooltip" title="Редактировать"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#drug_upd" ng-click="init_update(drug.id)"><span class="glyphicon glyphicon-pencil"></span></button></div>
+										      <span class="pull-left">&nbsp;</span>
+										      <div class="pull-left" data-placement="top" data-toggle="tooltip" title="Удалить"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></div></td>
 										</tr>
 									  </table>
 									</div>								
 								</div>
 							
 						<!-- MODAL -->	
-							<div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+							<div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="drug_add" aria-hidden="true">
 								<div class="modal-dialog">		    
 									<div class="modal-content">
 										<div class="modal-header">
@@ -623,7 +801,7 @@
 								</div>
 							</div>	
 							
-							<div class="modal fade" id="drug_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+							<div class="modal fade" id="drug_upd" tabindex="-1" role="dialog" aria-labelledby="drug_upd" aria-hidden="true">
 								<div class="modal-dialog">		    
 									<div class="modal-content">
 										<div class="modal-header">
@@ -744,7 +922,7 @@
 								</div>
 							</div>	
 							
-							<div class="modal fade" id="company_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+							<div class="modal fade" id="company_upd" tabindex="-1" role="dialog" aria-labelledby="company_upd" aria-hidden="true">
 								<div class="modal-dialog">		    
 									<div class="modal-content">
 										<div class="modal-header">
@@ -850,7 +1028,21 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>				
+											</div>	
+											<div class="form-group">
+												<div class="form-group">
+													<label for="projectDrugs">Лекарственные препараты:</label>
+													<select class="form-control" name="projectDrugs" id="projectDrugs"  ng-options="option.fullName for option in last_project.drugList track by option.id" ng-model="last_project.drugs" multiple>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="form-group">
+													<label for="projectDrugInfoTypes">Тип информации:</label>
+													<select class="form-control" name="projectDrugInfoTypes" id="projectDrugInfoTypes"  ng-options="option.name for option in last_project.drugInfoTypesList track by option.id" ng-model="last_project.druginfotypes" multiple>
+													</select>
+												</div>
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -860,7 +1052,7 @@
 								</div>
 							</div>	
 							
-							<div class="modal fade" id="project_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+							<div class="modal fade" id="project_upd" tabindex="-1" role="dialog" aria-labelledby="project_upd" aria-hidden="true">
 								<div class="modal-dialog">		    
 									<div class="modal-content">
 										<div class="modal-header">
@@ -875,31 +1067,19 @@
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
 											</div>	
 											<div class="form-group">
-												<input type="text" ng-model="drugFilter" id="drugFilter" />
-												<div class="well two-columns" style="width: 100%">											
-													<div class="column"  ng-repeat="drug in last_project.drugs| filter: drugFilter">
-														<div class="btn-group btn btn-success" data-toggle="buttons" style="width: 100%" ng-class = "{'active' : (drug.status == true)}" ng-click="drug.status = !drug.status">
-															<div>															
-																<div class="row">
-																	<div class="col-md-8">
-																	  <input type="checkbox" autocomplete="off" style="display: none;">
-																	 
-																	  <span class="glyphicon pull-left" ng-model="drug.status" ng-class="drug.status == true ? 'glyphicon glyphicon-ok': 'glyphicon'"></span>
-																	  <label ng-bind="drug.shortName"></label>
-																	</div>
-																	<div class="col-md-4">
-																	  <label ng-bind="drug.id"></label>
-																	</div>
-																</div>
-																<div class="row">
-																	<small>{{drug.reseller.fullName}}</small>
-																	<small>{{drug.status}}</small>
-																</div>
-															</div>
-														</div>																
-													</div>
-												</div>		
-											</div>	
+												<div class="form-group">
+													<label for="projectDrugs">Лекарственные препараты:</label>
+													<select class="form-control" name="projectDrugs" id="projectDrugs"  ng-options="option.fullName for option in last_project.drugList track by option.id" ng-model="last_project.drugs" multiple>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="form-group">
+													<label for="projectDrugInfoTypes">Тип информации:</label>
+													<select class="form-control" name="projectDrugInfoTypes" id="projectDrugInfoTypes"  ng-options="option.name for option in last_project.grugInfoTypesList track by option.id" ng-model="last_project.druginfotypes" multiple>
+													</select>
+												</div>
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_project.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -948,11 +1128,11 @@
 						</div>	
 						<div class="row">
 							<div class="col-lg-6 col-md-6" ng-repeat="territory in territories | filter: search">					
-								<div class="panel panel-yellow">
+								<div class="panel panel-green">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
-												<i class="fa fa-users fa-5x"></i>
+												<i class="fa fa-map fa-5x"></i>
 												<h3 ng-bind="territory.name"></h3>
 											</div>
 											<div class="col-xs-9 text-right">
@@ -998,7 +1178,7 @@
 								</div>
 							</div>	
 							
-							<div class="modal fade" id="territory_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
+							<div class="modal fade" id="territory_upd" tabindex="-1" role="dialog" aria-labelledby="territory_upd" aria-hidden="true">
 								<div class="modal-dialog">		    
 									<div class="modal-content">
 										<div class="modal-header">
@@ -1030,7 +1210,125 @@
 						<!-- /.row -->
 													
 					</div>
-					
+					<div id="druginfotypes" class="tab-pane fade" ng-controller="drugInfoTypesList">
+						<!-- Page Heading -->
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="page-header">
+									Типы данных <small>Основная информация</small>													
+									<p data-placement="top" data-toggle="tooltip" title="Добавить новый тип информации"><button class="btn btn-danger btn-xs" data-title="druginfotype_add" data-toggle="modal" data-target="#druginfotype_add" ><i class="fa fa-plus"></i></button</p>
+								</h1>
+							</div>
+
+						</div>
+						<!-- /.row -->
+						<!-- FILTER -->
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form id="custom-search-form" class="form-search form-horizontal pull-left">
+									<div class="input-append span12">
+										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
+										<button type="submit" class="btn"><i class="icon-search"></i></button>
+									</div>
+								</form>
+							</div>
+						</div>
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 text-right">
+								<div class="panel">
+									<div class="label label-default">Кол-во типов информации: {{druginfotypes.length}}</div>
+								</div>
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-lg-6 col-md-6" ng-repeat="druginfotype in drugInfoTypes | filter: search">					
+								<div class="panel panel-red">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-xs-3">
+												<i class="fa fa-cubes fa-5x"></i>
+												<h3 ng-bind="druginfotype.name"></h3>
+											</div>
+											<div class="col-xs-9 text-right">
+												<div class="huge" ng-bind="druginfotype.id"></div>
+												<div ng-bind="druginfotype.name"></div>										
+												<div ng-bind="druginfotype.valueType"></div>	
+											</div>
+										</div>
+									</div>
+									<a ng-click="init_update(druginfotype.id)" href="#druginfotype_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+										<div class="panel-footer">
+										<span class="pull-left"><h4>Подробнее</h4></span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+										<div class="clearfix"></div>
+										</div>
+									</a>
+								</div>
+							</div>
+						<!-- MODAL -->	
+							<div class="modal fade" id="druginfotype_add" tabindex="-1" role="dialog" aria-labelledby="druginfotype_add" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" id="Heading">Новый тип</h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_drugInfoType.name" placeholder="Наименование">
+											</div>
+											<div class="form-group">
+												<select class="form-control " type="text" ng-model="last_drugInfoType.valueType" placeholder="Значение">
+													<option>boolean</option>
+													<option>number</option>
+													<option>list</option>
+													<option>string</option>
+												</select>
+											</div>
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+							<div class="modal fade" id="druginfotype_upd" tabindex="-1" role="dialog" aria-labelledby="druginfotype_upd" aria-hidden="true">
+								<div class="modal-dialog">		    
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+											<h4 class="modal-title custom_align" ng-bind="last_drugInfoType.name" id="modal-title"></h4>
+										</div>
+										<div class="modal-body">
+											<div class="form-group">
+												<input class="form-control " type="text" ng-model="last_drugInfoType.name" placeholder="Наименование">
+											</div>
+											<div class="form-group">
+												<select class="form-control " type="text" ng-model="last_drugInfoType.valueType" placeholder="Значение">
+													<option>boolean</option>
+													<option>number</option>
+													<option>list</option>
+													<option>string</option>
+												</select>
+											</div>
+										</div>
+										<div class="modal-footer ">
+											<button ng-click="update(last_drugInfoType.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
+											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+							
+						{% endraw %}	
+						</div>
+						<!-- /.row -->
+													
+					</div>					
 					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
 					</div>
 					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
@@ -1044,8 +1342,8 @@
     <!-- /#wrapper -->
 	<script>
       var manager = {};
-	  //SWIG Injection!!! How to another get user.id in the page?
-	  manager.id = {{user.id}};
+	  //SWIG Injection!!! How to another get manager.id in the page?
+	  manager.id = 0{{manager.id}};
 	</script>		
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>

@@ -46,10 +46,18 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
   '/'                     : 'MainController.main',
-  '/admin'                : 'MainController.admin',
-  '/guest'				  : 'MainController.guest',
-  '/Manager/:action'      : 'ManagerController.main',
-  '/Pharmacy/:action/:id' : 'PharmacyController.main',
-  '/Merchant/:action/:id' : 'MerchantController.main',
-  '/Merchant/:action'     : 'MerchantController.main',
+  '/admin'                  : 'MainController.admin',
+  '/guest'				          : 'MainController.guest',
+  '/Manager/:action'        : 'ManagerController.main',
+  '/Pharmacy/:action/:id'   : 'PharmacyController.main',
+  '/Merchant/:action/:id'   : 'MerchantController.main',
+  '/Merchant/:action'       : 'MerchantController.main',
+  '/AttendancePhoto/:action': 'AttendancePhotoController.main',
+  '/download'               : 'DownloadController.main',
+  '/import'                  : 'ImportExcelController.import',
+  '/Report/Merchants'       : 'ReportController.merchants',
+  '/Report/Daily'           : 'ReportController.daily',
+  '/Report/Weekly'          : 'ReportController.weekly',
+  '/Report/Daily/:id'       : 'ReportController.daily',
+  '/Report/Monthly'         : 'ReportController.monthly'
 };

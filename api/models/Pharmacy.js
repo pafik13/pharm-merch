@@ -23,6 +23,8 @@ module.exports = {
         territory: {
             model: 'Territory'
         },
+        longitude: 'float',
+        latitude: 'float',
         subway: 'string',
         phone: 'string',
         email: 'string',

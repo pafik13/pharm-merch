@@ -16,10 +16,17 @@ module.exports = {
         // },
         drugs: {
             collection: 'Drug',
-			via: 'projects'
+            via: 'projects'
+        },
+        infos: {
+            collection: 'DrugInfoType'
+        },
+        druginfotypes: {
+            collection: 'DrugInfoType'
         },
         merchants: {
-            collection: 'Merchant'
+            collection: 'Merchant',
+            via: 'project'
         }
 
     }
