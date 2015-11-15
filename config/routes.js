@@ -45,7 +45,7 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  '/'                       : 'MainController.main',
+  '/'                     : 'MainController.main',
   '/admin'                  : 'MainController.admin',
   '/guest'				          : 'MainController.guest',
   '/Manager/:action'        : 'ManagerController.main',
@@ -54,9 +54,10 @@ module.exports.routes = {
   '/Merchant/:action'       : 'MerchantController.main',
   '/AttendancePhoto/:action': 'AttendancePhotoController.main',
   '/download'               : 'DownloadController.main',
+  '/import'                  : 'ImportExcelController.import',
   '/Report/Merchants'       : 'ReportController.merchants',
   '/Report/Daily'           : 'ReportController.daily',
   '/Report/Weekly'          : 'ReportController.weekly',
   '/Report/Daily/:id'       : 'ReportController.daily',
-  '/Report/Monthly'         : 'ReportController.monthly',
+  '/Report/Monthly'         : 'ReportController.monthly'
 };

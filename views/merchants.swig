@@ -269,8 +269,8 @@
 						</div>
 						<div class="row">
 						  <div class="col-lg-12">
-                            <h2>Список мерчендайзеров</h2>
-                                <div id="tData" class="table-responsive">
+                            <h2>Список мерчендайзеров&nbsp;<div id="downloadExcel" class="btn btn-success btn-xs"><i class="fa  fa-file-excel-o"></i></div></div>
+                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
@@ -327,6 +327,25 @@
 	
 	<!-- Angular application -->
 	<script src="/js/app.js"></script>
+	
+	<script>
+     
+	  $('#downloadExcel').on('click', function () {
+        var btn = $(this).button();
+
+        var link = document.createElement('a');
+        document.body.appendChild(link);
+        
+        link.href = 'data:application/application/vnd.ms-excel,' +
+                    '<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+                    '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' + 
+                    '<style>table, table td, table td tr {    border: 1px solid black; }</style>' + 
+                    $('table:visible')[0].outerHTML + 
+                    '</html>';
+        $(link).attr('download','Отчет.xls');
+        link.click();
+      });
+	</script>
 
     <!-- Morris Charts JavaScript -->
 	<!--

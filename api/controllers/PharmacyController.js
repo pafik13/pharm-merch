@@ -7,23 +7,34 @@
 
 module.exports = {
     main: function(req, res, next) {
+        /*
         var action = req.param('action');
 
         if (action == 'update') {
             var params = req.params.all();
             delete params.action;
 
-            if (params.validated && params.id) {
+            if ('validator' in params)
+                return next();
+
+            if (params.validated) {
 
                 params.validator = req.user.id;
                 params.validatedAt = new Date();
-                Pharmacy.update(params);
-                return res.json(200, params);
+                Pharmacy.update(params).exec(function(err, updated) {
+                    if (err) return res.negotiate(err);
+
+                    return res.json(200, updated);
+                });
+
             } else {
-                next();
+                return next();
             }
 
 
-        }
+        } else {
+            return next();
+        }*/
+        return next();
     }
 };
