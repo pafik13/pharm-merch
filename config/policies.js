@@ -65,6 +65,10 @@ module.exports.policies = {
 	ReportController: {
 		testing: true
 		// '*': true
+	},
+
+	AttendancePhotoController: {
+		'*': true
 	}
 	
 };
