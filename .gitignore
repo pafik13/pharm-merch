@@ -21,6 +21,14 @@ sbl.sublime-workspace
 pharm-merch.sublime-project
 pharm-merch.sublime-workspace
 *.bak
+*.sublime-workspace
+*.sublime-project
+
+Копия (2) testing.swig
+Копия testing.swig
+assets/attendance/
+
+data/
 
 ################################################
 # Local Configuration
