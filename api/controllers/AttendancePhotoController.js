@@ -36,37 +36,22 @@ module.exports = {
                                 if (found) {
                                     sails.log.info(" AttendancePhoto : " + JSON.stringify(found))
 
-                                    // FLICKR-TEST-START
-                                    var Flickr = require("flickrapi"),
-                                        flickrOptions = {
-                                            api_key: "0a011a9d4767041dfa3a9cd9b8baf6bd",
-                                            secret: "2ba1dc5261905051",
-                                            user_id: "137787191@N07",
-                                            access_token: "72157661172832266-71578a00da19fd16",
-                                            access_token_secret: "36d2bed53a5309c3"
-                                        };
+                                    // CLOUDINARY-START
+                                    var cloudinary = require('cloudinary');
 
-                                    Flickr.authenticate(flickrOptions, function(error, flickr) {
-                                        var uploadOptions = {
-                                            photos: [{
-                                                title: "Attendance_" + found.attendance.id + "_" + found.attendance.date.getFullYear(),
-                                                tags: [
-                                                    "Attendance_" + found.attendance.id,
-                                                    "date : " + found.attendance.date
-                                                ],
-                                                photo: found.photoPath
-                                            }]
-                                        };
-
-                                        sails.log.info(uploadOptions);
-
-                                        Flickr.upload(uploadOptions, flickrOptions, function(err, result) {
-                                            if (err) return res.negotiate(err);
-
-                                            sails.log.info("photos uploaded", result);
-                                        });
+                                    cloudinary.config({
+                                        cloud_name: 'logisapp',
+                                        api_key: '561328316688932',
+                                        api_secret: '6MIbt6xleKH1fof8W_wX_T6ldKs'
                                     });
-                                    // FLICKR-TEST-END
+
+                                    cloudinary.uploader.upload(found.photoPath, function(result) {
+                                        sails.log.info("photos uploaded", result);
+                                    }, {
+                                        folder: "myPhoto",
+                                        tags: ["Attendance_" + found.attendance.id, "Merchant_" + found.attendance.merchant]
+                                    });
+                                    // CLOUDINARY-TEST-END
 
                                 } else {
                                     sails.log.warn("'AttendancePhoto' NOT FOUND");
