@@ -611,7 +611,11 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
 											</div>
 											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.address" placeholder="Адрес">
+												<input id="autocomp" class="form-control" type="text" placeholder="Адрес">
+												<div id="autocomp_map"></div>
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" placeholder="Адрес">
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
@@ -651,7 +655,8 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
 											</div>
 											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.address" placeholder="Адрес">
+												<input id="autocomp" class="form-control" type="text" placeholder="Адрес" ng-model="last_pharmacy.address">
+												<div id="autocomp_map"></div>
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
@@ -1353,7 +1358,9 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
-	
+    
+     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    
 	<!-- Angular application -->
 	<script src="/js/app.js"></script>
 
@@ -1363,8 +1370,36 @@
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
-  
 
+<style>
+#autocomp_map {
+	height: 400px;
+    bottom:0;
+}
+#map-canvas {
+	height: 400px;
+    bottom:0;
+}
+.pac-container {
+    background-color: #FFF;
+    z-index: 20;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+.modal{
+    z-index: 20;   
+}
+.modal-backdrop{
+    z-index: 10;
+}
+
+.modal-dialog {   
+    margin: 80px auto; !important;
+}
+
+</style>
+    
 </body>
 
 </html>
