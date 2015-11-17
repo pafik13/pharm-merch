@@ -14,9 +14,9 @@ module.exports = {
             type: 'string',
             required: true
         },
-        // Фамилия + Инициалы
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         shortName: 'string',
-        // Полное ФИО
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
         fullName: 'string',
         sex: {
             type: 'integer',

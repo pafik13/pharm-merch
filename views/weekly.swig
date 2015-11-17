@@ -96,6 +96,10 @@
    margin:2px;
 }   
 
+.table th {
+    text-align: center;
+}
+
 </style>
 
     <div id="wrapper"  ng-controller="menuController">
@@ -250,6 +254,10 @@
                         <!-- FILTER -->
                         <div class="row">
                             <div class="col-md-1 col-lg-6 ">
+                                <button type="button" id="bExport" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    Выгрузить в Excel
+                                </button> 
                                 <form id="custom-search-form" class="form-search form-horizontal pull-left">
                                     <div class="input-append span12">
                                         <input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
@@ -261,7 +269,7 @@
                         <div class="row">
                           <div class="col-lg-12">
                             <h2> {{subtitle}}</h2>
-                                <div class="table-responsive">
+                                <div id="tData" class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
@@ -321,7 +329,14 @@
     <script src="/js/plugins/morris/morris-data.js"></script>
     -->
   
-
+    <script type="text/javascript">
+        // Export to Excel
+        $('#bExport').click(function (e){
+            window.open('data:application/vnd.ms-excel,' + 
+                encodeURIComponent($('#tData').html()));
+            e.preventDefault();
+        });
+    </script>
 </body>
 
 </html>

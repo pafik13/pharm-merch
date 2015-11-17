@@ -3,10 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "description": "a Sails application",
-  "keywords": [],
+  "keywords": [
+    "OpenShift",
+    "Node.js",
+    "sailsj"
+  ],
+  "engines": {
+    "node": ">= 0.10",
+    "npm": ">= 1.0.0"
+  },
   "dependencies": {
     "ejs": "~0.8.4",
-    "grunt": "0.4.2",
+    "flickrapi": "^0.3.36",
+    "grunt": "~0.4.4",
+    "grunt-cli": ">=0.1.13",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-coffee": "~0.10.1",
     "grunt-contrib-concat": "~0.3.0",

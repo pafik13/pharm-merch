@@ -268,6 +268,33 @@ module.exports.bootstrap = function(cb) {
 		sails.log.info("New DrugInfoType : " + JSON.stringify(infoType));
 	});
 
+	DrugInfoType.findOrCreate(
+		{id:3}, 
+		{name:'Количество', valueType: 'number'}
+	).exec(function createFindCB(err, infoType){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New DrugInfoType : " + JSON.stringify(infoType));
+	});
+
+	DrugInfoType.findOrCreate(
+		{id:4}, 
+		{name:'Розничная цена', valueType: 'number'}
+	).exec(function createFindCB(err, infoType){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New DrugInfoType : " + JSON.stringify(infoType));
+	});
+
+	DrugInfoType.findOrCreate(
+		{id:5}, 
+		{name:'Цена конкурента', valueType: 'number'}
+	).exec(function createFindCB(err, infoType){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New DrugInfoType : " + JSON.stringify(infoType));
+	});
+
 	// Округ 
 	Territory.findOrCreate(
 		{id:1}, 
@@ -450,12 +477,118 @@ module.exports.bootstrap = function(cb) {
 		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
 	});
 
+	Pharmacy.findOrCreate(
+		{id:8}, 
+		{ fullName:'Аптека Ригла', 
+		  address: 'Гарибальди, 27к4',
+		  subway: 'Новые Черемушки',
+		  territory: 1,
+		  latitude: 55.66982777752242,
+		  longitude: 37.558220499999955
+		}
+	).exec(function createFindCB(err, pharmacy){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
+	});
+
+	Pharmacy.findOrCreate(
+		{id:9}, 
+		{ fullName:'Снадобница', 
+		  address: 'Гарибальди, 29к4',
+		  subway: 'Новые Черемушки',
+		  territory: 1,
+		  latitude: 55.66918877751582,
+		  longitude: 37.56010749999994
+		}
+	).exec(function createFindCB(err, pharmacy){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
+	});
+
+	Pharmacy.findOrCreate(
+		{id:10}, 
+		{ fullName:'"ГорЗдрав Ленинский"', 
+		  address: 'пр-т 60-летия Октября, 5к4',
+		  subway: 'Ленинский Проспект',
+		  territory: 1,
+		  latitude: 55.70292627744675,
+		  longitude: 37.58033749999998
+		}
+	).exec(function createFindCB(err, pharmacy){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
+	});
+
+	Pharmacy.findOrCreate(
+		{id:11}, 
+		{ fullName:'"ГорЗдрав Ленинский"', 
+		  address: 'Ленинский пр-т, 41',
+		  subway: 'Ленинский Проспект',
+		  territory: 1,
+		  latitude: 55.705040322796286,
+		  longitude: 37.57941370875116
+		}
+	).exec(function createFindCB(err, pharmacy){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
+	});
+
+	Pharmacy.findOrCreate(
+		{id:11}, 
+		{ fullName:'"ГорЗдрав Ленинский"', 
+		  address: 'Ленинский пр-т, 41',
+		  subway: 'Ленинский Проспект',
+		  territory: 1,
+		  latitude: 55.705040322796286,
+		  longitude: 37.57941370875116
+		}
+	).exec(function createFindCB(err, pharmacy){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
+	});
+
+	Pharmacy.findOrCreate(
+		{id:12}, 
+		{ fullName:'"СТОЛИЧНЫЕ АПТЕКИ #1/29"', 
+		  address: '2-й Красногвардейский пр-д, д. 10',
+		  subway: 'Деловой Центр',
+		  territory: 1,
+		  latitude: 55.75378277719609,
+		  longitude: 37.53454149999994
+		}
+	).exec(function createFindCB(err, pharmacy){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
+	});
+
+	Pharmacy.findOrCreate(
+		{id:13}, 
+		{ fullName:'"Планета Здоровья"', 
+		  address: 'Пресненская набережная, 12',
+		  subway: 'Деловой Центр',
+		  territory: 1,
+		  latitude: 55.749395277210475,
+		  longitude: 37.536966499999934
+		}
+	).exec(function createFindCB(err, pharmacy){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Pharmacy : " + JSON.stringify(pharmacy));
+	});
+
+
 	// Проект
 	Project.findOrCreate(
 		{id:1}, 
 		{ fullName:'SBL Pharma', 
 		  drugs: [1, 2, 3, 4, 5, 6],
-		  infos: [1, 2]
+		  infos: [1, 2, 3, 4, 5]
 		}
 	).exec(function createFindCB(err, project){
 		if (err) sails.log.error(err);
@@ -463,25 +596,25 @@ module.exports.bootstrap = function(cb) {
 		sails.log.info("New Project : " + JSON.stringify(project));
 	});
 
-	DrugInfoType.find().exec(function(err, dits){
-		if (err) sails.log.error(err);
+	// DrugInfoType.find().exec(function(err, dits){
+	// 	if (err) sails.log.error(err);
 
-		Drug.find().exec(function(err,drugs){
-			if (err) sails.log.error(err);
+	// 	Drug.find().exec(function(err,drugs){
+	// 		if (err) sails.log.error(err);
 
-			Project.create({
-				id: 2,
-				fullName:'OTC Pharma', 
-		  		drugs: drugs,
-		  		infos: dits
-			})
-			.exec(function(err, created){
-				if (err) sails.log.error(err);
+	// 		Project.create({
+	// 			id: 2,
+	// 			fullName:'OTC Pharma', 
+	// 	  		drugs: drugs,
+	// 	  		infos: dits
+	// 		})
+	// 		.exec(function(err, created){
+	// 			if (err) sails.log.error(err);
 
-				sails.log.info("New Project : " + JSON.stringify(created));				
-			});
-		});
-	});
+	// 			sails.log.info("New Project : " + JSON.stringify(created));				
+	// 		});
+	// 	});
+	// });
 
 
   console.log("Bootstrap END");

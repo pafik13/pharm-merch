@@ -96,6 +96,22 @@
    margin:2px;
 }	
 
+.table th {
+    text-align: center;
+}
+
+/*
+    Carusel
+ */
+.modal-dialog {}
+.thumbnail {margin-bottom:6px;}
+
+.carousel-control.left,.carousel-control.right{
+  background-image:none;
+  margin-top:10%;
+  width:5%;
+}   
+
 </style>
 
     <div id="wrapper"  ng-controller="menuController">
@@ -249,6 +265,10 @@
 						<!-- FILTER -->
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
+                                <button type="button" id="bExport" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    Выгрузить в Excel
+                                </button> 
 								<form id="custom-search-form" class="form-search form-horizontal pull-left">
 									<div class="input-append span12">
 										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
@@ -260,7 +280,7 @@
 						<div class="row">
 						  <div class="col-lg-12">
                             <h2>{{ subtitle }}</h2>
-                                <div class="table-responsive">
+                                <div id="tData" class="table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
@@ -269,8 +289,10 @@
                                                 <th>Название аптеки</th>
                                                 <th>Адрес аптеки</th>
                                                 <th>Название АС</th>
-                                                <th>Расстояние до аптеки по GPS</th>
-                                                <th>Дата-время визита</th>
+                                                <th>Расстояние до аптеки </br> по GPS (метры)
+                                                </th>
+                                                <th>Дата визита</th>
+                                                <th>Фото</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -294,7 +316,14 @@
                                                 <td> {{ row.pharmacy.address }} </td>
                                                 <td> {{ row.pharmacy.tradeNet }} </td>
                                                 <td> {{ row.gpsDist.toString() }} </td>
-                                                <td> {{ row.date.toLocaleString() }} </td>
+                                                <td class="text-center"> {{ row.date | date('d.m.y')}} </td>
+                                                <td> 
+                                                    {% if row.photos.length %}
+                                                        <button type="button" id="image-{{row.id}}" class="btn-photo btn btn-primary btn-md" title="Посмотреть фото"> 
+                                                            <i class="glyphicon glyphicon-eye-open"></i> Фото
+                                                        </button>
+                                                    {% endif %}
+                                                </td>
                                               </tr>
                                             {% endfor %}
                                         </tbody>
@@ -311,6 +340,52 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
+
+
+        <!-- Image Repository -->
+        <div class="hidden" id="img-repo">
+            {% for row in reportRows %}
+                {% for photo in row.photos %}
+                    <div class="item" id="image-{{ row.id }}">
+                        <img class="thumbnail img-responsive" 
+                        title="Аптека: {{row.pharmacy.fullName}}, Адрес: {{row.pharmacy.address}}, Дата: {{ row.date | date('d.m.y')  }}"
+                        imagetitle="Фото : {{ loop.index }}"
+                        src="{{ photo.relPath }}">
+                    </div>     
+                {% endfor %}
+            {% endfor %}      
+        </div>
+        <!-- /#Image Repository -->
+
+        <!-- Image Modal Form -->
+        <div class="modal" id="modal-gallery" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <button class="close" type="button" data-dismiss="modal">×</button>
+                  <h5 class="modal-title"></h5>
+              </div>
+              <div class="modal-body">
+                  <div id="modal-carousel" class="carousel">
+           
+                    <div class="carousel-inner">           
+                    </div>
+                    
+                    <a class="carousel-control left" href="#modal-carousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                    <a class="carousel-control right" href="#modal-carousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                    <b class="image-title"></b>
+
+                  </div>
+
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal">Закрыть</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Image Modal Form -->
+
     </div>
     <!-- /#wrapper -->
 	<script>
@@ -333,7 +408,47 @@
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
-  
+
+    <script type="text/javascript">
+        // Export to Excel
+        $('#bExport').click(function (e){
+            window.open('data:application/vnd.ms-excel,' + 
+                encodeURIComponent($('#tData').html()));
+            e.preventDefault();
+        });
+
+        /* activate the carousel */
+        $("#modal-carousel").carousel({interval:false});
+
+        /* change modal title when slide changes */
+        $("#modal-carousel").on("slid.bs.carousel", function () {
+          $(".modal-title").html($(this).find(".active img").attr("title"));
+          $(".image-title").html($(this).find(".active img").attr("imagetitle"));
+        })
+
+        /* when clicking a thumbnail */
+        $(".row .btn-photo").click(function(){
+            var content = $(".carousel-inner");
+            var title = $(".modal-title");
+            var i_title = $(".image-title");
+
+            content.empty();  
+            title.empty();
+          
+            var id = this.id;  
+            var repo = $("#img-repo .item");
+            var repoCopy = repo.filter("#" + id).clone();
+            var active = repoCopy.first();
+          
+            active.addClass("active");
+            title.html(active.find("img").attr("title"));
+            i_title.html(active.find("img").attr("imagetitle"));
+            content.append(repoCopy);
+
+            // show the modal
+            $("#modal-gallery").modal("show");
+        });
+    </script>  
 
 </body>
 

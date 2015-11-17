@@ -21,10 +21,44 @@ module.exports = {
                     /*[{"fd":"/home/ubuntu/workspace/upload/images/06484f34-fe49-41a8-832a-b7112d5df9f3.jpg","size":45370,"type":"image/jpeg","filename":"mars.jpg","status":"bufferingOrWriting","field":"drugImage"}]*/
                     sails.log.info(" uploadedFiles : " + JSON.stringify(uploadedFiles));
                     params.photoPath = uploadedFiles[0].fd;
-                    AttendancePhoto.create(params).exec(function(err, photo) {
+                    AttendancePhoto.create(params).exec(function(err, created) {
                         if (err) return res.negotiate(err);
 
-                        return res.json(200, photo);
+                        AttendancePhoto.findOne({
+                                "id": created.id
+                            })
+                            .populate('attendance')
+                            .exec(function(err, found) {
+                                if (err) {
+                                    sails.log.error(err);
+                                }
+
+                                if (found) {
+                                    sails.log.info(" AttendancePhoto : " + JSON.stringify(found))
+
+                                    // CLOUDINARY-START
+                                    var cloudinary = require('cloudinary');
+
+                                    cloudinary.config({
+                                        cloud_name: 'logisapp',
+                                        api_key: '561328316688932',
+                                        api_secret: '6MIbt6xleKH1fof8W_wX_T6ldKs'
+                                    });
+
+                                    cloudinary.uploader.upload(found.photoPath, function(result) {
+                                        sails.log.info("photos uploaded", result);
+                                    }, {
+                                        folder: "myPhoto",
+                                        tags: ["Attendance_" + found.attendance.id, "Merchant_" + found.attendance.merchant]
+                                    });
+                                    // CLOUDINARY-TEST-END
+
+                                } else {
+                                    sails.log.warn("'AttendancePhoto' NOT FOUND");
+                                }
+                            });
+
+                        return res.json(200, created);
                     });
                 });
         } else {

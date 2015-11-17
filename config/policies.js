@@ -62,8 +62,13 @@ module.exports.policies = {
 		'*': true
 	},
 
-	// ReportController: {
-	// 	'*': true
-	// }
+	ReportController: {
+		testing: true
+		// '*': true
+	},
+
+	AttendancePhotoController: {
+		'*': true
+	}
 	
 };

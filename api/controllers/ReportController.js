@@ -10,6 +10,95 @@ module.exports = {
 
 
     /**
+     * `ReportController.testing()`
+     */
+    testing: function(req, res) {
+        sails.log.error("user :" + JSON.stringify(req.user));
+
+        var params = req.params.all();
+
+        Attendance.find()
+            .populate('pharmacy')
+            .populate('merchant')
+            .populate('photos')
+            .exec(function(err, attendances) {
+                if (err) {
+                    sails.log.error(err);
+                    return res.serverError(err);
+                }
+
+                if (!attendances.length) {
+                    sails.log.warn("Attendances NOT found");
+                    res.notFound("Attendances NOT found");
+                } else {
+                    attendances.forEach(function(attendance) {
+                        console.log(attendance.id);
+
+                        attendance.merchant.FIO = attendance.merchant.lastName + ' ' + attendance.merchant.firstName;
+
+                        attendance.baseCity = "������";
+
+                        if (!attendance.photos.length) {
+                            sails.log.error("photos NOT found");
+                            // results.push(attendance);
+                        } else {
+                            sails.log.info("photos is found");
+                            sails.log.info(attendance.photos.length);
+
+                            // var index = attendance.photos.photoPath.indexOf("/.tmp/public");
+                            // attendance.photos.index = index;
+                            // attendance.gpsDist = Number.MAX_VALUE;
+
+                            attendance.photos.forEach(function(attPhoto) {
+                                var pubStr = "/.tmp/public";
+                                var index = attPhoto.photoPath.indexOf(pubStr) + pubStr.length;
+                                attPhoto.index = index;
+                                attPhoto.relPath = attPhoto.photoPath.substring(index);
+                                //     var ext = require('../extensions.js');
+
+                                //     console.log(attPhoto.id);
+                                //     sails.log.info(attendance.pharmacy);
+
+                                //     sails.log.info(attendance.pharmacy.longitude);
+                                //     sails.log.info(attendance.pharmacy.latitude);
+                                //     sails.log.info(attPhoto.longitude);
+                                //     sails.log.info(attPhoto.latitude);
+
+                                //     attendance.gpsDist = Math.min(
+                                //         attendance.gpsDist,
+                                //         ext.distance(
+                                //             attendance.pharmacy.longitude,
+                                //             attendance.pharmacy.latitude,
+                                //             attPhoto.longitude,
+                                //             attPhoto.latitude
+                                //         ));
+
+                                //     sails.log.info(attendance.gpsDist);
+
+                            });
+
+                            // if (attendance.gpsDist == Number.MAX_VALUE) {
+                            //     attendance.gpsDist = NaN;
+                            // };
+
+                            // attendance.gpsDist = Math.round(attendance.gpsDist);
+                            // sails.log.info("Befor push: " + attendance.gpsDist);
+                            // results.push(attendance);
+                        }
+                    });
+
+                    return res.view('testing', {
+                        reportRows: attendances,
+                        title: "����",
+                        subtitle: "��� ����"
+                    });
+                }
+            });
+
+    },
+
+
+    /**
      * `ReportController.merchants()`
      */
     merchants: function(req, res) {
@@ -45,25 +134,29 @@ module.exports = {
                             var ext = require('../extensions.js');
 
                             var now = new Date();
-                            var date = [now.getFullYear(), ext.addLeadZero(now.getMonth() + 1), ext.addLeadZero(now.getDate())].join("-");
+                            // var date = [now.getFullYear(), ext.addLeadZero(now.getMonth() + 1), ext.addLeadZero(now.getDate())].join("-");
                             // now.getFullYear() + "-" + now.getMonth() + "-" + now.getDate();
 
-                            var mon = new Date(now);
-                            mon.setDate(now.getDate() - now.getDay() + 1);
-                            var date1 = [mon.getFullYear(), ext.addLeadZero(mon.getMonth() + 1), ext.addLeadZero(mon.getDate())].join("-");
+                            // var mon = new Date(now);
+                            // mon.setDate(now.getDate() - now.getDay() + 1);
+                            // var date1 = [mon.getFullYear(), ext.addLeadZero(mon.getMonth() + 1), ext.addLeadZero(mon.getDate())].join("-");
                             // mon.getFullYear() + "-" + mon.getMonth() + "-" + mon.getDate();
 
-                            var sun = new Date(now);
-                            sun.setDate(mon.getDate() + 6);
-                            var date2 = [sun.getFullYear(), ext.addLeadZero(sun.getMonth() + 1), ext.addLeadZero(sun.getDate())].join("-");
+                            // var sun = new Date(now);
+                            // sun.setDate(mon.getDate() + 6);
+                            // var date2 = [sun.getFullYear(), ext.addLeadZero(sun.getMonth() + 1), ext.addLeadZero(sun.getDate())].join("-");
                             // sun.getFullYear() + "-" + sun.getMonth(sun) + "-" + sun.getDate();
+
+                            var date2 = new Date(now);
+                            var date1 = new Date(now);
+                            date1.setDate(now.getDate() - 7);
 
                             return res.view('merchants', {
                                 reportRows: merchants,
                                 count: merchants.length,
-                                date: date,
-                                date1: date1,
-                                date2: date2
+                                dDate: now,
+                                wDate1: date1,
+                                wDate2: date2
                             });
                         }
                     });
@@ -109,7 +202,7 @@ module.exports = {
 
                         FIO = attendance.merchant.lastName + ' ' + attendance.merchant.firstName;
 
-                        attendance.baseCity = "Москва";
+                        attendance.baseCity = "������";
 
                         if (!attendance.photos.length) {
                             sails.log.error("photos NOT found");
@@ -119,29 +212,36 @@ module.exports = {
                             sails.log.info(attendance.photos.length);
 
                             attendance.gpsDist = Number.MAX_VALUE;
+                            var ext = require('../extensions.js');
 
                             attendance.photos.forEach(function(attPhoto) {
-                                var ext = require('../extensions.js');
 
-                                console.log(attPhoto.id);
-                                sails.log.info(attendance.pharmacy);
+                                var pubStr = "/.tmp/public";
+                                var index = attPhoto.photoPath.indexOf(pubStr) + pubStr.length;
+                                attPhoto.index = index;
+                                attPhoto.relPath = attPhoto.photoPath.substring(index);
 
-                                sails.log.info(attendance.pharmacy.longitude);
-                                sails.log.info(attendance.pharmacy.latitude);
-                                sails.log.info(attPhoto.longitude);
-                                sails.log.info(attPhoto.latitude);
+                                if (attPhoto.longitude > 0 && attPhoto.latitude > 0) {
 
-                                attendance.gpsDist = Math.min(
-                                    attendance.gpsDist,
-                                    ext.distance(
-                                        attendance.pharmacy.longitude,
-                                        attendance.pharmacy.latitude,
-                                        attPhoto.longitude,
-                                        attPhoto.latitude
-                                    ));
+                                    console.log(attPhoto.id);
+                                    sails.log.info(attendance.pharmacy);
 
-                                sails.log.info(attendance.gpsDist);
+                                    sails.log.info(attendance.pharmacy.longitude);
+                                    sails.log.info(attendance.pharmacy.latitude);
+                                    sails.log.info(attPhoto.longitude);
+                                    sails.log.info(attPhoto.latitude);
 
+                                    attendance.gpsDist = Math.min(
+                                        attendance.gpsDist,
+                                        ext.distance(
+                                            attendance.pharmacy.longitude,
+                                            attendance.pharmacy.latitude,
+                                            attPhoto.longitude,
+                                            attPhoto.latitude
+                                        ));
+
+                                    sails.log.info(attendance.gpsDist);
+                                }
                             });
 
                             if (attendance.gpsDist == Number.MAX_VALUE) {
@@ -156,8 +256,8 @@ module.exports = {
 
                     return res.view('daily', {
                         reportRows: results,
-                        title: "Дневной",
-                        subtitle: "Отчет за день " + FIO
+                        title: "�������",
+                        subtitle: "����� �� ������� ���� - " + FIO
                     });
                 }
             });
@@ -200,7 +300,7 @@ module.exports = {
                     attendances.forEach(function(attendance) {
                         console.log(attendance.id);
 
-                        attendance.baseCity = "Москва";
+                        attendance.baseCity = "������";
 
                         if (!attendance.photos.length) {
                             sails.log.error("photos NOT found");
@@ -211,28 +311,35 @@ module.exports = {
 
                             attendance.gpsDist = Number.MAX_VALUE;
 
+                            var ext = require('../extensions.js');
+
                             attendance.photos.forEach(function(attPhoto) {
-                                var ext = require('../extensions.js');
 
-                                console.log(attPhoto.id);
-                                sails.log.info(attendance.pharmacy);
+                                var pubStr = "/.tmp/public";
+                                var index = attPhoto.photoPath.indexOf(pubStr) + pubStr.length;
+                                attPhoto.index = index;
+                                attPhoto.relPath = attPhoto.photoPath.substring(index);
 
-                                sails.log.info(attendance.pharmacy.longitude);
-                                sails.log.info(attendance.pharmacy.latitude);
-                                sails.log.info(attPhoto.longitude);
-                                sails.log.info(attPhoto.latitude);
+                                if (attPhoto.longitude > 0 && attPhoto.latitude > 0) {
+                                    console.log(attPhoto.id);
+                                    sails.log.info(attendance.pharmacy);
 
-                                attendance.gpsDist = Math.min(
-                                    attendance.gpsDist,
-                                    ext.distance(
-                                        attendance.pharmacy.longitude,
-                                        attendance.pharmacy.latitude,
-                                        attPhoto.longitude,
-                                        attPhoto.latitude
-                                    ));
+                                    sails.log.info(attendance.pharmacy.longitude);
+                                    sails.log.info(attendance.pharmacy.latitude);
+                                    sails.log.info(attPhoto.longitude);
+                                    sails.log.info(attPhoto.latitude);
 
-                                sails.log.info(attendance.gpsDist);
+                                    attendance.gpsDist = Math.min(
+                                        attendance.gpsDist,
+                                        ext.distance(
+                                            attendance.pharmacy.longitude,
+                                            attendance.pharmacy.latitude,
+                                            attPhoto.longitude,
+                                            attPhoto.latitude
+                                        ));
 
+                                    sails.log.info(attendance.gpsDist);
+                                }
                             });
 
                             if (attendance.gpsDist == Number.MAX_VALUE) {
@@ -247,8 +354,8 @@ module.exports = {
 
                     return res.view('daily', {
                         reportRows: results,
-                        title: "Дневной",
-                        subtitle: "Общий отчет за день по всем мерчендайзерам"
+                        title: "�������",
+                        subtitle: "����� ����� �� ������� ���� �� ���� ��������������"
                     });
                 }
             });
@@ -344,7 +451,7 @@ module.exports = {
                     var results = [],
                         result = {};
 
-                    result.city = "Москва";
+                    result.city = "������";
                     result.FIO = FIO;
                     result.accepted = accept.length;
                     result.notAccepted = notAccept.length;
@@ -355,8 +462,8 @@ module.exports = {
                     results.push(result);
                     return res.view('weekly', {
                         reportRows: results,
-                        title: "Недельный",
-                        subtitle: "Отчет за неделю " + FIO
+                        title: "���������",
+                        subtitle: "����� �� ������� ������ " + FIO
                     });
                 }
             });
