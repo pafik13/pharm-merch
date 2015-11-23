@@ -19,6 +19,7 @@ module.exports = {
         longitude: 'float',
         latitude: 'float',
         photoPath: 'string',
+        storagePath: 'string',
         stamp: 'datetime'
     }
 };

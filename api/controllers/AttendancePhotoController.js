@@ -14,7 +14,7 @@ module.exports = {
             delete params.action;
 
             req.file('photo').upload({
-                    dirname: sails.config.appPath + '/.tmp/public/attendance/photos'
+                    dirname: sails.config.appPath + '/upload/images'
                 },
                 function(err, uploadedFiles) {
                     if (err) return res.negotiate(err);
@@ -34,31 +34,52 @@ module.exports = {
                                 }
 
                                 if (found) {
-                                    sails.log.info(" AttendancePhoto : " + JSON.stringify(found))
+                                    //sails.log.info(" AttendancePhoto : " + JSON.stringify(found));
+                                    var k = found.photoPath.replace(/^.*[\\\/]/, '');
 
-                                    // CLOUDINARY-START
-                                    var cloudinary = require('cloudinary');
+                                    var keyid = 'AKIAJZPCGFMWOTH2WZFQ';
+                                    var secr = 'HCZDHpfbWxBqXo8mmxtaw+JOQuyPO0LY6a+ta7vd';
 
-                                    cloudinary.config({
-                                        cloud_name: 'logisapp',
-                                        api_key: '561328316688932',
-                                        api_secret: '6MIbt6xleKH1fof8W_wX_T6ldKs'
+                                    // AMAZON AWS S3
+                                    var aws = require('aws-sdk');
+                                    aws.config.update({
+                                        accessKeyId: keyid,
+                                        secretAccessKey: secr,
+                                        signatureVersion: 'v4'
                                     });
+                                    var ep = new aws.Endpoint('http://pharm-merch.s3-website.eu-central-1.amazonaws.com');
+                                    var s3 = new aws.S3(ep);
+                                    require('fs').readFile(found.photoPath, function(err, data) {
+                                        if (err) {
+                                            throw err;
+                                        }
 
-                                    cloudinary.uploader.upload(found.photoPath, function(result) {
-                                        sails.log.info("photos uploaded", result);
+                                        var params = {
+                                            Bucket: 'pharm-merch',
+                                            Key: k,
+                                            Body: data,
+                                            ACL: 'public-read'
+                                        };
+                                        var r = s3.upload(params);
+                                        r.send();
+                                    });
+                                    found.storagePath = 'http://pharm-merch.s3-website.eu-central-1.amazonaws.com/' + k;
+                                    AttendancePhoto.update({
+                                        id: found.id
                                     }, {
-                                        folder: "myPhoto",
-                                        tags: ["Attendance_" + found.attendance.id, "Merchant_" + found.attendance.merchant]
-                                    });
-                                    // CLOUDINARY-TEST-END
+                                        storagePath: found.storagePath
+                                    }).exec(function(err, upd) {
+                                        if (err) return res.negotiate(err);
 
+                                        return res.json(200, upd);
+                                    });
+                                    //pharm-merch.s3-website.eu-central-1.amazonaws.com
                                 } else {
                                     sails.log.warn("'AttendancePhoto' NOT FOUND");
                                 }
                             });
 
-                        return res.json(200, created);
+                        //return res.json(200, created);
                     });
                 });
         } else {
