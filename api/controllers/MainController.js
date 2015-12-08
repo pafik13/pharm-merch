@@ -11,7 +11,7 @@ module.exports = {
             if (err) return res.serverError(err);
 
             if (!found) {
-                return res.notFound('пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ USER пїЅ MainController.main');
+                return res.notFound('Не найден USER в MainController.main');
             };
 
             switch (found.username) {
@@ -28,7 +28,7 @@ module.exports = {
                         if (err) return res.notFound(err);
 
                         if (!manager) {
-                            return res.notFound('пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ MANAGER пїЅ MainController.main');
+                            return res.notFound('Не найден MANAGER в MainController.main');
                         };
 
                         var ext = require('../extensions.js');

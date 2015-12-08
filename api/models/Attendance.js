@@ -15,6 +15,11 @@ module.exports = {
         },
         date: 'datetime',
         distance: 'float',
+        category_net: 'string',
+        telephone: 'string',
+        purchaserFIO: 'string',
+        promos: 'string',
+        pharmacistCount: 'integer',
         results: {
             collection: 'AttendanceResult',
             via: 'attendance'

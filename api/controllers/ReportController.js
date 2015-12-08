@@ -36,7 +36,7 @@ module.exports = {
 
                         attendance.merchant.FIO = attendance.merchant.lastName + ' ' + attendance.merchant.firstName;
 
-                        attendance.baseCity = "пїЅпїЅпїЅпїЅпїЅпїЅ";
+                        attendance.baseCity = "Москва";
 
                         if (!attendance.photos.length) {
                             sails.log.error("photos NOT found");
@@ -89,8 +89,8 @@ module.exports = {
 
                     return res.view('testing', {
                         reportRows: attendances,
-                        title: "пїЅпїЅпїЅпїЅ",
-                        subtitle: "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ"
+                        title: "Фото",
+                        subtitle: "Все фото"
                     });
                 }
             });
@@ -202,7 +202,7 @@ module.exports = {
 
                         FIO = attendance.merchant.lastName + ' ' + attendance.merchant.firstName;
 
-                        attendance.baseCity = "пїЅпїЅпїЅпїЅпїЅпїЅ";
+                        attendance.baseCity = "Москва";
 
                         if (!attendance.photos.length) {
                             sails.log.error("photos NOT found");
@@ -219,7 +219,8 @@ module.exports = {
                                 var pubStr = "/.tmp/public";
                                 var index = attPhoto.photoPath.indexOf(pubStr) + pubStr.length;
                                 attPhoto.index = index;
-                                attPhoto.relPath = attPhoto.photoPath.substring(index);
+                                //attPhoto.relPath = attPhoto.photoPath.substring(index);
+                                attPhoto.relPath = attPhoto.storagePath;
 
                                 if (attPhoto.longitude > 0 && attPhoto.latitude > 0) {
 
@@ -256,8 +257,8 @@ module.exports = {
 
                     return res.view('daily', {
                         reportRows: results,
-                        title: "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
-                        subtitle: "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ - " + FIO
+                        title: "Дневной",
+                        subtitle: "Отчет за текущий день - " + FIO
                     });
                 }
             });
@@ -300,7 +301,7 @@ module.exports = {
                     attendances.forEach(function(attendance) {
                         console.log(attendance.id);
 
-                        attendance.baseCity = "пїЅпїЅпїЅпїЅпїЅпїЅ";
+                        attendance.baseCity = "Москва";
 
                         if (!attendance.photos.length) {
                             sails.log.error("photos NOT found");
@@ -318,7 +319,8 @@ module.exports = {
                                 var pubStr = "/.tmp/public";
                                 var index = attPhoto.photoPath.indexOf(pubStr) + pubStr.length;
                                 attPhoto.index = index;
-                                attPhoto.relPath = attPhoto.photoPath.substring(index);
+                                //attPhoto.relPath = attPhoto.photoPath.substring(index);
+                                attPhoto.relPath = attPhoto.storagePath;
 
                                 if (attPhoto.longitude > 0 && attPhoto.latitude > 0) {
                                     console.log(attPhoto.id);
@@ -354,8 +356,8 @@ module.exports = {
 
                     return res.view('daily', {
                         reportRows: results,
-                        title: "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
-                        subtitle: "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
+                        title: "Дневной",
+                        subtitle: "Общий отчет за текущий день по всем мерчендайзерам"
                     });
                 }
             });
@@ -451,7 +453,7 @@ module.exports = {
                     var results = [],
                         result = {};
 
-                    result.city = "пїЅпїЅпїЅпїЅпїЅпїЅ";
+                    result.city = "Москва";
                     result.FIO = FIO;
                     result.accepted = accept.length;
                     result.notAccepted = notAccept.length;
@@ -462,8 +464,8 @@ module.exports = {
                     results.push(result);
                     return res.view('weekly', {
                         reportRows: results,
-                        title: "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
-                        subtitle: "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ " + FIO
+                        title: "Недельный",
+                        subtitle: "Отчет за текущую неделю " + FIO
                     });
                 }
             });

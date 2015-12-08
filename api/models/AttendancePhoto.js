@@ -16,6 +16,9 @@ module.exports = {
         drug: {
             model: 'Drug'
         },
+        subType: {
+            model: 'PhotoSubType'
+        },
         longitude: 'float',
         latitude: 'float',
         photoPath: 'string',
