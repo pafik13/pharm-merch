@@ -8,7 +8,7 @@
 module.exports = {
     main: function(req, res) {
         var query = req.admin_query;
-        User.find(query, function(err, results) {
+        User.query(query, function(err, results) {
             if (err)
                 console.log(err);
             res.json(200, results);
