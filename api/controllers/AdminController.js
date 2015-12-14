@@ -7,11 +7,11 @@
 
 module.exports = {
     main: function(req, res) {
-        var query = req.admin_query;
-        User.query(query, function(err, results) {
-            if (err)
-                console.log(err);
-            res.json(200, results);
+        var query = req.query.admin_query;
+        console.log(query);
+        Report.query(query, function(err, results) {
+            if (err) return res.serverError(err);
+            return res.ok(results.rows);
         });
     }
 };
