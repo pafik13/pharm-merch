@@ -4,7 +4,7 @@
           
           $scope.admin_query = function(){
               console.log($scope.query);
-            $http({url:'/admin/query',data: $scope.query}).success(function(result){
+            $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
                 $scope.results = result;
             }).error(function(error){
                 console.log(JSON.stringify(error));
