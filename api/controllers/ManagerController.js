@@ -17,6 +17,7 @@ module.exports = {
             params.user = {};
             params.user.username = ext.transliterate(params.lastName) + rnd;
             params.user.password = Math.floor((Math.random() * 1000000000));
+            params.user.email = params.email || params.user.username + '@dummy.com';
             params.initUsr = params.user.username;
             params.initPwd = params.user.password;
             console.log('Before USER create : ' + JSON.stringify(params.user));

@@ -28,6 +28,9 @@ module.exports = {
         subway: 'string',
         phone: 'string',
         email: 'string',
+        category_otc: 'string',
+        category_sbl: 'string',
+        code_sbl: 'string',
         //avg_purchase_amount
         avg_purchase: 'integer',
         traffic: 'integer',
