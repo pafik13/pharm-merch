@@ -1,0 +1,16 @@
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th ng-model="results" ng-repeat="(key, data) in results[0]">
+				{{key}}
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-model="results" ng-repeat="(key, data) in results">
+			<td ng-repeat="d in data">
+				{{d}}
+			</td>	
+		</tr>
+	</tbody>
+</table>

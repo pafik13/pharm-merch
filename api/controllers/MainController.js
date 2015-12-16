@@ -64,5 +64,8 @@ module.exports = {
 
     guest: function(req, res) {
         return res.view('guest');
+    },
+    report: function(req, res) {
+        return res.view('report');
     }
 };
