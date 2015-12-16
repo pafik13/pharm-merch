@@ -45,16 +45,15 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  '/'                     : 'MainController.main',
+  '/'                       : 'MainController.main',
   '/admin'                  : 'MainController.admin',
-  '/guest'				          : 'MainController.guest',
+  '/guest'		    		: 'MainController.guest',
   '/Manager/:action'        : 'ManagerController.main',
   '/Pharmacy/:action/:id'   : 'PharmacyController.main',
   '/Merchant/:action/:id'   : 'MerchantController.main',
   '/Merchant/:action'       : 'MerchantController.main',
   '/AttendancePhoto/:action': 'AttendancePhotoController.main',
-  '/download'               : 'DownloadController.main',
-  '/import'                  : 'ImportExcelController.import',
+  '/admin/query'            : 'AdminController.main',
   '/Report/Merchants'       : 'ReportController.merchants',
   '/Report/Daily'           : 'ReportController.daily',
   '/Report/Weekly'          : 'ReportController.weekly',

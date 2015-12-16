@@ -37,8 +37,8 @@ module.exports = {
                                     //sails.log.info(" AttendancePhoto : " + JSON.stringify(found));
                                     var k = found.photoPath.replace(/^.*[\\\/]/, '');
 
-                                    var keyid = 'AKIAJZPCGFMWOTH2WZFQ';
-                                    var secr = 'HCZDHpfbWxBqXo8mmxtaw+JOQuyPO0LY6a+ta7vd';
+                                    var keyid = process.env.AWS_KEYID;
+                                    var secr = process.env.AWS_SECRET;
 
                                     // AMAZON AWS S3
                                     var aws = require('aws-sdk');
