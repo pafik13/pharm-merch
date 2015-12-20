@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ИС - "Аптечные мерчендайзеры"</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/styles/main.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/styles/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <!--<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body ng-app="App">
+<style>
+    #custom-search-form {
+        margin:0;
+        margin-top: 5px;
+        padding: 0;
+    }
+ 
+    #custom-search-form .search-query {
+        padding-right: 3px;
+        padding-right: 4px \9;
+        padding-left: 3px;
+        padding-left: 4px \9;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+ 
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        -webkit-transition: width  0.2s ease-in-out;
+    -moz-transition:width  0.2s ease-in-out;
+    -o-transition: width  0.2s ease-in-out;
+    transition: width  0.2s ease-in-out;
+    }
+ 
+    #custom-search-form button {
+        border: 0;
+        background: none;
+        /** belows styles are working good */
+        padding: 2px 5px;
+        margin-top: 2px;
+        position: relative;
+        left: -28px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+ 
+    .search-query:focus + button {
+        z-index: 3;   
+    }   
+    .search-query:focus{
+        width: 260px;
+    }   
+
+.two-columns {
+    -moz-column-count: 2;
+    -moz-column-gap: 10px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 10px;
+    column-count: 2;
+    column-gap: 10px;
+    width: 360px;
+}
+
+.two-columns .column {
+    display: inline-block;
+    width: 100%;
+    background-color: #ccc;
+   margin:2px;
+}	
+
+</style>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">ИС - "Аптечные мерчендайзеры"</a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu message-dropdown">
+                        <li class="message-preview">
+                            <a href="#">
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><strong> {{ user.username }}</strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-preview">
+                            <a href="#">
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><strong>{{ user.username }}</strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-preview">
+                            <a href="#">
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><strong>{{ user.username }}</strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-footer">
+                            <a href="#">Read All New Messages</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu alert-dropdown">
+                        <li>
+                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">View All</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ manager.shortName }} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/logout?next=login"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="/"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
+                    </li>
+                    <li>
+                        <a href="#reports" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-file-text"></i> Отчеты<i class="fa fa-fw fa-caret-down"></i></a>
+                   
+						<ul  id="reports" class="collapse in active" class="nav nav-pills">
+							<li class="active"><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
+							<li><a data-toggle="pill" href="#daily">Ежедневный</a></li>
+							<li><a data-toggle="pill" href="#dailyAll">Ежедневный +</a></li>
+							<li><a data-toggle="pill" href="#weekly">Недельный</a></li>
+							<li><a data-toggle="pill" href="#monthly">Месячный</a></li>
+						</ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper" >
+
+            <div class="container-fluid">
+				<div class="tab-content">
+					
+					<div  id="merchants" class="tab-pane fade" style="height: 500px" ng-controller="merchantsQueryController">
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<textarea ng-model="query" class="mac-style"></textarea>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<report  results="results" ng-model="results" />
+								</div>
+							</div>
+						</div>
+						
+						{% endraw %}
+					</div>
+					<div  id="daily" class="tab-pane fade" style="height: 500px" ng-controller="dailyQueryController">
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<textarea ng-model="query" class="mac-style"></textarea>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<report  results="results" ng-model="results" />
+								</div>
+							</div>
+						</div>
+						
+						{% endraw %}						
+					</div>
+					<div  id="dailyAll" class="tab-pane fade" style="height: 500px" ng-controller="dailyAllQueryController">
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<textarea ng-model="query" class="mac-style"></textarea>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<report  results="results" ng-model="results" />
+								</div>
+							</div>
+						</div>
+						
+						{% endraw %}						
+					</div>
+					<div  id="weekly" class="tab-pane fade" style="height: 500px" ng-controller="weeklyQueryController">
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<textarea ng-model="query" class="mac-style"></textarea>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<report  results="results" ng-model="results" />
+								</div>
+							</div>
+						</div>
+						
+						{% endraw %}						
+					</div>
+					<div  id="monthly" class="tab-pane fade" style="height: 500px" ng-controller="monthlyQueryController">
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<textarea ng-model="query" class="mac-style"></textarea>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<report  results="results" ng-model="results" />
+								</div>
+							</div>
+						</div>
+						
+						{% endraw %}						
+					</div>	
+				</div>				
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+	<script>
+      var manager = {};
+	  //SWIG Injection!!! How to another get manager.id in the page?
+	  manager.id = 0{{manager.id}};
+	</script>		
+    <!-- AngularJS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	
+	<!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+    
+	<!-- Angular application -->
+	<script src="/js/report.js"></script>
+</body>
+
+</html>

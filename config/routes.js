@@ -54,6 +54,7 @@ module.exports.routes = {
   '/Merchant/:action'       : 'MerchantController.main',
   '/AttendancePhoto/:action': 'AttendancePhotoController.main',
   '/admin/query'            : 'AdminController.main',
+  '/report'                 : 'MainController.report',
   '/Report/Merchants'       : 'ReportController.merchants',
   '/Report/Daily'           : 'ReportController.daily',
   '/Report/Weekly'          : 'ReportController.weekly',
