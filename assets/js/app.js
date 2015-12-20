@@ -1,4 +1,4 @@
-	  /*----------------------- MANAGERS --------------------------------*/
+﻿	  /*----------------------- MANAGERS --------------------------------*/
 	  function getManagers(){
 	    var users = [];
 		$.ajax(
@@ -791,7 +791,86 @@
 		  $scope.last_pharmacy.validated = false;
 		  $scope.last_pharmacy.territories = [];
 		  $scope.last_pharmacy.territory = {};
-		
+		  $scope.last_pharmacy.place = {};
+		  $scope.last_pharmacy.latitude = 0;
+		  $scope.last_pharmacy.longitude = 0;
+		  
+		  $scope.clearAutocomplete = function(parent){
+		  	$(parent +' #autocomp').val('РіРѕСЂРѕРґ РњРѕСЃРєРІР°');
+		  	
+		  };
+		  $scope.initAutocomplete = function(parent){
+		  	  //https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
+			  var latlng;
+			  var autocompmap;
+			  var input = ($(parent +' #autocomp')[0]);
+			  var geocoder = new google.maps.Geocoder();
+			  var geoQuery = { 'address': input.value, 'partialmatch': true};
+			  //first position
+			  geocoder.geocode( geoQuery, function(results, status) {
+				  if (status == google.maps.GeocoderStatus.OK) {
+				    
+				    latlng = results[0].geometry.location;
+				    autocompmap.setCenter(latlng);
+				    marker.setPosition(latlng);  
+			  		marker.setVisible(true);
+			      } else {
+			      	alert(status);
+			      }	  
+			  });
+			  
+			  var mapOptions = {
+			    center:  latlng,
+			    scrollWheel: false,
+			    zoom: 17
+			  };
+			
+			  //autocompmap = new google.maps.Map(document.getElementById("autocomp_map"), mapOptions);
+			  autocompmap = new google.maps.Map($(parent + " #autocomp_map")[0], mapOptions);
+			  var autocomplete = new google.maps.places.Autocomplete(input);
+			  autocomplete.bindTo('bounds', autocompmap);
+			
+			  var marker = new google.maps.Marker({
+			      map: autocompmap,
+			      anchorPoint: latlng
+			    });
+			  
+			  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+			    var place = autocomplete.getPlace();
+				if (!place.geometry) {
+					var geoQuery = { 'address': input.value, 'partialmatch': true};
+					geocoder.geocode( geoQuery , function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+							latlng = results[0].geometry.location;
+							marker.setPosition(latlng);
+							marker.setVisible(true);
+							autocompmap.setCenter(latlng);
+						    autocompmap.setZoom(17);  
+						    $scope.$apply(function(){
+						    	$scope.last_pharmacy.latitude = latlng.lat();
+						    	$scope.last_pharmacy.longitude = latlng.lng();
+						    	$scope.last_pharmacy.place = results[0];
+						    });
+				    	} else {
+				      		alert(status);
+				    	}	  
+				    });
+				  return;
+				} else {
+					latlng = place.geometry.location;
+					marker.setPosition(latlng);
+					marker.setVisible(true);
+					autocompmap.setCenter(latlng);
+				    autocompmap.setZoom(17);  
+				    $scope.$apply(function(){
+					   	$scope.last_pharmacy.latitude = latlng.lat();
+					   	$scope.last_pharmacy.longitude = latlng.lng();
+					   	$scope.last_pharmacy.place = place;
+					});
+				}
+			  });
+			};
+		  
 		  $scope.$watch('menuPharmacies', function(oldValue, newValue) {
 		  	$scope.pharmacies = getPharmacies();
 		  }, true);
@@ -800,7 +879,6 @@
 		  	$scope.last_pharmacy = {};
 		  	$scope.last_pharmacy.territories = getTerritories();
 		  	
-		  	$scope.last_pharmacy.fullName = 'asdfasdfasdfsdfsdf';
 		  };
 	    
           $scope.create = function(){
@@ -841,7 +919,7 @@
 			$scope.last_pharmacy.validated = cu.validated;
 			$scope.last_pharmacy.territories = getTerritories();
 			$scope.last_pharmacy.territory = cu.territory;	
-		
+		    
 		  };
 		  $scope.update = function(id){
 		    var data = {
@@ -874,10 +952,17 @@
 			$("#pharmacy_upd").modal('hide');
 		  };
 		  $('#pharmacy_add').on('show.bs.modal', function (event) {
-		    $scope.$apply(function(){
 			  $scope.init_create();
-			});
-		  });	
+		  });
+		
+		  $('#pharmacy_add').on('shown.bs.modal', function(event){
+		  	$scope.clearAutocomplete('#pharmacy_add');
+		  	$scope.initAutocomplete('#pharmacy_add');
+		  });
+		  
+		  $('#pharmacy_upd').on('shown.bs.modal', function(event){
+		  	$scope.initAutocomplete('#pharmacy_upd');
+		  });
       });	
 
 	  /*------------------------------- DRUGS -----------------------------------*/
@@ -1313,4 +1398,5 @@
 	//Tooltips  
 	$(document).ready(function(){
 	    $("[data-toggle=tooltip]").tooltip();
-	});	    	
+	});	  
+	var autocomplete;

@@ -29,8 +29,9 @@ module.exports.bootstrap = function(cb) {
 			
 			sails.log.warn("User 'admin' NOT FOUND");
 			var admin = {
-				"username" : "admin",
-				"password" : 'q1234567'
+				"username" : 'admin',
+				"password" : 'q1234567',
+				"email"	   : 'admin@sbl.ru'
 			};
 			
 			sails.services.passport.protocols.local.createUser(admin, function(err, created) {  
@@ -60,7 +61,8 @@ module.exports.bootstrap = function(cb) {
 			sails.log.warn("User 'guest' NOT FOUND");
 			var guest = {
 				"username" : "guest",
-				"password" : "q1234567"
+				"password" : "q1234567",
+				"email"	   : 'guest@sbl.ru'
 			};
 			
 			sails.services.passport.protocols.local.createUser(guest, function(err, created) {  
@@ -587,6 +589,18 @@ module.exports.bootstrap = function(cb) {
 	Project.findOrCreate(
 		{id:1}, 
 		{ fullName:'SBL Pharma', 
+		  drugs: [1, 2, 3, 4, 5, 6],
+		  infos: [1, 2, 3, 4, 5]
+		}
+	).exec(function createFindCB(err, project){
+		if (err) sails.log.error(err);
+
+		sails.log.info("New Project : " + JSON.stringify(project));
+	});
+
+	Project.findOrCreate(
+		{id:2}, 
+		{ fullName:'OTC Pharma', 
 		  drugs: [1, 2, 3, 4, 5, 6],
 		  infos: [1, 2, 3, 4, 5]
 		}

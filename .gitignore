@@ -24,11 +24,12 @@ pharm-merch.sublime-workspace
 *.sublime-workspace
 *.sublime-project
 
-Копия (2) testing.swig
-Копия testing.swig
+РљРѕРїРёСЏ (2) testing.swig
+РљРѕРїРёСЏ testing.swig
 assets/attendance/
 
 data/
+upload/
 
 ################################################
 # Local Configuration
@@ -49,7 +50,7 @@ data/
 # 
 ################################################
 
-config/local.js
+#config/local.js
 
 
 

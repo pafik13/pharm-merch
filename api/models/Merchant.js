@@ -33,7 +33,7 @@ module.exports = {
             collection: 'Attendance',
             via: 'merchant'
         },
-        //        initPwd: 'string',
+        initPwd: 'string',
 
         // Lifecycle Callbacks
         beforeCreate: function(values, next) {

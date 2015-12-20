@@ -221,9 +221,6 @@
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
                     </li>
                     <li>
-                        <a href="/login"><i class="fa fa-fw fa-bar-chart-o"></i> Логин</a>
-                    </li>
-                    <li>
                         <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
                    
 						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
@@ -237,6 +234,21 @@
 							<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы данных</a></li>
 							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
 							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
+						</ul>
+                    </li>
+                    <li>
+                        <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
+                   
+                        <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants">Мерчендайзеры</a></li>
+                            <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
+<!--                             <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li> -->
+                        </ul>
+                    </li>
+                    <li>
+                    	<a href="#admin" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-gears"></i> Tools<i class="fa fa-fw fa-caret-down"></i></a>
+                    	
+						<ul id="admin" class="collapse in active" class="nav nav-pills">
+							<li><a data-toggle="pill" href="#sql">Запросы</a></li>					
 						</ul>
                     </li>
                 </ul>
@@ -606,7 +618,11 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
 											</div>
 											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.address" placeholder="Адрес">
+												<input id="autocomp" class="form-control" type="text" placeholder="Адрес">
+												<div id="autocomp_map"></div>
+											</div>
+											<div class="form-group">
+												<input class="form-control " type="text" placeholder="Адрес">
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
@@ -646,7 +662,8 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
 											</div>
 											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.address" placeholder="Адрес">
+												<input id="autocomp" class="form-control" type="text" placeholder="Адрес" ng-model="last_pharmacy.address">
+												<div id="autocomp_map"></div>
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
@@ -1328,6 +1345,49 @@
 					</div>
 					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
 					</div>
+					<div  id="sql" class="tab-pane fade" style="height: 500px" ng-controller="adminQueryController">
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<textarea ng-model="query" class="mac-style"></textarea>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<table class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th ng-model="results" ng-repeat="(key, data) in results[0]">
+													{{key}}
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-model="results" ng-repeat="(key, data) in results">
+												<td ng-repeat="d in data">
+													{{d}}
+												</td>	
+											</tr>
+										</tbody>
+									</table>
+									
+								</div>
+							</div>
+						</row>	
+					</div>
+					{% endraw %}
 				</div>				
             </div>
             <!-- /.container-fluid -->
@@ -1348,18 +1408,48 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
-	
+    
+     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    
 	<!-- Angular application -->
 	<script src="/js/app.js"></script>
-
+	<script src="/js/admin.js"></script>
     <!-- Morris Charts JavaScript -->
 	<!--
     <script src="/js/plugins/morris/raphael.min.js"></script>
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
-  
 
+<style>
+#autocomp_map {
+	height: 400px;
+    bottom:0;
+}
+#map-canvas {
+	height: 400px;
+    bottom:0;
+}
+.pac-container {
+    background-color: #FFF;
+    z-index: 20;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+.modal{
+    z-index: 20;   
+}
+.modal-backdrop{
+    z-index: 10;
+}
+
+.modal-dialog {   
+    margin: 80px auto; !important;
+}
+
+</style>
+    
 </body>
 
 </html>

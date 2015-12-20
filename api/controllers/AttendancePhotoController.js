@@ -14,7 +14,7 @@ module.exports = {
             delete params.action;
 
             req.file('photo').upload({
-                    dirname: sails.config.appPath + '/.tmp/public/attendance/photos'
+                    dirname: sails.config.appPath + '/upload/images'
                 },
                 function(err, uploadedFiles) {
                     if (err) return res.negotiate(err);
@@ -34,46 +34,52 @@ module.exports = {
                                 }
 
                                 if (found) {
-                                    sails.log.info(" AttendancePhoto : " + JSON.stringify(found))
+                                    //sails.log.info(" AttendancePhoto : " + JSON.stringify(found));
+                                    var k = found.photoPath.replace(/^.*[\\\/]/, '');
 
-                                    // FLICKR-TEST-START
-                                    var Flickr = require("flickrapi"),
-                                        flickrOptions = {
-                                            api_key: "0a011a9d4767041dfa3a9cd9b8baf6bd",
-                                            secret: "2ba1dc5261905051",
-                                            user_id: "137787191@N07",
-                                            access_token: "72157661172832266-71578a00da19fd16",
-                                            access_token_secret: "36d2bed53a5309c3"
-                                        };
+                                    var keyid = process.env.AWS_KEYID;
+                                    var secr = process.env.AWS_SECRET;
 
-                                    Flickr.authenticate(flickrOptions, function(error, flickr) {
-                                        var uploadOptions = {
-                                            photos: [{
-                                                title: "Attendance_" + found.attendance.id + "_" + found.attendance.date.getFullYear(),
-                                                tags: [
-                                                    "Attendance_" + found.attendance.id,
-                                                    "date : " + found.attendance.date
-                                                ],
-                                                photo: found.photoPath
-                                            }]
-                                        };
-
-                                        sails.log.info(uploadOptions);
-
-                                        Flickr.upload(uploadOptions, flickrOptions, function(err, result) {
-                                            if (err) return res.negotiate(err);
-
-                                            sails.log.info("photos uploaded", result);
-                                        });
+                                    // AMAZON AWS S3
+                                    var aws = require('aws-sdk');
+                                    aws.config.update({
+                                        accessKeyId: keyid,
+                                        secretAccessKey: secr,
+                                        signatureVersion: 'v4'
                                     });
-                                    // FLICKR-TEST-END
+                                    var ep = new aws.Endpoint('http://pharm-merch.s3-website.eu-central-1.amazonaws.com');
+                                    var s3 = new aws.S3(ep);
+                                    require('fs').readFile(found.photoPath, function(err, data) {
+                                        if (err) {
+                                            throw err;
+                                        }
 
+                                        var params = {
+                                            Bucket: 'pharm-merch',
+                                            Key: k,
+                                            Body: data,
+                                            ACL: 'public-read'
+                                        };
+                                        var r = s3.upload(params);
+                                        r.send();
+                                    });
+                                    found.storagePath = 'http://pharm-merch.s3-website.eu-central-1.amazonaws.com/' + k;
+                                    AttendancePhoto.update({
+                                        id: found.id
+                                    }, {
+                                        storagePath: found.storagePath
+                                    }).exec(function(err, upd) {
+                                        if (err) return res.negotiate(err);
+
+                                        return res.json(200, upd);
+                                    });
+                                    //pharm-merch.s3-website.eu-central-1.amazonaws.com
                                 } else {
                                     sails.log.warn("'AttendancePhoto' NOT FOUND");
                                 }
                             });
 
-                        return res.json(200, created);
+                        //return res.json(200, created);
                     });
                 });
         } else {
