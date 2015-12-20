@@ -47,7 +47,7 @@ module.exports.routes = {
   ***************************************************************************/
   '/'                       : 'MainController.main',
   '/admin'                  : 'MainController.admin',
-  '/guest'		    		: 'MainController.guest',
+  '/guest'		    		      : 'MainController.guest',
   '/Manager/:action'        : 'ManagerController.main',
   '/Pharmacy/:action/:id'   : 'PharmacyController.main',
   '/Merchant/:action/:id'   : 'MerchantController.main',
@@ -59,5 +59,6 @@ module.exports.routes = {
   '/Report/Daily'           : 'ReportController.daily',
   '/Report/Weekly'          : 'ReportController.weekly',
   '/Report/Daily/:id'       : 'ReportController.daily',
-  '/Report/Monthly'         : 'ReportController.monthly'
+  '/Report/Monthly'         : 'ReportController.monthly',
+  '/Report/Pharmacies'      : 'ReportController.pharmacies',
 };

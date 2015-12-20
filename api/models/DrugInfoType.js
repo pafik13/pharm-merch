@@ -11,7 +11,7 @@ module.exports = {
         name: 'string',
         valueType: {
             type: 'string',
-            enum: ['boolean', 'number', 'list', 'string'],
+            enum: ['boolean', 'number', 'decimal', 'list', 'string'],
             defaultsTo: 'number'
         }
     }
