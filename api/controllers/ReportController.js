@@ -24,14 +24,7 @@ module.exports = {
      */
     pharmacies: function(req, res) {
         var merchantID = req.query.merchant;
-        var query = 'SELECT pharmacy.*
-                          , territory.*
-                       FROM public.pharmacy
-                          , public.territory
-                          , public.merchant
-                      WHERE pharmacy.territory = territory.id
-                        AND merchant.territory = territory.id
-                        AND merchant.id = ' + merchantID;
+        var query = 'SELECT pharmacy.*, territory.* FROM public.pharmacy, public.territory, public.merchant WHERE pharmacy.territory = territory.id AND merchant.territory = territory.id AND merchant.id = ' + merchantID;
         Report.query(query, function(err, results) {
             if (err) return res.serverError(err);
             return res.ok(results.rows);

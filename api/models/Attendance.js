@@ -15,10 +15,14 @@ module.exports = {
         },
         date: 'datetime',
         distance: 'float',
-        category_net: 'string',
+        category_net: {
+            model: 'CategoryInNet'
+        },
         telephone: 'string',
         purchaserFIO: 'string',
-        promos: 'string',
+        promos: {
+            collection: 'Promo'
+        },
         pharmacistCount: 'integer',
         results: {
             collection: 'AttendanceResult',

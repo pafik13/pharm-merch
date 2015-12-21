@@ -26,6 +26,15 @@ module.exports = {
         infos: {
             collection: 'DrugInfoType'
         },
+        netCats: {
+            collection: 'CategoryInNet'
+        },
+        promos: {
+            collection: 'Promo'
+        },
+        categoryInNet: {
+            collection: 'CategoryInNet'
+        },
         druginfotypes: {
             collection: 'DrugInfoType'
         },
