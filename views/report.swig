@@ -23,6 +23,7 @@
     <!-- Custom Fonts -->
     <!--<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -217,14 +218,14 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                    <li>
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="#reports" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-file-text"></i> Отчеты<i class="fa fa-fw fa-caret-down"></i></a>
                    
 						<ul  id="reports" class="collapse in active" class="nav nav-pills">
-							<li class="active"><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
+							<li><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
 							<li><a data-toggle="pill" href="#daily">Ежедневный</a></li>
 							<li><a data-toggle="pill" href="#dailyAll">Ежедневный +</a></li>
 							<li><a data-toggle="pill" href="#weekly">Недельный</a></li>
@@ -248,10 +249,22 @@
 								<form class="form-horizontal pull-left">
 									<div class="span12">
 										<textarea ng-model="query" class="mac-style"></textarea>
+
 									</div>
 								</form>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<label for="reportMerchant">Лекарственные препараты:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										</select>
+									</div>
+								</form>
+							</div>
+						</div>					
 						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
@@ -281,6 +294,17 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<label for="reportMerchant">Лекарственные препараты:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										</select>
+									</div>
+								</form>
+							</div>
+						</div>	
+						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
 									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
@@ -308,6 +332,17 @@
 								</form>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<label for="reportMerchant">Лекарственные препараты:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										</select>
+									</div>
+								</form>
+							</div>
+						</div>	
 						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
@@ -337,6 +372,21 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="form-group">
+										<label for="reportMerchant">Лекарственные препараты:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="reportMerchant">Дата:</label>
+										<input class="form-control datepicker-week" name="reportDate" id="monthMerchDate" ng-model="month" type="text" />
+									</div>
+								</form>
+							</div>
+						</div>							
+						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
 									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
@@ -364,6 +414,21 @@
 								</form>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="form-group">
+										<label for="reportMerchant">Мерчендайзер:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="reportMerchant">Дата:</label>
+										<input class="form-control datepicker-month" name="reportDate" id="monthMerchDate" ng-model="month" type="text" />
+									</div>
+								</form>
+							</div>
+						</div>							
 						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
@@ -397,11 +462,46 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 	
 	<!-- jQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
     
+    
+    <script>
+      $('input.datepicker-month').datepicker({
+	    format: "dd.mm.yyyy",
+	    minViewMode: 'months',
+	    maxViewMode: 'years',
+	    language: "ru",
+	    autoclose: true
+	  });
+       
+	  $('input.datepicker-week').datepicker({
+		    //format: "yyyy-mm",
+		    startViewMode: "months",
+		    minView: 'dates',
+		    language: "ru",
+		    autoclose: true,
+		    format: {
+		            toDisplay: function (date, format, language) {
+		                 var curr = new Date(date); 
+						 var first = curr.getDate() - curr.getDay(); 
+						 var last = first + 6; 
+						 var firstday = new Date(curr.setDate(first)); 
+						 var lastday = new Date(curr.setDate(last));
+						 return firstday.getDate() +'.'+ firstday.getMonth() + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + lastday.getMonth() + '.' + lastday.getFullYear();
+		            },
+		            toValue: function (date, format, language) {
+		              return date;
+		            }
+		        }
+		});
+    </script>
 	<!-- Angular application -->
 	<script src="/js/report.js"></script>
 </body>
