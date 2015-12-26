@@ -1,15 +1,15 @@
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
-			<th ng-model="results" ng-repeat="(key, data) in results[0]">
-				{{key}}
+			<th ng-model="meta" ng-repeat="(key, caption) in meta">
+				{{caption}}
 			</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-model="results" ng-repeat="(key, data) in results">
-			<td ng-repeat="d in data">
-				{{d}}
+		<tr ng-model="results" ng-repeat="res in results">
+			<td ng-repeat="(key, caption) in meta">
+				{{res[key]}}
 			</td>	
 		</tr>
 	</tbody>

@@ -36,6 +36,8 @@
 
 <body ng-app="App">
 <style>
+    .datepicker table tbody tr:hover{background: #04c}
+    
     #custom-search-form {
         margin:0;
         margin-top: 5px;
@@ -275,7 +277,7 @@
 						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
-									<report  results="results" ng-model="results" />
+									<report  results="results" meta="meta" ng-model="results" />
 								</div>
 							</div>
 						</div>
@@ -381,7 +383,7 @@
 									</div>
 									<div class="form-group">
 										<label for="reportMerchant">Дата:</label>
-										<input class="form-control datepicker-week" name="reportDate" id="monthMerchDate" ng-model="month" type="text" />
+										<input class="form-control datepicker-week" name="reportDate" id="monthMerchDate" ng-model="week" type="text" />
 									</div>
 								</form>
 							</div>
