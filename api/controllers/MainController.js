@@ -11,7 +11,7 @@ module.exports = {
             if (err) return res.serverError(err);
 
             if (!found) {
-                return res.notFound('Не найден USER в MainController.main');
+                return res.notFound('РќРµ РЅР°Р№РґРµРЅ USER РІ MainController.main');
             };
 
             switch (found.username) {
@@ -25,7 +25,7 @@ module.exports = {
                     Manager.findOne({
                         "user": found.id
                     }).exec(function(err, manager) {
-                        if (err) return res.notFound(err);
+                        if (err) return res.serverError(err);
 
                         if (!manager) {
                             return res.notFound('Не найден MANAGER в MainController.main');
@@ -65,7 +65,28 @@ module.exports = {
     guest: function(req, res) {
         return res.view('guest');
     },
-    report: function(req, res) {
-        return res.view('report');
+
+    reports: function(req, res) {
+        User.findOne(req.user.id).exec(function(err, found) {
+            if (err) return res.serverError(err);
+
+            if (!found) {
+                return res.notFound('РќРµ РЅР°Р№РґРµРЅ USER РІ MainController.reports');
+            };
+
+            Manager.findOne({
+                "user": found.id
+            }).exec(function(err, manager) {
+                if (err) return res.serverError(err);
+
+                if (!manager) {
+                    return res.notFound('РќРµ РЅР°Р№РґРµРЅ MANAGER РІ MainController.reports');
+                };
+
+                return res.view('report', {
+                    "manager": manager
+                });
+            });
+        });
     }
 };

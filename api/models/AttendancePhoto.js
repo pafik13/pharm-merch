@@ -11,7 +11,8 @@ module.exports = {
 
     attributes: {
         attendance: {
-            model: 'Attendance'
+            model: 'Attendance',
+            required: true
         },
         drug: {
             model: 'Drug'

@@ -63,7 +63,8 @@ module.exports.policies = {
 	},
 
 	ReportController: {
-		testing: true
+		testing: true,
+		generate: true
 		// '*': true
 	},
 

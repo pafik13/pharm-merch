@@ -82,12 +82,21 @@ module.exports.connections = {
     database: 'YOUR_POSTGRES_DB'
   },
 
+  localPostgresqlServer: {
+    adapter: 'sails-postgresql',
+    host: "localhost",
+    port: 5432,
+    user: "postgres",
+    password: "q12345",
+    database: 'sbl'
+  },
+
   openshiftPostgresqlServer: {
     adapter: 'sails-postgresql',
-    host: process.env.OPENSHIFT_POSTGRESQL_DB_HOST || "localhost",
-    port: process.env.OPENSHIFT_POSTGRESQL_DB_PORT || 5432,
-    user: process.env.OPENSHIFT_POSTGRESQL_DB_USERNAME || "postgres",
-    password: process.env.OPENSHIFT_POSTGRESQL_DB_PASSWORD || "q12345",
+    host: process.env.OPENSHIFT_POSTGRESQL_DB_HOST || "127.0.0.1",
+    port: process.env.OPENSHIFT_POSTGRESQL_DB_PORT || 5433,
+    user: process.env.OPENSHIFT_POSTGRESQL_DB_USERNAME || "adminaqvlyey",
+    password: process.env.OPENSHIFT_POSTGRESQL_DB_PASSWORD || "85wHCNS-Sibz",
     database: 'sbl'
   }
 

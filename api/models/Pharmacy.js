@@ -31,19 +31,13 @@ module.exports = {
         category_otc: 'string',
         category_sbl: 'string',
         code_sbl: 'string',
-        //avg_purchase_amount
         avg_purchase: 'integer',
         traffic: 'integer',
-        // reference to trademark
         tradenet: {
             model: 'Tradenet'
         },
-        // reference to hospitals
         hospitals: {
             collection: 'Hospital'
-        },
-        employees: {
-            collection: 'Pharmacy_employee'
         },
         merchant: {
             model: 'Merchant'

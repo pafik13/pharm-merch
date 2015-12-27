@@ -8,6 +8,14 @@
 module.exports = {
 
     attributes: {
-
+        query: {
+            type: 'string',
+            required: true
+        },
+        fields: 'json',
+        desc: {
+            type: 'string',
+            size: 255
+        }
     }
 };
