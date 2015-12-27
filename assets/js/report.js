@@ -13,6 +13,7 @@
 		  },
 		  dataType: 'json'
 		});
+		console.log(JSON.stringify(users))
        return users;   
 	  }
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
@@ -86,7 +87,7 @@
           
           $scope.admin_query = function(){
               console.log($scope.week);
-              var matches = $scope.week.match(/\d\d\.\m\m\.\y\y\y\y/);
+              var matches = $scope.week.match(/\d\d\.\d\d\.\d\d\d\d/ig);
               console.log('\j',matches);
             $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
                 $scope.results = result;
@@ -110,4 +111,34 @@
                 console.log(JSON.stringify(error));
             });    
           };
-      });        
+      });       
+      
+      
+ $('input.datepicker-month').datepicker({
+     format: "dd.mm.yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+       
+$('input.datepicker-week').datepicker({
+    //format: "yyyy-mm",
+    startViewMode: "months",
+    minView: 'dates',
+    language: "ru",
+    autoclose: true,
+    format: {
+            toDisplay: function (date, format, language) {
+                 var curr = new Date(date); 
+				 var first = curr.getDate() - curr.getDay(); 
+				 var last = first + 6; 
+				 var firstday = new Date(curr.setDate(first)); 
+				 var lastday = new Date(curr.setDate(last));
+				 return firstday.getDate() +'.'+ firstday.getMonth() + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + lastday.getMonth() + '.' + lastday.getFullYear();
+            },
+            toValue: function (date, format, language) {
+              return date;
+            }
+        }
+});      
