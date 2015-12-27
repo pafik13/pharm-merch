@@ -5,6 +5,19 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+function findMe(user_id, callback) {
+    var query = ['select u.id uid, m.id as mid, mc.id as mcid from public.user as u ',
+        'left outer join public.manager as m on (m.user = u.id) ',
+        'left outer join public.merchant as mc on (mc.user = u.id) ',
+        'where u.id = ' + user_id
+    ].join('');
+    //console.log(query);
+    User.query(query,
+        function(err, results) {
+            callback(err, results);
+        });
+}
+
 module.exports = {
     main: function(req, res) {
         User.findOne(req.user.id).exec(function(err, found) {
@@ -66,6 +79,27 @@ module.exports = {
         return res.view('guest');
     },
     report: function(req, res) {
-        return res.view('report');
+        findMe(req.user.id, function(err, result) {
+            if (err) return res.negotiate(err);
+            if (result.rowCount == 1) {
+                var mid = result.rows[0].mid;
+                var mcid = result.rows[0].mcid;
+                if (mid != null && mcid == null) {
+                    return res.view('report', {
+                        'manager': {
+                            id: mid
+                        }
+                    });
+
+                } else {
+                    return res.negotiate("You don't have permissions to view this page.");
+                }
+            } else {
+                return res.negotiate('Error user type detection.')
+            }
+        });
+
+
+
     }
 };
