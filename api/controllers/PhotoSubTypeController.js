@@ -1,7 +1,7 @@
 /**
- * DistrictController
+ * PhotoSubTypeController
  *
- * @description :: Server-side logic for managing Districts
+ * @description :: Server-side logic for managing Photosubtypes
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 

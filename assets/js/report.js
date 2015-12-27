@@ -1,20 +1,37 @@
 	  /*----------------------- MERCHANTS --------------------------------*/
 	  function getMerchants(){
 	    var users = [];
-		$.ajax(
-		{
-		  async: false,
-		  url: "/Merchant/find?manager="+manager.id, /*global manager*/
-		  success: function (data) {
-		    users = data;	
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data + "\n" + 'getUsers');
-		  },
-		  dataType: 'json'
-		});
+  		$.ajax(
+  		{
+  		  async: false,
+  		  url: "/Merchant/find?manager="+manager.id+'&populate=false', /*global manager*/
+  		  success: function (data) {
+  		    users = data;	
+  		  },
+  		  error: function(xhr, status, data){
+  			alert(status + "\n" + data + "\n" + 'getUsers');
+  		  },
+  		  dataType: 'json'
+  		});
        return users;   
 	  }
+    /*----------------------- META --------------------------------*/
+    function getMeta(reportID){
+      var meta = [];
+      $.ajax(
+      {
+        async: false,
+        url: "/Report/"+reportID, /*global manager*/
+        success: function (data) {
+          meta = data.fields; 
+        },
+        error: function(xhr, status, data){
+        alert(status + "\n" + data + "\n" + 'getMeta');
+        },
+        dataType: 'json'
+      });
+       return meta;   
+    }
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
       
@@ -32,12 +49,13 @@
           $scope.query = '';
           $scope.merchant = '';
           $scope.merchantList = getMerchants();
-          $scope.results = [{asdf:'asdf',field:'zxcv'},{field:'qqwereqwr',asdf:'asdf'}];
-          $scope.meta = {field:'Проверка проверка',field:'Проверка проверка'};
-          
+          $scope.results = [];
+          // $scope.meta = {name:'FIO',address:'Address', cat_otc:'Cat_OTC', cat_sbl:'Cat_SBL'};
+          $scope.meta = getMeta(2);
+
           $scope.admin_query = function(){
               console.log($scope.query);
-            $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant}).success(function(result){
+            $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant.id}).success(function(result){
                 $scope.results = result;
             }).error(function(error){
                 console.log(JSON.stringify(error));

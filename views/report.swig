@@ -100,6 +100,10 @@
    margin:2px;
 }	
 
+.table th {
+    text-align: center;
+}
+
 </style>
 
     <div id="wrapper">
@@ -243,43 +247,29 @@
 
             <div class="container-fluid">
 				<div class="tab-content">
-					
-					<div  id="merchants" class="tab-pane fade" style="height: 500px" ng-controller="merchantsQueryController">
+					<div  id="merchants" class="tab-pane fade" ng-controller="merchantsQueryController">
 						{% raw %}
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
+                        <!-- Page Heading -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header">
+                                    Мерчендайзеры <small>Аптечная база</small>
+                                </h1>
 
-									</div>
-								</form>
-							</div>
-						</div>
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="reportMerchant">Мерчендайзер:</label>
+                                        <select class="form-control" name="reportMerchant" id="reportMerchant" ng-options="merch.lastName for merch in merchantList" ng-model="merchant">
+                                        </select>
+
+                                        <div type="button" class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.row -->				
 						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
-										</select>
-									</div>
-								</form>
-							</div>
-						</div>					
-						<div class="row">
-							<div class="col-md-1 col-lg-6">
-								<div class="span12">
-									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6">
-								<div class="span12">
-									<report  results="results" meta="meta" ng-model="results" />
-								</div>
-							</div>
+							<report  results="results" meta="meta" ng-model="results" />
 						</div>
 						
 						{% endraw %}
@@ -421,7 +411,7 @@
 								<form class="form-horizontal pull-left">
 									<div class="form-group">
 										<label for="reportMerchant">Мерчендайзер:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.firstName for option in merchantList track by option.id">
 										</select>
 									</div>
 									<div class="form-group">
