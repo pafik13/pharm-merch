@@ -260,8 +260,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.LastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -299,8 +299,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -338,8 +338,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -377,8 +377,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="form-group">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 									<div class="form-group">
@@ -421,7 +421,7 @@
 								<form class="form-horizontal pull-left">
 									<div class="form-group">
 										<label for="reportMerchant">Мерчендайзер:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 									<div class="form-group">
@@ -473,39 +473,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
     
-    
-    <script>
-      $('input.datepicker-month').datepicker({
-	    format: "dd.mm.yyyy",
-	    minViewMode: 'months',
-	    maxViewMode: 'years',
-	    language: "ru",
-	    autoclose: true
-	  });
-       
-	  $('input.datepicker-week').datepicker({
-		    //format: "yyyy-mm",
-		    startViewMode: "months",
-		    minView: 'dates',
-		    language: "ru",
-		    autoclose: true,
-		    format: {
-		            toDisplay: function (date, format, language) {
-		                 var curr = new Date(date); 
-						 var first = curr.getDate() - curr.getDay(); 
-						 var last = first + 6; 
-						 var firstday = new Date(curr.setDate(first)); 
-						 var lastday = new Date(curr.setDate(last));
-						 return firstday.getDate() +'.'+ firstday.getMonth() + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + lastday.getMonth() + '.' + lastday.getFullYear();
-		            },
-		            toValue: function (date, format, language) {
-		              return date;
-		            }
-		        }
-		});
-    </script>
 	<!-- Angular application -->
 	<script src="/js/report.js"></script>
+		<script>
+     
+	  $('#downloadExcel').on('click', function () {
+        var btn = $(this).button();
+
+        var link = document.createElement('a');
+        document.body.appendChild(link);
+        console.log('Downloading file');
+        
+        var header = 'data:application/vnd.ms-excel;base64,';
+                    //'<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+        var body =   '<meta  http-equiv="Content-Type"  content="text/html;  charset=UTF-8">' + 
+                    '<style>table, table td, table td tr {    border: 1px solid black; }</style>' + 
+                    $('table:visible')[0].outerHTML;
+        link.href = header + window.btoa(unescape(encodeURIComponent(body)));            
+        $(link).attr('download','Отчет.xls');
+        link.click();
+      });
+	</script>
 </body>
 
 </html>
