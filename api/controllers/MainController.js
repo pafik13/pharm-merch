@@ -28,7 +28,7 @@ module.exports = {
                         if (err) return res.serverError(err);
 
                         if (!manager) {
-                            return res.notFound('РќРµ РЅР°Р№РґРµРЅ MANAGER РІ MainController.main');
+                            return res.notFound('Не найден MANAGER в MainController.main');
                         };
 
                         var ext = require('../extensions.js');
