@@ -250,18 +250,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
 										<label for="reportMerchant">Мерчендайзеры:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.LastName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -290,17 +280,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
 										<label for="reportMerchant">Мерчендайзеры:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -329,17 +310,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
 										<label for="reportMerchant">Мерчендайзеры:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -367,18 +339,9 @@
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
 									<div class="form-group">
 										<label for="reportMerchant">Мерчендайзеры:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 									<div class="form-group">
@@ -410,18 +373,9 @@
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
 									<div class="form-group">
 										<label for="reportMerchant">Мерчендайзер:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.lastName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 									<div class="form-group">
@@ -475,25 +429,7 @@
     
 	<!-- Angular application -->
 	<script src="/js/report.js"></script>
-		<script>
-     
-	  $('#downloadExcel').on('click', function () {
-        var btn = $(this).button();
 
-        var link = document.createElement('a');
-        document.body.appendChild(link);
-        console.log('Downloading file');
-        
-        var header = 'data:application/vnd.ms-excel;base64,';
-                    //'<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
-        var body =   '<meta  http-equiv="Content-Type"  content="text/html;  charset=UTF-8">' + 
-                    '<style>table, table td, table td tr {    border: 1px solid black; }</style>' + 
-                    $('table:visible')[0].outerHTML;
-        link.href = header + window.btoa(unescape(encodeURIComponent(body)));            
-        $(link).attr('download','Отчет.xls');
-        link.click();
-      });
-	</script>
 </body>
 
 </html>

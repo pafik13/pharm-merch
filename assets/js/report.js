@@ -1,23 +1,34 @@
-	  /*----------------------- MERCHANTS --------------------------------*/
-	  function getMerchants(){
-	    var users = [];
-		$.ajax(
-		{
-		  async: false,
-		  url: "/Merchant/find?manager="+manager.id, /*global manager*/
-		  success: function (data) {
-		    users = data;	
-		  },
-		  error: function(xhr, status, data){
-			alert(status + "\n" + data + "\n" + 'getUsers');
-		  },
-		  dataType: 'json'
-		});
-		console.log(JSON.stringify(users))
-       return users;   
-	  }
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
+      
+      app.factory('getData',function($http,$q){
+          
+          var data = {merchants:[]};
+          
+          return {
+              getMerchants: function(){
+                  var deferred = $q.defer();
+                  
+                  if(data.merchants.length == 0){
+                      $http({
+                          method:'POST',
+                          url: "/Merchant/find?manager="+manager.id
+                      }).then(function(response){
+                          data.merchants = response;
+                          deferred.resolve(response);
+                      },function(response){
+                          deferred.reject(response);
+                      });
+                  }else{
+                      deferred.resolve(data.merchants);
+                  }
+                  return deferred.promise;
+              },
+              getData: function(){
+                  return data;
+              }
+          }
+      });
       
       app.directive('report',function(){
           return {
@@ -25,16 +36,40 @@
                 results: '=',
                 meta: '='
               },
-              templateUrl:'/templates/report.html'
+              templateUrl:'/templates/report.html',
+              controller: function($scope, $element){
+                  $scope.download_file = function(){
+                        var link = document.createElement('a');
+                        document.body.appendChild(link);
+                        console.log('Downloading file');
+                        
+                        var header = 'data:application/vnd.ms-excel;base64,';
+                                    //'<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+                        var body =   '<meta  http-equiv="Content-Type"  content="text/html;  charset=UTF-8">' + 
+                                    '<style>table, table td, table td tr {    border: 1px solid black; }</style>' + 
+                                    $('table:visible')[0].outerHTML;
+                        link.href = header + window.btoa(unescape(encodeURIComponent(body)));            
+                        $(link).attr('download','Отчет.xls');
+                        link.click();
+                  }
+              }
           }
       });
 
-      app.controller('merchantsQueryController', function($scope, $http) { /*global app*/
+      app.controller('merchantsQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
           $scope.results = [{asdf:'asdf',field:'zxcv'},{field:'qqwereqwr',asdf:'asdf'}];
           $scope.meta = {field:'Проверка проверка',field:'Проверка проверка'};
+          
+          getData.getMerchants().then(function(results){
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              console.log(JSON.stringify(results));
+          });
           
           $scope.admin_query = function(){
               console.log($scope.query);
@@ -46,11 +81,19 @@
           };
       });  
       
-      app.controller('dailyQueryController', function($scope, $http) { /*global app*/
+      app.controller('dailyQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
           $scope.results = '';
+          
+          getData.getMerchants().then(function(results){
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              console.log(JSON.stringify(results));
+          });
           
           $scope.admin_query = function(){
               console.log($scope.query);
@@ -62,11 +105,19 @@
           };
       });  
       
-      app.controller('dailyAllQueryController', function($scope, $http) { /*global app*/
+      app.controller('dailyAllQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
           $scope.results = '';
+          
+          getData.getMerchants().then(function(results){
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              console.log(JSON.stringify(results));
+          });
           
           $scope.admin_query = function(){
               console.log($scope.query);
@@ -78,12 +129,20 @@
           };
       });  
       
-      app.controller('weeklyQueryController', function($scope, $http) { /*global app*/
+      app.controller('weeklyQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
           $scope.results = '';
           $scope.week = '';
+          
+          getData.getMerchants().then(function(results){
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              console.log(JSON.stringify(results));
+          });
           
           $scope.admin_query = function(){
               console.log($scope.week);
@@ -97,11 +156,19 @@
           };
       });  
       
-      app.controller('monthlyQueryController', function($scope, $http) { /*global app*/
+      app.controller('monthlyQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
           $scope.results = '';
+          
+          getData.getMerchants().then(function(results){
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              console.log(JSON.stringify(results));
+          });
           
           $scope.admin_query = function(){
               console.log($scope.query);
