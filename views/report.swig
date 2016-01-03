@@ -36,21 +36,19 @@
 
 <body ng-app="App">
 <style>
-    .datepicker table tbody tr:hover{background: #04c}
-    
     #custom-search-form {
         margin:0;
         margin-top: 5px;
         padding: 0;
     }
- 
+
     #custom-search-form .search-query {
         padding-right: 3px;
         padding-right: 4px \9;
         padding-left: 3px;
         padding-left: 4px \9;
         /* IE7-8 doesn't have border-radius, so don't indent the padding */
- 
+
         margin-bottom: 0;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
@@ -60,7 +58,7 @@
     -o-transition: width  0.2s ease-in-out;
     transition: width  0.2s ease-in-out;
     }
- 
+
     #custom-search-form button {
         border: 0;
         background: none;
@@ -75,13 +73,13 @@
         -moz-border-radius: 3px;
         border-radius: 3px;
     }
- 
+
     .search-query:focus + button {
-        z-index: 3;   
-    }   
+        z-index: 3;
+    }
     .search-query:focus{
         width: 260px;
-    }   
+    }
 
 .two-columns {
     -moz-column-count: 2;
@@ -98,7 +96,7 @@
     width: 100%;
     background-color: #ccc;
    margin:2px;
-}	
+}
 
 .table th {
     text-align: center;
@@ -229,10 +227,10 @@
                     </li>
                     <li class="active">
                         <a href="#reports" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-file-text"></i> Отчеты<i class="fa fa-fw fa-caret-down"></i></a>
-                   
+
 						<ul  id="reports" class="collapse in active" class="nav nav-pills">
-							<li><a data-toggle="pill" href="#merchants">Мерчендайзеры</a></li>
-							<li><a data-toggle="pill" href="#daily">Ежедневный</a></li>
+							<li><a data-toggle="pill" href="#base">База аптек</a></li>
+							<li><a data-toggle="pill" href="#visits">МЧ_Визиты</a></li>
 							<li><a data-toggle="pill" href="#dailyAll">Ежедневный +</a></li>
 							<li><a data-toggle="pill" href="#weekly">Недельный</a></li>
 							<li><a data-toggle="pill" href="#monthly">Месячный</a></li>
@@ -247,7 +245,7 @@
 
             <div class="container-fluid">
 				<div class="tab-content">
-					<div  id="merchants" class="tab-pane fade" ng-controller="merchantsQueryController">
+					<div  id="base" class="tab-pane fade" ng-controller="baseQueryController">
 						{% raw %}
                         <!-- Page Heading -->
                         <div class="row">
@@ -267,51 +265,44 @@
                                 </form>
                             </div>
                         </div>
-                        <!-- /.row -->				
+                        <!-- /.row -->
 						<div class="row">
 							<report  results="results" meta="meta" ng-model="results" />
 						</div>
-						
+
 						{% endraw %}
 					</div>
-					<div  id="daily" class="tab-pane fade" style="height: 500px" ng-controller="dailyQueryController">
-						{% raw %}
+					<div  id="visits" class="tab-pane fade" ng-controller="visitsQueryController">
+				    {% raw %}
+                     <!-- Page Heading -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header">
+                                    Мерчендайзеры <small>Выполнение нормы за месяц</small>
+                                </h1>
+
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="reportMerchant">Мерчендайзер:</label>
+                                        <select class="form-control" name="reportMerchant" id="reportMerchant" ng-options="merch.lastName for merch in merchantList" ng-model="merchant">
+                                        </select>
+                                        <label for="visitsDate">Дата:</label>
+                                        <div class="input-group" name="visitsDate" id="visitsDate" >
+                                           <input type="text" class="form-control" uib-datepicker-popup="w" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" datepicker-mode="'day'" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                                      <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                      </span>
+                                        </div>
+                                        <div type="button" class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.row -->
 						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
+							<report  results="results" meta="meta" ng-model="results" />
 						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
-										</select>
-									</div>
-								</form>
-							</div>
-						</div>	
-						<div class="row">
-							<div class="col-md-1 col-lg-6">
-								<div class="span12">
-									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6">
-								<div class="span12">
-									<report  results="results" ng-model="results" />
-								</div>
-							</div>
-						</div>
-						
-						{% endraw %}						
+						{% endraw %}
 					</div>
 					<div  id="dailyAll" class="tab-pane fade" style="height: 500px" ng-controller="dailyAllQueryController">
 						{% raw %}
@@ -334,7 +325,7 @@
 									</div>
 								</form>
 							</div>
-						</div>	
+						</div>
 						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
@@ -349,8 +340,8 @@
 								</div>
 							</div>
 						</div>
-						
-						{% endraw %}						
+
+						{% endraw %}
 					</div>
 					<div  id="weekly" class="tab-pane fade" style="height: 500px" ng-controller="weeklyQueryController">
 						{% raw %}
@@ -377,7 +368,7 @@
 									</div>
 								</form>
 							</div>
-						</div>							
+						</div>
 						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
@@ -392,8 +383,8 @@
 								</div>
 							</div>
 						</div>
-						
-						{% endraw %}						
+
+						{% endraw %}
 					</div>
 					<div  id="monthly" class="tab-pane fade" style="height: 500px" ng-controller="monthlyQueryController">
 						{% raw %}
@@ -415,12 +406,12 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label for="reportMerchant">Дата:</label>
+										<label for="monthMerchDate">Месяц:</label>
 										<input class="form-control datepicker-month" name="reportDate" id="monthMerchDate" ng-model="month" type="text" />
 									</div>
 								</form>
 							</div>
-						</div>							
+						</div>
 						<div class="row">
 							<div class="col-md-1 col-lg-6">
 								<div class="span12">
@@ -435,10 +426,10 @@
 								</div>
 							</div>
 						</div>
-						
-						{% endraw %}						
-					</div>	
-				</div>				
+
+						{% endraw %}
+					</div>
+				</div>
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -449,10 +440,8 @@
       var manager = {};
 	  //SWIG Injection!!! How to another get manager.id in the page?
 	  manager.id = 0{{manager.id}};
-	</script>		
-    <!-- AngularJS -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-	
+	</script>
+
 	<!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 
@@ -462,38 +451,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
-    
-    
-    <script>
-      $('input.datepicker-month').datepicker({
-	    format: "dd.mm.yyyy",
-	    minViewMode: 'months',
-	    maxViewMode: 'years',
-	    language: "ru",
-	    autoclose: true
-	  });
-       
-	  $('input.datepicker-week').datepicker({
-		    //format: "yyyy-mm",
-		    startViewMode: "months",
-		    minView: 'dates',
-		    language: "ru",
-		    autoclose: true,
-		    format: {
-		            toDisplay: function (date, format, language) {
-		                 var curr = new Date(date); 
-						 var first = curr.getDate() - curr.getDay(); 
-						 var last = first + 6; 
-						 var firstday = new Date(curr.setDate(first)); 
-						 var lastday = new Date(curr.setDate(last));
-						 return firstday.getDate() +'.'+ firstday.getMonth() + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + lastday.getMonth() + '.' + lastday.getFullYear();
-		            },
-		            toValue: function (date, format, language) {
-		              return date;
-		            }
-		        }
-		});
-    </script>
+    <!-- AngularJS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
 	<!-- Angular application -->
 	<script src="/js/report.js"></script>
 </body>
