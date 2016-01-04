@@ -278,7 +278,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <h1 class="page-header">
-                                    Мерчендайзеры <small>Выполнение нормы за месяц</small>
+                                    Мерчендайзеры <small>Выполнение нормы за неделю</small>
                                 </h1>
 
                                 <form class="form-inline">
@@ -286,13 +286,16 @@
                                         <label for="reportMerchant">Мерчендайзер:</label>
                                         <select class="form-control" name="reportMerchant" id="reportMerchant" ng-options="merch.lastName for merch in merchantList" ng-model="merchant">
                                         </select>
-                                        <label for="visitsDate">Дата:</label>
-                                        <div class="input-group" name="visitsDate" id="visitsDate" >
-                                           <input type="text" class="form-control" uib-datepicker-popup="w" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" datepicker-mode="'day'" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                                                      <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                                      </span>
-                                        </div>
+                                        <label for="yearSelect"> Год: </label>
+                                        <select class="form-control" name="yearSelect" id="yearSelect" ng-change="wp.yearChange()"
+                                          ng-options="option.year for option in wp.data.availableYears track by option.year"
+                                          ng-model="wp.data.selectedYear">
+                                        </select>
+                                        <label for="weekSelect"> Неделя: </label>
+                                        <select class="form-control" name="weekSelect" id="weekSelect"
+                                          ng-options="option.name for option in wp.data.availableWeeks track by option.week"
+                                          ng-model="wp.data.selectedWeek">
+                                        </select>
                                         <div type="button" class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</div>
                                     </div>
                                 </form>
@@ -449,11 +452,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
-    <!-- AngularJS -->
+
+  <!-- AngularJS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/ru.js"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
 	<!-- Angular application -->
 	<script src="/js/report.js"></script>
 </body>

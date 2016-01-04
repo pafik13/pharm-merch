@@ -33,7 +33,7 @@
        return meta;
     }
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
-      var app = angular.module('App', ['ui.bootstrap']);  /*global angular*/
+      var app = angular.module('App', []);  /*global angular*/
 
       app.directive('report',function(){
           return {
@@ -61,61 +61,37 @@
           };
       });
 
-//       app.directive('datetimez', function() {
-//           return {
-//               restrict: 'A',
-//               require : 'ngModel',
-//               link: function(scope, element, attrs, ngModelCtrl) {
-//                 element.datetimepicker({
-//                  dateFormat:'dd-MM-yyyy',
-//                  language: 'en',
-//                  pickTime: false,
-//                  startDate: '01-11-2013',      // set a minimum date
-//                  endDate: '01-11-2030'          // set a maximum date
-//                 }).on('changeDate', function(e) {
-//                   ngModelCtrl.$setViewValue(e.date);
-//                   scope.$apply();
-//                 });
-//               }
-//           };
-//       });
-
       app.controller('visitsQueryController', function($scope, $http, $filter) { /*global app*/
-          /*dateTimePicker*/
-          $scope.today = function() {
-            $scope.dt = new Date();
-          };
-          $scope.today();
-
-          $scope.clear = function () {
-            $scope.dt = null;
-          };
-
-          // Disable weekend selection
-          $scope.disabled = function(date, mode) {
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-          };
-
-            $scope.minDate = $scope.minDate ? null : new Date(new Date().getTime() - 14*24*60*60*1000);
-            $scope.maxDate = new Date("12/31/2023");
-
-          $scope.open = function($event) {
-            $scope.status.opened = true;
-          };
-
-          $scope.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1,
-//             minMode: 'month'
+          /*-->weekPicker*/
+          $scope.wp = {
+            data : {},
+            yearChange : function() {
+              $scope.wp.data.availableWeeks = [];
+              moment.locale('ru');
+              var m = moment().year($scope.wp.data.selectedYear.year);
+              for (i = 1; i <= m.weeksInYear(); i++) {
+                 $scope.wp.data.availableWeeks.push({
+                  "week" : i,
+                  "ds"   : m.week(i).weekday(0).format("YYYY-MM-DD"),
+                  "de"   : m.week(i).weekday(6).format("YYYY-MM-DD"),
+                  "name" : m.week(i).format("ww") + " : "
+                         + m.week(i).weekday(0).format("DD MMM") + " - "
+                         + m.week(i).weekday(6).format("DD MMM"),
+                 });
+               }
+               $scope.wp.data.selectedWeek = $scope.wp.data.availableWeeks[0];
+            }
           };
 
-          $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-          $scope.format = $scope.formats[0];
 
-          $scope.status = {
-            opened: false
-          };
-          /*dateTimePicker*/
+          $scope.wp.data.availableYears = [
+             {year: '2014'},
+             {year: '2015'},
+             {year: '2016'},
+          ];
+          $scope.wp.data.selectedYear = $scope.wp.data.availableYears[2];
+          $scope.wp.yearChange();
+          /*<--weekPicker*/
 
           $scope.merchant = '';
           $scope.month = '12-07-2013';
@@ -125,21 +101,21 @@
           $scope.meta = getMeta(3);
 
           $scope.admin_query = function(){
-              console.log('Date : %s', $scope.dt);
-              var day = $scope.dt.getDay() - 1;
-              var firstDay = new Date($scope.dt.getTime() - 60*60*24* day*1000); // will return firstday (i.e. Sunday) of the week
-              var lastDay = new Date(firstDay.getTime() + 60 * 60 *24 * 6 * 1000); // adding (60*60*6*24*1000) means adding six days to the firstday which results in lastday (Saturday) of the week
-              var firtDayF = $filter('date')(firstDay, 'yyyy-MM-dd');
-              var lastDayF =  $filter('date')(lastDay, 'yyyy-MM-dd');
-              console.log('firstDay : %s', firstDay);
-              console.log('lastDay : %s', lastDay);
-              console.log('firstDayF : %s', firtDayF);
-              console.log('lastDayF : %s', lastDayF);
+//               console.log('Date : %s', $scope.dt);
+//               var day = $scope.dt.getDay() - 1;
+//               var firstDay = new Date($scope.dt.getTime() - 60*60*24* day*1000); // will return firstday (i.e. Sunday) of the week
+//               var lastDay = new Date(firstDay.getTime() + 60 * 60 *24 * 6 * 1000); // adding (60*60*6*24*1000) means adding six days to the firstday which results in lastday (Saturday) of the week
+//               var firtDayF = $filter('date')(firstDay, 'yyyy-MM-dd');
+//               var lastDayF =  $filter('date')(lastDay, 'yyyy-MM-dd');
+//               console.log('firstDay : %s', firstDay);
+//               console.log('lastDay : %s', lastDay);
+//               console.log('firstDayF : %s', firtDayF);
+//               console.log('lastDayF : %s', lastDayF);
 //               var matches = $scope.dt.match(/\d\d\.\m\m\.\y\y\y\y/);
 //               console.log('\j',matches);
 
             $http({
-              url:'/Report/Generate?report=3&merchant=' + $scope.merchant.id + '&date_first=' + firtDayF + '&date_last=' + lastDayF
+              url:'/Report/Generate?report=3&merchant=' + $scope.merchant.id + '&date_first=' + $scope.wp.data.selectedWeek.ds + '&date_last=' + $scope.wp.data.selectedWeek.de
             }).success(function(result){
                 $scope.results = result;
             }).error(function(error){
