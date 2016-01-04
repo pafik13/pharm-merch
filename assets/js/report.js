@@ -1,3 +1,38 @@
+/*-------------------------------- JQUERY Controls ------------------------------------*/
+ $('input.datepicker-month').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+    
+var weekPicker = $('input.datepicker-week').datepicker({
+    //format: "yyyy-mm",
+    startViewMode: "months",
+    minView: 'dates',
+    language: "ru",
+    autoclose: true,
+    format: {
+            toDisplay: function (date, format, language) {
+                 var curr = new Date(date); 
+				 var first = curr.getDate() - curr.getDay(); 
+				 var last = first + 6; 
+				 var firstday = new Date(curr.setDate(first)); 
+				 var lastday = new Date(curr.setDate(last));
+				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+            },
+            toValue: function (date, format, language) {
+                return date;
+            }
+        }
+});
+
+//highlight week
+weekPicker.on('show', function(){
+    $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','red');
+})
+
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
       
@@ -136,6 +171,10 @@
           $scope.results = '';
           $scope.week = '';
           
+          $scope.$watch('week', function(){
+              console.log('WATCH '+ $scope.week);
+          });
+          
           getData.getMerchants().then(function(results){
               //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
@@ -144,10 +183,24 @@
               console.log(JSON.stringify(results));
           });
           
+          weekPicker.on('changeDate', function(e) {
+              var curr = new Date(e.date); 
+    		  var first = curr.getDate() - curr.getDay(); 
+    		  var last = first + 6; 
+    		  var firstday = new Date(curr.setDate(first)); 
+    		  var lastday = new Date(curr.setDate(last));
+
+              $scope.week = firstday.getDate() +'.'+ (firstday.getMonth() + 1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth() + 1) + '.' + lastday.getFullYear();
+              $scope.$apply();
+          });
+          
           $scope.admin_query = function(){
-              console.log($scope.week);
-              var matches = $scope.week.match(/\d\d\.\d\d\.\d\d\d\d/ig);
-              console.log('\j',matches);
+              console.log('MCH ' + $scope.week);
+              var str = '';
+              str = $scope.week;
+              
+              var matches = str.match(/\d+\.\d+\.\d\d\d\d/g);
+              console.log('MATCHES' + JSON.stringify(matches));
             $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
                 $scope.results = result;
             }).error(function(error){
@@ -179,33 +232,3 @@
             });    
           };
       });       
-      
-      
- $('input.datepicker-month').datepicker({
-     format: "dd.mm.yyyy",
-     minViewMode: 'months',
-     maxViewMode: 'years',
-     language: "ru",
-     autoclose: true
-});
-       
-$('input.datepicker-week').datepicker({
-    //format: "yyyy-mm",
-    startViewMode: "months",
-    minView: 'dates',
-    language: "ru",
-    autoclose: true,
-    format: {
-            toDisplay: function (date, format, language) {
-                 var curr = new Date(date); 
-				 var first = curr.getDate() - curr.getDay(); 
-				 var last = first + 6; 
-				 var firstday = new Date(curr.setDate(first)); 
-				 var lastday = new Date(curr.setDate(last));
-				 return firstday.getDate() +'.'+ firstday.getMonth() + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + lastday.getMonth() + '.' + lastday.getFullYear();
-            },
-            toValue: function (date, format, language) {
-              return date;
-            }
-        }
-});      

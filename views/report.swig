@@ -36,7 +36,7 @@
 
 <body ng-app="App">
 <style>
-    .datepicker table tbody tr:hover{background: #04c}
+    .datepicker table tbody tr:hover > td.day{background: #04c}
     
     #custom-search-form {
         margin:0;
