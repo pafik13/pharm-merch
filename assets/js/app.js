@@ -1,4 +1,4 @@
-	  /*----------------------- MANAGERS --------------------------------*/
+﻿	  /*----------------------- MANAGERS --------------------------------*/
 	  function getManagers(){
 	    var users = [];
 		$.ajax(
@@ -796,7 +796,7 @@
 		  $scope.last_pharmacy.longitude = 0;
 		  
 		  $scope.clearAutocomplete = function(parent){
-		  	$(parent +' #autocomp').val('город Москва');
+		  	$(parent +' #autocomp').val('РіРѕСЂРѕРґ РњРѕСЃРєРІР°');
 		  	
 		  };
 		  $scope.initAutocomplete = function(parent){

@@ -12,12 +12,10 @@ module.exports = {
             required: true
         },
         drug: {
-            model: 'Drug',
-            required: true
+            model: 'Drug'
         },
         info: {
-            model: 'DrugInfoType',
-            required: true
+            model: 'DrugInfoType'
         },
         value: 'string'
     }

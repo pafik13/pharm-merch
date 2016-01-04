@@ -100,6 +100,10 @@
    margin:2px;
 }	
 
+.table th {
+    text-align: center;
+}
+
 </style>
 
     <div id="wrapper">
@@ -243,8 +247,7 @@
 
             <div class="container-fluid">
 				<div class="tab-content">
-					
-					<div  id="merchants" class="tab-pane fade" style="height: 500px" ng-controller="merchantsQueryController">
+					<div  id="merchants" class="tab-pane fade" ng-controller="merchantsQueryController">
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
@@ -265,11 +268,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-1 col-lg-6">
-								<div class="span12">
-									<report  results="results" meta="meta" ng-model="results" />
-								</div>
-							</div>
+							<report  results="results" meta="meta" ng-model="results" />
 						</div>
 						
 						{% endraw %}

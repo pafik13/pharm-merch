@@ -24,7 +24,7 @@ module.exports = {
             if (err) return res.serverError(err);
 
             if (!found) {
-                return res.notFound('пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ USER пїЅ MainController.main');
+                return res.notFound('РќРµ РЅР°Р№РґРµРЅ USER РІ MainController.main');
             };
 
             switch (found.username) {
@@ -38,10 +38,10 @@ module.exports = {
                     Manager.findOne({
                         "user": found.id
                     }).exec(function(err, manager) {
-                        if (err) return res.notFound(err);
+                        if (err) return res.serverError(err);
 
                         if (!manager) {
-                            return res.notFound('пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ MANAGER пїЅ MainController.main');
+                            return res.notFound('Не найден MANAGER в MainController.main');
                         };
 
                         var ext = require('../extensions.js');
@@ -78,6 +78,7 @@ module.exports = {
     guest: function(req, res) {
         return res.view('guest');
     },
+
     report: function(req, res) {
         findMe(req.user.id, function(err, result) {
             if (err) return res.negotiate(err);
@@ -99,7 +100,27 @@ module.exports = {
             }
         });
 
+    reports: function(req, res) {
+        User.findOne(req.user.id).exec(function(err, found) {
+            if (err) return res.serverError(err);
 
+            if (!found) {
+                return res.notFound('Не найден USER в MainController.reports');
+            };
 
+            Manager.findOne({
+                "user": found.id
+            }).exec(function(err, manager) {
+                if (err) return res.serverError(err);
+
+                if (!manager) {
+                    return res.notFound('Не найден MANAGER в MainController.reports');
+                };
+
+                return res.view('report', {
+                    "manager": manager
+                });
+            });
+        });
     }
 };

@@ -11,10 +11,14 @@ module.exports = {
 
     attributes: {
         attendance: {
-            model: 'Attendance'
+            model: 'Attendance',
+            required: true
         },
         drug: {
             model: 'Drug'
+        },
+        subType: {
+            model: 'PhotoSubType'
         },
         longitude: 'float',
         latitude: 'float',

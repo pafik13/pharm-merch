@@ -10,6 +10,11 @@ module.exports = {
     attributes: {
         fullName: 'string',
         description: 'text',
+        drugsInWeek: 'integer',
+        startWeek: 'integer',
+        photoTypes: {
+            collection: 'PhotoType',
+        },
         // manager: {
         //     model: 'Manager',
         //     required: true
@@ -20,6 +25,15 @@ module.exports = {
         },
         infos: {
             collection: 'DrugInfoType'
+        },
+        netCats: {
+            collection: 'CategoryInNet'
+        },
+        promos: {
+            collection: 'Promo'
+        },
+        categoryInNet: {
+            collection: 'CategoryInNet'
         },
         druginfotypes: {
             collection: 'DrugInfoType'

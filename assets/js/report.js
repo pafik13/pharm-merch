@@ -34,7 +34,6 @@ var weekPicker = $('input.datepicker-week').datepicker({
 weekPicker.on('show', function(){
     $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','red');
 })
-
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
       
