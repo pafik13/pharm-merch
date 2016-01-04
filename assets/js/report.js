@@ -1,131 +1,266 @@
-	  /*----------------------- MERCHANTS --------------------------------*/
-	  function getMerchants(){
-	    var users = [];
-  		$.ajax(
-  		{
-  		  async: false,
-  		  url: "/Merchant/find?manager="+manager.id+'&populate=false', /*global manager*/
-  		  success: function (data) {
-  		    users = data;	
-  		  },
-  		  error: function(xhr, status, data){
-  			alert(status + "\n" + data + "\n" + 'getUsers');
-  		  },
-  		  dataType: 'json'
-  		});
-       return users;   
-	  }
-    /*----------------------- META --------------------------------*/
-    function getMeta(reportID){
-      var meta = [];
-      $.ajax(
-      {
-        async: false,
-        url: "/Report/"+reportID, /*global manager*/
-        success: function (data) {
-          meta = data.fields; 
-        },
-        error: function(xhr, status, data){
-        alert(status + "\n" + data + "\n" + 'getMeta');
-        },
-        dataType: 'json'
-      });
-       return meta;   
-    }
+/*-------------------------------- JQUERY Controls ------------------------------------*/
+// monthPicker
+var monthPicker = $('input.datepicker-month').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+// weekPicker    
+var weekPicker = $('input.datepicker-week').datepicker({
+    //format: "yyyy-mm",
+    startViewMode: "months",
+    minView: 'dates',
+    language: "ru",
+    autoclose: true,
+    format: {
+            toDisplay: function (date, format, language) {
+                 var curr = new Date(date); 
+				 var first = curr.getDate() - curr.getDay(); 
+				 var last = first + 6; 
+				 var firstday = new Date(curr.setDate(first)); 
+				 var lastday = new Date(curr.setDate(last));
+				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+            },
+            toValue: function (date, format, language) {
+                return date;
+            }
+        }
+});
+
+//highlight week
+weekPicker.on('show', function(){
+    $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','red');
+})
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
       
+      //Global data factory
+      app.factory('getData',function($http,$q){
+          
+          var data = {merchants:[]};
+          
+          return {
+              getMerchants: function(){
+                  var deferred = $q.defer();
+                  
+                  if(data.merchants.length == 0){
+                      $http({
+                          method:'POST',
+                          url: "/Merchant/find?manager="+manager.id
+                      }).then(function(response){
+                          //SUCCESS
+                          data.merchants = response;
+                          deferred.resolve(response);
+                      },function(response){
+                          //ERROR
+                          deferred.reject(response);
+                      });
+                  }else{
+                      //Cached data
+                      deferred.resolve(data.merchants);
+                  }
+                  return deferred.promise;
+              },
+              getData: function(){
+                  return data;
+              }
+          }
+      });
+      
+      //Table template with download button
       app.directive('report',function(){
           return {
               scope:{
                 results: '=',
                 meta: '='
               },
-              templateUrl:'/templates/report.html'
+              templateUrl:'/templates/report.html',
+              controller: function($scope, $element){
+                  $scope.download_file = function(){
+                        var link = document.createElement('a');
+                        document.body.appendChild(link);
+                        //console.log('Downloading file');
+                        
+                        var header = 'data:application/vnd.ms-excel;base64,';
+                                    //'<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+                        var body =   '<meta  http-equiv="Content-Type"  content="text/html;  charset=UTF-8">' + 
+                                    '<style>table, table td, table td tr {    border: 1px solid black; }</style>' + 
+                                    $('table:visible')[0].outerHTML;
+                        link.href = header + window.btoa(unescape(encodeURIComponent(body)));            
+                        $(link).attr('download','Отчет.xls');
+                        link.click();
+                  }
+              }
           }
       });
 
-      app.controller('merchantsQueryController', function($scope, $http) { /*global app*/
+      app.controller('merchantsQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
-          $scope.results = [];
-          // $scope.meta = {name:'FIO',address:'Address', cat_otc:'Cat_OTC', cat_sbl:'Cat_SBL'};
-          $scope.meta = getMeta(2);
-
-          $scope.admin_query = function(){
-              console.log($scope.query);
-            $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant.id}).success(function(result){
-                $scope.results = result;
-            }).error(function(error){
-                console.log(JSON.stringify(error));
-            });    
-          };
-      });  
-      
-      app.controller('dailyQueryController', function($scope, $http) { /*global app*/
-          $scope.query = '';
-          $scope.merchant = '';
-          $scope.merchantList = getMerchants();
-          $scope.results = '';
+          $scope.merchantList = '';
+          $scope.results = [{asdf:'asdf',field:'zxcv'},{field:'qqwereqwr',asdf:'asdf'}];
+          $scope.meta = {field:'Проверка проверка',field:'Проверка проверка'};
+          
+          getData.getMerchants().then(function(results){
+              //SUCCESS
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
           
           $scope.admin_query = function(){
-              console.log($scope.query);
-            $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+            //console.log($scope.query);
+            $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant}).success(function(result){
+                //SUCCESS
                 $scope.results = result;
             }).error(function(error){
+                //ERROR
                 console.log(JSON.stringify(error));
             });    
           };
       });  
       
-      app.controller('dailyAllQueryController', function($scope, $http) { /*global app*/
+      app.controller('dailyQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
           $scope.results = '';
           
+          getData.getMerchants().then(function(results){
+              //SUCCESS
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
+          
           $scope.admin_query = function(){
-              console.log($scope.query);
-            $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
-                $scope.results = result;
-            }).error(function(error){
-                console.log(JSON.stringify(error));
-            });    
+                //console.log($scope.query);
+                $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                    //SUCCESS
+                    $scope.results = result;
+                }).error(function(error){
+                    //ERROR
+                    console.log(JSON.stringify(error));
+                });    
           };
       });  
       
-      app.controller('weeklyQueryController', function($scope, $http) { /*global app*/
+      app.controller('dailyAllQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
+          $scope.results = '';
+          
+          getData.getMerchants().then(function(results){
+              //ERROR
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
+          
+          $scope.admin_query = function(){
+                //console.log($scope.query);
+                $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                    //SUCCESS
+                    $scope.results = result;
+                }).error(function(error){
+                    //ERROR
+                    console.log(JSON.stringify(error));
+                });    
+          };
+      });  
+      
+      app.controller('weeklyQueryController', function($scope, $http, getData) { /*global app*/
+          $scope.query = '';
+          $scope.merchant = '';
+          $scope.merchantList = '';
           $scope.results = '';
           $scope.week = '';
           
+          //   $scope.$watch('week', function(){
+          //       console.log('WATCH '+ $scope.week);
+          //   });
+          
+          getData.getMerchants().then(function(results){
+              //SUCCESS
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
+          
+          //Save datePicker value to scope
+          weekPicker.on('changeDate', function(e) {
+              var curr = new Date(e.date); 
+    		  var first = curr.getDate() - curr.getDay(); 
+    		  var last = first + 6; 
+    		  var firstday = new Date(curr.setDate(first)); 
+    		  var lastday = new Date(curr.setDate(last));
+
+              $scope.week = firstday.getDate() +'.'+ (firstday.getMonth() + 1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth() + 1) + '.' + lastday.getFullYear();
+              $scope.$apply();
+          });
+          
           $scope.admin_query = function(){
-              console.log($scope.week);
-              var matches = $scope.week.match(/\d\d\.\m\m\.\y\y\y\y/);
-              console.log('\j',matches);
+              var str = '';
+              str = $scope.week;
+              var matches = str.match(/\d+\.\d+\.\d\d\d\d/g);
+              //console.log('MATCHES ' + JSON.stringify(matches));
             $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                //SUCCESS
                 $scope.results = result;
             }).error(function(error){
+                //ERROR
                 console.log(JSON.stringify(error));
             });    
           };
       });  
       
-      app.controller('monthlyQueryController', function($scope, $http) { /*global app*/
+      app.controller('monthlyQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
-          $scope.merchantList = getMerchants();
+          $scope.merchantList = '';
+          $scope.month = '';
           $scope.results = '';
           
+          monthPicker.on('changeDate', function(e) {
+              var curr = new Date(e.date); 
+    		  
+              $scope.month = (curr.getMonth() + 1) + '.' + curr.getFullYear();
+              $scope.$apply();
+              //console.log('MONTH '+$scope.month);
+          });
+          
+          getData.getMerchants().then(function(results){
+              //SUCCESS
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
+          
           $scope.admin_query = function(){
-              console.log($scope.query);
+            //console.log($scope.month);
             $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                //SUCCESS
                 $scope.results = result;
             }).error(function(error){
+                //ERROR
                 console.log(JSON.stringify(error));
             });    
           };
-      });        
+      });       

@@ -36,7 +36,7 @@
 
 <body ng-app="App">
 <style>
-    .datepicker table tbody tr:hover{background: #04c}
+    .datepicker table tbody tr:hover > td.day{background: #04c}
     
     #custom-search-form {
         margin:0;
@@ -249,25 +249,24 @@
 				<div class="tab-content">
 					<div  id="merchants" class="tab-pane fade" ng-controller="merchantsQueryController">
 						{% raw %}
-                        <!-- Page Heading -->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h1 class="page-header">
-                                    Мерчендайзеры <small>Аптечная база</small>
-                                </h1>
-
-                                <form class="form-inline">
-                                    <div class="form-group">
-                                        <label for="reportMerchant">Мерчендайзер:</label>
-                                        <select class="form-control" name="reportMerchant" id="reportMerchant" ng-options="merch.lastName for merch in merchantList" ng-model="merchant">
-                                        </select>
-
-                                        <div type="button" class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- /.row -->				
+						<div class="row">
+							<div class="col-md-1 col-lg-6 ">
+								<form class="form-horizontal pull-left">
+									<div class="span12">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
+										</select>
+									</div>
+								</form>
+							</div>
+						</div>					
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<report  results="results" meta="meta" ng-model="results" />
 						</div>
@@ -280,17 +279,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -319,17 +309,8 @@
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
 									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 								</form>
@@ -357,18 +338,9 @@
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
 									<div class="form-group">
-										<label for="reportMerchant">Лекарственные препараты:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.fullName for option in merchantList track by option.id">
+										<label for="reportMerchant">Мерчендайзеры:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 									<div class="form-group">
@@ -400,18 +372,9 @@
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
 								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
 									<div class="form-group">
 										<label for="reportMerchant">Мерчендайзер:</label>
-										<select class="form-control" name="reportMerchant" id="reportMerchant"  ng-options="option.firstName for option in merchantList track by option.id">
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
 										</select>
 									</div>
 									<div class="form-group">
@@ -463,39 +426,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
     
-    
-    <script>
-      $('input.datepicker-month').datepicker({
-	    format: "dd.mm.yyyy",
-	    minViewMode: 'months',
-	    maxViewMode: 'years',
-	    language: "ru",
-	    autoclose: true
-	  });
-       
-	  $('input.datepicker-week').datepicker({
-		    //format: "yyyy-mm",
-		    startViewMode: "months",
-		    minView: 'dates',
-		    language: "ru",
-		    autoclose: true,
-		    format: {
-		            toDisplay: function (date, format, language) {
-		                 var curr = new Date(date); 
-						 var first = curr.getDate() - curr.getDay(); 
-						 var last = first + 6; 
-						 var firstday = new Date(curr.setDate(first)); 
-						 var lastday = new Date(curr.setDate(last));
-						 return firstday.getDate() +'.'+ firstday.getMonth() + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + lastday.getMonth() + '.' + lastday.getFullYear();
-		            },
-		            toValue: function (date, format, language) {
-		              return date;
-		            }
-		        }
-		});
-    </script>
 	<!-- Angular application -->
 	<script src="/js/report.js"></script>
+
 </body>
 
 </html>
