@@ -1,12 +1,14 @@
 /*-------------------------------- JQUERY Controls ------------------------------------*/
- $('input.datepicker-month').datepicker({
+// monthPicker
+var monthPicker = $('input.datepicker-month').datepicker({
      format: "MM yyyy",
      minViewMode: 'months',
      maxViewMode: 'years',
      language: "ru",
      autoclose: true
 });
-    
+
+// weekPicker    
 var weekPicker = $('input.datepicker-week').datepicker({
     //format: "yyyy-mm",
     startViewMode: "months",
@@ -36,6 +38,7 @@ weekPicker.on('show', function(){
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
       
+      //Global data factory
       app.factory('getData',function($http,$q){
           
           var data = {merchants:[]};
@@ -49,12 +52,15 @@ weekPicker.on('show', function(){
                           method:'POST',
                           url: "/Merchant/find?manager="+manager.id
                       }).then(function(response){
+                          //SUCCESS
                           data.merchants = response;
                           deferred.resolve(response);
                       },function(response){
+                          //ERROR
                           deferred.reject(response);
                       });
                   }else{
+                      //Cached data
                       deferred.resolve(data.merchants);
                   }
                   return deferred.promise;
@@ -65,6 +71,7 @@ weekPicker.on('show', function(){
           }
       });
       
+      //Table template with download button
       app.directive('report',function(){
           return {
               scope:{
@@ -76,7 +83,7 @@ weekPicker.on('show', function(){
                   $scope.download_file = function(){
                         var link = document.createElement('a');
                         document.body.appendChild(link);
-                        console.log('Downloading file');
+                        //console.log('Downloading file');
                         
                         var header = 'data:application/vnd.ms-excel;base64,';
                                     //'<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
@@ -99,18 +106,21 @@ weekPicker.on('show', function(){
           $scope.meta = {field:'Проверка проверка',field:'Проверка проверка'};
           
           getData.getMerchants().then(function(results){
+              //SUCCESS
               //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
-              
           },function(results){
+              //ERROR
               console.log(JSON.stringify(results));
           });
           
           $scope.admin_query = function(){
-              console.log($scope.query);
+            //console.log($scope.query);
             $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant}).success(function(result){
+                //SUCCESS
                 $scope.results = result;
             }).error(function(error){
+                //ERROR
                 console.log(JSON.stringify(error));
             });    
           };
@@ -123,20 +133,23 @@ weekPicker.on('show', function(){
           $scope.results = '';
           
           getData.getMerchants().then(function(results){
+              //SUCCESS
               //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
-              
           },function(results){
+              //ERROR
               console.log(JSON.stringify(results));
           });
           
           $scope.admin_query = function(){
-              console.log($scope.query);
-            $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
-                $scope.results = result;
-            }).error(function(error){
-                console.log(JSON.stringify(error));
-            });    
+                //console.log($scope.query);
+                $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                    //SUCCESS
+                    $scope.results = result;
+                }).error(function(error){
+                    //ERROR
+                    console.log(JSON.stringify(error));
+                });    
           };
       });  
       
@@ -147,20 +160,24 @@ weekPicker.on('show', function(){
           $scope.results = '';
           
           getData.getMerchants().then(function(results){
+              //ERROR
               //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
               
           },function(results){
+              //ERROR
               console.log(JSON.stringify(results));
           });
           
           $scope.admin_query = function(){
-              console.log($scope.query);
-            $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
-                $scope.results = result;
-            }).error(function(error){
-                console.log(JSON.stringify(error));
-            });    
+                //console.log($scope.query);
+                $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                    //SUCCESS
+                    $scope.results = result;
+                }).error(function(error){
+                    //ERROR
+                    console.log(JSON.stringify(error));
+                });    
           };
       });  
       
@@ -171,18 +188,21 @@ weekPicker.on('show', function(){
           $scope.results = '';
           $scope.week = '';
           
-          $scope.$watch('week', function(){
-              console.log('WATCH '+ $scope.week);
-          });
+          //   $scope.$watch('week', function(){
+          //       console.log('WATCH '+ $scope.week);
+          //   });
           
           getData.getMerchants().then(function(results){
+              //SUCCESS
               //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
               
           },function(results){
+              //ERROR
               console.log(JSON.stringify(results));
           });
           
+          //Save datePicker value to scope
           weekPicker.on('changeDate', function(e) {
               var curr = new Date(e.date); 
     		  var first = curr.getDate() - curr.getDay(); 
@@ -195,15 +215,15 @@ weekPicker.on('show', function(){
           });
           
           $scope.admin_query = function(){
-              console.log('MCH ' + $scope.week);
               var str = '';
               str = $scope.week;
-              
               var matches = str.match(/\d+\.\d+\.\d\d\d\d/g);
-              console.log('MATCHES' + JSON.stringify(matches));
+              //console.log('MATCHES ' + JSON.stringify(matches));
             $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                //SUCCESS
                 $scope.results = result;
             }).error(function(error){
+                //ERROR
                 console.log(JSON.stringify(error));
             });    
           };
@@ -213,21 +233,34 @@ weekPicker.on('show', function(){
           $scope.query = '';
           $scope.merchant = '';
           $scope.merchantList = '';
+          $scope.month = '';
           $scope.results = '';
           
+          monthPicker.on('changeDate', function(e) {
+              var curr = new Date(e.date); 
+    		  
+              $scope.month = (curr.getMonth() + 1) + '.' + curr.getFullYear();
+              $scope.$apply();
+              //console.log('MONTH '+$scope.month);
+          });
+          
           getData.getMerchants().then(function(results){
+              //SUCCESS
               //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
               
           },function(results){
+              //ERROR
               console.log(JSON.stringify(results));
           });
           
           $scope.admin_query = function(){
-              console.log($scope.query);
+            //console.log($scope.month);
             $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                //SUCCESS
                 $scope.results = result;
             }).error(function(error){
+                //ERROR
                 console.log(JSON.stringify(error));
             });    
           };
