@@ -41,7 +41,7 @@ module.exports = {
                         if (err) return res.serverError(err);
 
                         if (!manager) {
-                            return res.notFound('Не найден MANAGER в MainController.main');
+                            return res.notFound('пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ MANAGER пїЅ MainController.main');
                         };
 
                         var ext = require('../extensions.js');
@@ -99,13 +99,13 @@ module.exports = {
                 return res.negotiate('Error user type detection.')
             }
         });
-
+    },
     reports: function(req, res) {
         User.findOne(req.user.id).exec(function(err, found) {
             if (err) return res.serverError(err);
 
             if (!found) {
-                return res.notFound('Не найден USER в MainController.reports');
+                return res.notFound('пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ USER пїЅ MainController.reports');
             };
 
             Manager.findOne({
@@ -114,7 +114,7 @@ module.exports = {
                 if (err) return res.serverError(err);
 
                 if (!manager) {
-                    return res.notFound('Не найден MANAGER в MainController.reports');
+                    return res.notFound('пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ MANAGER пїЅ MainController.reports');
                 };
 
                 return res.view('report', {

@@ -36,7 +36,7 @@
 
 <body ng-app="App">
 <style>
-    .datepicker table tbody tr:hover > td.day{background: #04c}
+    .weekHover {background: #428BCA}
     
     #custom-search-form {
         margin:0;
@@ -236,6 +236,7 @@
 							<li><a data-toggle="pill" href="#dailyAll">Ежедневный +</a></li>
 							<li><a data-toggle="pill" href="#weekly">Недельный</a></li>
 							<li><a data-toggle="pill" href="#monthly">Месячный</a></li>
+							<li><a data-toggle="pill" href="#dateinterval">За интервал дат</a></li>
 						</ul>
                     </li>
                 </ul>
@@ -247,7 +248,7 @@
 
             <div class="container-fluid">
 				<div class="tab-content">
-					<div  id="merchants" class="tab-pane fade" ng-controller="merchantsQueryController">
+					<div  id="merchants" class="tab-pane fade" style="min-height: 500px" ng-controller="merchantsQueryController">
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
@@ -273,7 +274,7 @@
 						
 						{% endraw %}
 					</div>
-					<div  id="daily" class="tab-pane fade" style="height: 500px" ng-controller="dailyQueryController">
+					<div  id="daily" class="tab-pane fade" style="min-height: 500px" ng-controller="dailyQueryController">
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
@@ -303,7 +304,7 @@
 						
 						{% endraw %}						
 					</div>
-					<div  id="dailyAll" class="tab-pane fade" style="height: 500px" ng-controller="dailyAllQueryController">
+					<div  id="dailyAll" class="tab-pane fade" style="min-height: 500px" ng-controller="dailyAllQueryController">
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
@@ -333,7 +334,7 @@
 						
 						{% endraw %}						
 					</div>
-					<div  id="weekly" class="tab-pane fade" style="height: 500px" ng-controller="weeklyQueryController">
+					<div  id="weekly" class="tab-pane fade" style="min-height: 500px" ng-controller="weeklyQueryController">
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
@@ -367,7 +368,7 @@
 						
 						{% endraw %}						
 					</div>
-					<div  id="monthly" class="tab-pane fade" style="height: 500px" ng-controller="monthlyQueryController">
+					<div  id="monthly" class="tab-pane fade" style="min-height: 500px" ng-controller="monthlyQueryController">
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 col-lg-6 ">
@@ -401,6 +402,46 @@
 						
 						{% endraw %}						
 					</div>	
+					<div  id="dateinterval" class="tab-pane fade" style="min-height: 500px" ng-controller="intervalQueryController">
+						{% raw %}
+						<div class="row">
+							<div class="col-md-1 col-lg-12">
+								<form class="form-horizontal pull-left">
+									<div class="form-group">
+										<label for="reportMerchant">Мерчендайзер:</label>
+										<select class="form-control" name="reportMerchant" id="reportMerchant" ng-model="merchant" ng-options="option.lastName for option in merchantList track by option.id">
+										</select>
+									</div>
+								</form>
+							</div>
+						</div>	
+						<div class="row">
+						    <div class="col-md-1 col-lg-12">
+    						    <div class="form-inline pull-left">
+    								<label for="startMerchDate"> Дата с:</label>
+    								<input class="form-control datepicker-interval-start" name="reportDate" id="startMerchDate" ng-model="startInterval" type="text" />
+    								<label for="endMerchDate"> по </label>
+    								<input class="form-control datepicker-interval-end" name="reportDate" id="endMerchDate" ng-model="endInterval" type="text" />
+    							</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1 col-lg-6">
+								<div class="span12">
+									<report  results="results" ng-model="results" />
+								</div>
+							</div>
+						</div>
+						
+						{% endraw %}						
+					</div>						
 				</div>				
             </div>
             <!-- /.container-fluid -->

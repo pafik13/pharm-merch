@@ -8,6 +8,24 @@ var monthPicker = $('input.datepicker-month').datepicker({
      autoclose: true
 });
 
+//array of datePicker components
+var intervalPicker = [];
+
+  intervalPicker['start'] = $('input.datepicker-interval-start').datepicker({
+     format: "dd.mm.yyyy",
+     startViewMode: 'dates',
+     language: "ru",
+     autoclose: true
+});
+
+  intervalPicker['end'] = $('input.datepicker-interval-end').datepicker({
+     format: "dd.mm.yyyy",
+     startViewMode: 'dates',
+     language: "ru",
+     //startDate: '+7d',
+     autoclose: true
+});
+
 // weekPicker    
 var weekPicker = $('input.datepicker-week').datepicker({
     //format: "yyyy-mm",
@@ -15,6 +33,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
     minView: 'dates',
     language: "ru",
     autoclose: true,
+    calendarWeeks: true,
     format: {
             toDisplay: function (date, format, language) {
                  var curr = new Date(date); 
@@ -25,14 +44,28 @@ var weekPicker = $('input.datepicker-week').datepicker({
 				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
             },
             toValue: function (date, format, language) {
-                return date;
+               //
             }
         }
 });
 
 //highlight week
 weekPicker.on('show', function(){
-    $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','red');
+    $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','#D2322D');
+    //.datepicker table tbody tr:hover > td.day{background: #04c}
+    
+    var bg = {};
+    $('.datepicker table tbody tr:has(td.day)').hover(function(){
+                    $(this).children('td.day').each(function(){
+                        $(this).addClass('weekHover');
+                    });
+                }, function(){
+                    $(this).children('td.day').each(function(){
+                        $(this).removeClass('weekHover');
+                    });
+                });
+   
+    
 })
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
@@ -211,6 +244,7 @@ weekPicker.on('show', function(){
 
               $scope.week = firstday.getDate() +'.'+ (firstday.getMonth() + 1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth() + 1) + '.' + lastday.getFullYear();
               $scope.$apply();
+              //console.log('WEEK '+ $scope.week);
           });
           
           $scope.admin_query = function(){
@@ -264,3 +298,49 @@ weekPicker.on('show', function(){
             });    
           };
       });       
+      app.controller('intervalQueryController', function($scope, $http, getData) { /*global app*/
+          $scope.query = '';
+          $scope.merchant = '';
+          $scope.merchantList = '';
+          $scope.startInterval = '';
+          $scope.endInterval = '';
+          $scope.results = '';
+          
+          intervalPicker['start'].on('changeDate', function(e) {
+              var curr = new Date(e.date); 
+    		  
+              $scope.startInterval = curr;
+              $scope.$apply();
+              //intervalPicker['end'].minDate = curr;
+              console.log('Start '+ $scope.startInterval);
+          });
+          
+          intervalPicker['end'].on('changeDate', function(e) {
+              var curr = new Date(e.date); 
+    		  
+              $scope.endInterval = curr;
+              $scope.$apply();
+              console.log('end '+ $scope.endInterval);
+          });
+          
+          getData.getMerchants().then(function(results){
+              //SUCCESS
+              //console.log(JSON.stringify(results));
+              $scope.merchantList = results.data;
+              
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
+          
+          $scope.admin_query = function(){
+            //console.log($scope.month);
+            $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
+                //SUCCESS
+                $scope.results = result;
+            }).error(function(error){
+                //ERROR
+                console.log(JSON.stringify(error));
+            });    
+          };
+      }); 
