@@ -381,6 +381,7 @@
 									<div class="form-group">
 										<label for="reportMerchant">Дата:</label>
 										<input class="form-control datepicker-month" name="reportDate" id="monthMerchDate" ng-model="month" type="text" />
+									    <datepicker-range date="date" ng-model="date"/>
 									</div>
 								</form>
 							</div>
@@ -418,11 +419,9 @@
 						<div class="row">
 						    <div class="col-md-1 col-lg-12">
     						    <div class="form-inline pull-left">
-    								<label for="startMerchDate"> Дата с:</label>
-    								<input class="form-control datepicker-interval-start" name="reportDate" id="startMerchDate" ng-model="startInterval" type="text" />
-    								<label for="endMerchDate"> по </label>
-    								<input class="form-control datepicker-interval-end" name="reportDate" id="endMerchDate" ng-model="endInterval" type="text" />
+    								<datepicker-week date="date" ng-model="date"/>
     							</div>
+    							
 							</div>
 						</div>
 						<div class="row">

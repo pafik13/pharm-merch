@@ -49,24 +49,6 @@ var weekPicker = $('input.datepicker-week').datepicker({
         }
 });
 
-//highlight week
-weekPicker.on('show', function(){
-    $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','#D2322D');
-    //.datepicker table tbody tr:hover > td.day{background: #04c}
-    
-    var bg = {};
-    $('.datepicker table tbody tr:has(td.day)').hover(function(){
-                    $(this).children('td.day').each(function(){
-                        $(this).addClass('weekHover');
-                    });
-                }, function(){
-                    $(this).children('td.day').each(function(){
-                        $(this).removeClass('weekHover');
-                    });
-                });
-   
-    
-})
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
       
@@ -129,6 +111,143 @@ weekPicker.on('show', function(){
               }
           }
       });
+      
+      app.directive('datepicker', function(){
+          return {
+              scope:{
+                  date: '='
+              },
+              templateUrl: '/templates/datepicker.html',
+              controller: function($scope, $element, $attrs){
+                  $($element).children('input').datepicker({
+                       format: "dd.mm.yyyy",
+                       minViewMode: 'days',
+                       maxViewMode: 'years',
+                       language: "ru",
+                       autoclose: true
+                  }).on('changeDate',function(e){
+                      $scope.date = e.date; 
+                      console.log(JSON.stringify($scope.date));
+                      //$scope.date;
+                  });
+              }
+          }
+      });
+      
+      app.directive('datepickerWeek', function(){
+          return {
+              scope:{
+                  date: '='
+              },
+              templateUrl: '/templates/datepicker.html',
+              controller: function($scope, $element, $attrs){
+                  $($element).children('input').datepicker({
+                       format: "dd.mm.yyyy",
+                       minViewMode: 'days',
+                       maxViewMode: 'years',
+                       language: "ru",
+                       autoclose: true,
+                       format: {
+                            toDisplay: function (date, format, language) {
+                                 var curr = new Date(date); 
+                				 var first = curr.getDate() - curr.getDay(); 
+                				 var last = first + 6; 
+                				 var firstday = new Date(curr.setDate(first)); 
+                				 var lastday = new Date(curr.setDate(last));
+                				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+                            },
+                            toValue: function (date, format, language) {
+                               //
+                            }
+                       }
+                  }).on('changeDate',function(e){
+                     var curr = new Date(e.date); 
+    				 var first = curr.getDate() - curr.getDay(); 
+    				 var last = first + 6; 
+    				 var firstday = new Date(curr.setDate(first)); 
+    				 var lastday = new Date(curr.setDate(last));
+    				 $scope.date = firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+                      
+                     //$scope.date = e.date; 
+                      console.log(JSON.stringify($scope.date));
+                      //$scope.date;
+                  }).on('show', function(){
+                        $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','#D2322D');
+                    
+                        var bg = {};
+                        $('.datepicker table tbody tr:has(td.day)').hover(function(){
+                                        $(this).children('td.day').each(function(){
+                                            $(this).addClass('weekHover');
+                                        });
+                                    }, function(){
+                                        $(this).children('td.day').each(function(){
+                                            $(this).removeClass('weekHover');
+                                        });
+                                    });
+                       
+                        
+                    });
+              }
+          }
+      });      
+
+      app.directive('datepickerMonth', function(){
+          return {
+              scope:{
+                  date: '='
+              },
+              template: '<input class="form-control" type="text" />',//'/templates/datepicker.html',
+              controller: function($scope, $element, $attrs){
+                  $($element).children('input').datepicker({
+                      format: "MM yyyy",
+                      minViewMode: 'months',
+                      maxViewMode: 'years',
+                      language: "ru",
+                      autoclose: true
+                  }).on('changeDate',function(e){
+                      $scope.date = e.date; 
+                      console.log(JSON.stringify($scope.date));
+                      //$scope.date;
+                  });
+              }
+          }
+      });
+      
+      app.directive('datepickerRange', function(){
+          return {
+              scope:{
+                  date: '='
+              },
+              templateUrl: '/templates/datepickerWeek.html',
+              controller: function($scope, $element, $attrs){
+                  console.log('cont');
+                  $scope.date = {};
+                  
+                  $($element).children('.startDate').datepicker({
+                       format: "dd.mm.yyyy",
+                       minViewMode: 'days',
+                       maxViewMode: 'years',
+                       language: "ru",
+                       autoclose: true
+                  }).on('changeDate',function(e){
+                      $scope.date.start = e.date; 
+                      console.log(JSON.stringify($scope.date));
+                      //$scope.date;
+                  });
+                  $($element).children('.endDate').datepicker({
+                       format: "dd.mm.yyyy",
+                       minViewMode: 'days',
+                       maxViewMode: 'years',
+                       language: "ru",
+                       autoclose: true
+                  }).on('changeDate',function(e){
+                      $scope.date.end = e.date; 
+                      console.log(JSON.stringify($scope.date));
+                      //$scope.date;
+                  });
+              }
+          }
+      });      
 
       app.controller('merchantsQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
@@ -305,6 +424,7 @@ weekPicker.on('show', function(){
           $scope.startInterval = '';
           $scope.endInterval = '';
           $scope.results = '';
+          $scope.date = {};
           
           intervalPicker['start'].on('changeDate', function(e) {
               var curr = new Date(e.date); 
