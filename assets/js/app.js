@@ -1,4 +1,4 @@
-﻿	  /*----------------------- MANAGERS --------------------------------*/
+	  /*----------------------- MANAGERS --------------------------------*/
 	  function getManagers(){
 	    var users = [];
 		$.ajax(
@@ -571,9 +571,276 @@
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
       
+      app.directive('map', function(){
+      	return {
+      		scope:{
+      			data: "=",
+      			show: "="
+      		},
+      		templateUrl:'/templates/map.html',
+      		controller: function($scope, $element, $attrs){
+      			$scope.show_map = false;
+      			$scope.latlng = {};
+      			$scope.autocompmap = {};
+      			$scope.input = {};
+      			$scope.geocoder = {};
+      			
+      			function initMap(){
+      				//https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
+      				  $scope.latlng;
+					  $scope.autocompmap;
+					  $scope.input =  $element[0].querySelector('input#autocomp');
+					  var val = $scope.input.value;
+					  $scope.geocoder = new google.maps.Geocoder();
+					  var geoQuery = { 'address': val, 'partialmatch': true};
+					  //first position
+					  $scope.geocoder.geocode( geoQuery, function(results, status) {
+						  if (status == google.maps.GeocoderStatus.OK) {
+						    
+						    $scope.latlng = results[0].geometry.location;
+						    $scope.autocompmap.setCenter($scope.latlng);
+						    marker.setPosition($scope.latlng);  
+					  		marker.setVisible(true);
+					      } else {
+					      	alert(status);
+					      }	  
+					  });
+					  
+					  var mapOptions = {
+					    center:  $scope.latlng,
+					    scrollWheel: false,
+					    zoom: 17
+					  };
+					 
+					  //autocompmap = new google.maps.Map(document.getElementById("autocomp_map"), mapOptions);
+					  $scope.autocompmap = new google.maps.Map( $element[0].querySelector('div#autocomp_map'), mapOptions);
+					  var autocomplete = new google.maps.places.Autocomplete($scope.input);
+					  autocomplete.bindTo('bounds', $scope.autocompmap);
+					
+					  var marker = new google.maps.Marker({
+					      map: $scope.autocompmap,
+					      anchorPoint: $scope.latlng
+					    });
+					  
+					  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+					    var place = autocomplete.getPlace();
+						if (!place.geometry) {
+							var geoQuery = { 'address': val, 'partialmatch': true};
+							$scope.geocoder.geocode( geoQuery , function(results, status) {
+								if (status == google.maps.GeocoderStatus.OK) {
+									$scope.latlng = results[0].geometry.location;
+									marker.setPosition($scope.latlng);
+									marker.setVisible(true);
+									$scope.autocompmap.setCenter($scope.latlng);
+								    $scope.autocompmap.setZoom(17);  
+								    $scope.$apply(function(){
+								    	$scope.data.latitude = $scope.latlng.lat();
+								    	$scope.data.longitude = $scope.latlng.lng();
+								    	$scope.data.place = results[0];
+								    });
+						    	} else {
+						      		alert(status);
+						    	}	  
+						    });
+						  return;
+						} else {
+							$scope.latlng = place.geometry.location;
+							marker.setPosition($scope.latlng);
+							marker.setVisible(true);
+							$scope.autocompmap.setCenter($scope.latlng);
+						    $scope.autocompmap.setZoom(17);  
+						    $scope.$apply(function(){
+							   	$scope.data.latitude = $scope.latlng.lat();
+							   	$scope.data.longitude = $scope.latlng.lng();
+							   	$scope.data.place = place;
+							});
+						}
+					  });
+				
+		      	};
+		      	
+		      	$scope.$watch('show',function(){
+		      		//signal for hide map
+		      		//console.log($scope.show);
+		      	    $scope.show_map = false;
+		      		
+		      	});
+		      	
+		      			
+      			$scope.$watch('show_map', function(oldValue,newValue){
+      				console.log('showing map '+ $scope.show);
+      				if($scope.show_map)
+      				{
+      					//console.log('init map');
+      					initMap();
+      					window.setTimeout(function(){
+    						google.maps.event.trigger($scope.autocompmap, 'resize');
+                        },100);
+      				}
+      				else
+      				{
+      					$scope.latlng = {};
+		      			$scope.autocompmap = {};
+		      			$scope.input = {};
+		      			$scope.geocoder = {};
+      				}
+      			});
+		      		  
+		   	}
+		}
+	  });
+      
+     //Global data factory
+      app.factory('getData',function($http,$q){
+      	  var getList =  function(model,filter){
+      	  	      var deferred = $q.defer();
+                  var data = {};
+                  
+                  if(filter){
+                  	data = {
+                          	populate: [],
+                          	manager: manager.id
+                          };
+                  }else{
+                  	data = {
+                          	populate: []
+                          };
+                  }
+
+                  $http({
+                      method:'POST',
+                      url: "/"+model+"/find",
+                      data: data
+                  }).then(function(response){
+                      //SUCCESS
+                      deferred.resolve(response);
+                  },function(response){
+                      //ERROR
+                      deferred.reject(response);
+                  });
+
+                  return deferred.promise;
+              };
+      	  var getOne =  function(model, id, filter){
+      	  	      var deferred = $q.defer();
+                  var data = {};
+                  
+                  if(filter){
+                  	data = {
+                          	populate: [],
+                          	manager: manager.id
+                          };
+                  }else{
+                  	data = {
+                          	populate: []
+                          };
+                  }
+                  
+                  $http({
+                      method:'POST',
+                      url: "/"+model+"/update",
+                      data: data
+                  }).then(function(response){
+                      //SUCCESS
+                      deferred.resolve(response);
+                  },function(response){
+                      //ERROR
+                      deferred.reject(response);
+                  });
+
+                  return deferred.promise;
+              };     
+      	  var create =  function(model, data, setOwner){
+      	  	      var deferred = $q.defer();
+                  
+                  if(setOwner){
+                  	data.manager = manager.id
+                  }
+                  
+                  $http({
+                      method:'POST',
+                      url: "/"+model+"/create",
+                      data: data
+                  }).then(function(response){
+                      //SUCCESS
+                      deferred.resolve(response);
+                  },function(response){
+                      //ERROR
+                      deferred.reject(response);
+                  });
+
+                  return deferred.promise;
+              };  
+              
+      	  var update =  function(model, data, setOwner){
+      	  	      console.log('getList '+ model);
+                  var deferred = $q.defer();
+                  
+                  if(setOwner){
+                  	data.manager = manager.id
+                  }
+                  
+                  $http({
+                      method:'POST',
+                      url: "/"+model+"/find",
+                      data: data
+                  }).then(function(response){
+                      //SUCCESS
+                      deferred.resolve(response);
+                  },function(response){
+                      //ERROR
+                      deferred.reject(response);
+                  });
+
+                  return deferred.promise;
+              };                
+
+          return {
+              getMerchants:     function(){  return getList("Merchant", true)},
+              getMerchant:      function(id){ return getOne("Merchant", id, true)},
+              insMerchant:		function(data){return create("Merchant", data, true)},
+              updMerchant:		function(data){return update("Merchant", data, true)},
+              
+              getManagers:      function(){   return getList("Manager", false)},
+              getManager:       function(id){ return getOne("Manager", id, false)},
+              insManager:		function(data){return create("Manager", data, false)},
+              updManager:		function(data){return create("Manager", data, false)},
+              
+              getPharmacies:    function(){   return getList("Pharmacy", false)},
+              getPharmacy:      function(id){ return getOne("Pharmacy", id, false)},
+              insPharmacy:		function(data){return create("Pharmacy", data, false)},
+              updPharmacy:		function(data){return create("Pharmacy", data, false)},
+              
+              getDrugs:         function(){   return getList("Drug", false)},
+              getDrug:          function(id){ return getOne("Drug", id, false)},
+              insDrug:			function(data){return create("Drug", data, false)},
+              updDrug:			function(data){return create("Drug", data, false)},
+              
+              getCompanies:     function(){   return getList("Company", false)},
+              getCompany:       function(id){ return getOne("Company", id, false)},
+              insCompan:		function(data){return create("Compan", data, false)},
+              updCompan:		function(data){return create("Compan", data, false)},              
+              
+              getProjects:      function(){   return getList("Project", false)},
+              getProject:       function(id){ return getOne("Project", id, false)},
+              insProject:		function(data){return create("Project", data, false)},
+              updProject:		function(data){return create("Project", data, false)},
+              
+              getTerritories:   function(){   return getList("Territory", false)},
+              getTerritory:     function(id){ return getOne("Territory", id, false)},
+              insTerritory:		function(data){return create("Territory", data, false)},
+              updTerritory:		function(data){return create("Territory", data, false)},
+              
+              getDrugInfoTypes: function(){   return getList("DrugInfoType", false)},
+              getDrugInfoType:  function(id){ return getOne("DrugInfoType", id, false)},
+              insDrugInfoType:	function(data){return create("DrugInfoType", data, false)},
+              updDrugInfoType:	function(data){return create("DrugInfoType", data, false)}
+          }
+      });      
+      
       
 	  /*--------------------------- MANAGERS ------------------------------------------*/
-      app.controller('managersList', function($scope, $http) {
+      app.controller('managersList', function($scope, getData) {
           $scope.managers = [];
 		  $scope.last_manager = {};
 		  $scope.last_manager.firstName = '';
@@ -585,7 +852,15 @@
 		  $scope.last_manager.id    = 0;
 		  
 		  $scope.$watch('menuManagers', function(oldValue, newValue) {
-		  	$scope.managers = getManagers();
+		  	getData.getManagers().then(
+		  		function(request){
+		  			//SUCCESS 
+		  			$scope.managers = request.data;
+		  		},
+		  		function(request){
+		  			//ERROR
+		  			console.log(JSON.stringify(request));
+		  		});
 		  }, true);
 		  
 		  $scope.create = function(){		    
@@ -666,7 +941,7 @@
 		  });			  
       });
 	  /*--------------------------- MERCHANTS ------------------------------------------*/
-      app.controller('merchantList', function($scope, $http) {
+      app.controller('merchantList', function($scope, getData) {
           $scope.users = [];
 		  $scope.last_user = {};
 		  $scope.last_user.firstName = '';
@@ -682,7 +957,11 @@
 		  $scope.last_user.id    = 0;
 		  
 		  $scope.$watch('menuMerchants', function(oldValue, newValue) {
-		  	$scope.users = getUsers();
+		  	getData.getMerchants().then(function(result){
+		  		$scope.users = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  }, true);
 		  
 		  $scope.init_create = function(){
@@ -781,7 +1060,7 @@
 		  });			  
       });
 	  /*---------------------------- PHARMACIES -----------------------------------*/
-      app.controller('pharmaciesList', function($scope) {
+      app.controller('pharmaciesList', function($scope, getData) {
 	      $scope.pharmacies = [];
 		  $scope.last_pharmacy = {};
 		  $scope.last_pharmacy.fullName = '';
@@ -794,6 +1073,8 @@
 		  $scope.last_pharmacy.place = {};
 		  $scope.last_pharmacy.latitude = 0;
 		  $scope.last_pharmacy.longitude = 0;
+		  
+		  $scope.show = 0;
 		  
 		  $scope.clearAutocomplete = function(parent){
 		  	$(parent +' #autocomp').val('РіРѕСЂРѕРґ РњРѕСЃРєРІР°');
@@ -872,13 +1153,20 @@
 			};
 		  
 		  $scope.$watch('menuPharmacies', function(oldValue, newValue) {
-		  	$scope.pharmacies = getPharmacies();
+		  	getData.getPharmacies().then(function(result){
+		  		$scope.pharmacies = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  }, true);
 		  
 		  $scope.init_create = function(){
 		  	$scope.last_pharmacy = {};
-		  	$scope.last_pharmacy.territories = getTerritories();
-		  	
+		  	getData.getTerritories().then(function(result){
+		  		$scope.last_pharmacy.territories = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  };
 	    
           $scope.create = function(){
@@ -952,21 +1240,29 @@
 			$("#pharmacy_upd").modal('hide');
 		  };
 		  $('#pharmacy_add').on('show.bs.modal', function (event) {
-			  $scope.init_create();
+		  	//call watch in directive for hide map
+		  	$scope.show += 1;
+		  	$scope.$apply();
 		  });
 		
 		  $('#pharmacy_add').on('shown.bs.modal', function(event){
-		  	$scope.clearAutocomplete('#pharmacy_add');
-		  	$scope.initAutocomplete('#pharmacy_add');
+		  
+		  });
+		  
+		  $('#pharmacy_upd').on('show.bs.modal', function(event){
+		  	//call watch in directive for hide map
+		  	$scope.show += 1;
+		  	$scope.$apply();
+		  	
 		  });
 		  
 		  $('#pharmacy_upd').on('shown.bs.modal', function(event){
-		  	$scope.initAutocomplete('#pharmacy_upd');
+
 		  });
       });	
 
 	  /*------------------------------- DRUGS -----------------------------------*/
-      app.controller('drugsList', function($scope) {
+      app.controller('drugsList', function($scope, getData) {
           $scope.drugs = [];
 		  $scope.last_drug = {};
 		  $scope.last_drug.fullName = '';
@@ -978,7 +1274,11 @@
 		  $scope.view = 'tile';
 		  
 		  $scope.$watch('menuDrugs', function(oldValue, newValue) {
-		  	$scope.drugs = getDrugs();
+		  	getData.getDrugs().then(function(result){
+		  		$scope.drugs = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  }, true);		  
 
 		  $scope.create = function(){		    
@@ -1054,7 +1354,7 @@
 		  });			  
       });	  
       /*----------------------------- COMPANIES -----------------------------------*/
-	  app.controller('companiesList', function($scope) {
+	  app.controller('companiesList', function($scope, getData) {
           $scope.companies = [];
 		  $scope.last_company = {};
 		  $scope.last_company.fullName = '';
@@ -1064,7 +1364,11 @@
 		  $scope.last_company.id = 0;
 		  
   		  $scope.$watch('menuDrugs', function(oldValue, newValue) {
-  		  	$scope.companies = getCompanies();
+  		  	getData.getCompanies().then(function(result){
+		  		$scope.companies = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  }, true);		  
 
 		  $scope.create = function(){		    
@@ -1130,7 +1434,7 @@
 		  });			  
       });	  
       /*----------------------------- PROJECTS -----------------------------------*/
-	  app.controller('projectsList', function($scope) {
+	  app.controller('projectsList', function($scope, getData) {
           $scope.projects = [];
 		  $scope.last_project = {};
 		  $scope.last_project.fullName = '';
@@ -1142,7 +1446,11 @@
 		  $scope.last_project.druginfotypes = [];
 
   		  $scope.$watch('menuProjects', function(oldValue, newValue) {
-			$scope.projects = getProjects();
+  		  	getData.getProjects().then(function(result){
+		  		$scope.projects = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  }, true);		  
 		  
 		  $scope.init_create = function(){
@@ -1217,7 +1525,7 @@
       });		  
 	
 	 /*----------------------------- Territories -----------------------------------*/
-	  app.controller('territoriesList', function($scope) {
+	  app.controller('territoriesList', function($scope, getData) {
           $scope.territories = [];
 		  $scope.last_territory = {};
 		  $scope.last_territory.name = '';
@@ -1226,7 +1534,11 @@
 		  $scope.last_territory.id = 0;
 		  
   		  $scope.$watch('menuTerritories', function(oldValue, newValue) {
-			  $scope.territories = getTerritories();
+  		  	getData.getTerritories().then(function(result){
+		  		$scope.territories = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  }, true);		  
 		  
 		  $scope.create = function(){		    
@@ -1287,7 +1599,7 @@
 		  });			  
       });	  
       /*----------------------------- DRUGINFOTYPES -----------------------------------*/
-	  app.controller('drugInfoTypesList', function($scope) {
+	  app.controller('drugInfoTypesList', function($scope, getData) {
           $scope.drugInfoTypes = [];
 		  $scope.last_drugInfoType = {};
 		  $scope.last_drugInfoType.name = '';
@@ -1295,7 +1607,11 @@
 		  $scope.last_drugInfoType.id = 0;
 		  
   		  $scope.$watch('menuDrugInfoTypes', function(oldValue, newValue) {
-  		  	$scope.drugInfoTypes = getDrugInfoTypes();
+  		  	getData.getDrugInfoTypes().then(function(result){
+		  		$scope.drugInfoTypes = result.data;
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
 		  }, true);		  
 
 		  $scope.create = function(){		    

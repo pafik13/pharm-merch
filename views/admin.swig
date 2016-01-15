@@ -662,8 +662,7 @@
 												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
 											</div>
 											<div class="form-group">
-												<input id="autocomp" class="form-control" type="text" placeholder="Адрес" ng-model="last_pharmacy.address">
-												<div id="autocomp_map"></div>
+												<map data="last_pharmacy.address" show="show"></map>
 											</div>					
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
@@ -1424,11 +1423,11 @@
 <style>
 #autocomp_map {
 	height: 400px;
-    bottom:0;
+    bottom: 0;
 }
 #map-canvas {
 	height: 400px;
-    bottom:0;
+    bottom: 0;
 }
 .pac-container {
     background-color: #FFF;
