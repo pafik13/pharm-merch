@@ -1,0 +1,22 @@
+<div class="form-group">
+	<input class="form-control " type="text" ng-model="last.fullName" placeholder="Полное наименование">
+</div>
+<div class="form-group">
+	<input class="form-control " type="text" ng-model="last.phone" placeholder="Телефон">
+</div>
+<div class="form-group">
+	<map data="last.address" show="show"></map>
+</div>					
+<div class="form-group">
+	<input class="form-control " type="text" ng-model="last.email" placeholder="Эл. почта">
+</div>	
+<div class="form-group">
+    <div class="checkbox">
+		<label><input type="checkbox" ng-model="last.validated" ng-checked="last.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
+	</div>	
+</div>
+<div class="form-group">
+	<label for="territory">Территория:</label>
+	<select class="form-control" name="territory" id="territory"  ng-options="option.name for option in last.territories track by option.id" ng-model="last.territory">
+	</select>
+</div>

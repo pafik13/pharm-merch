@@ -547,7 +547,7 @@
 					</div>
 					<!-- END MANAGERS -->
 					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
-						<!-- Page Heading -->
+
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
@@ -555,146 +555,13 @@
 									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="pharmacy_add" data-toggle="modal" data-target="#pharmacy_add" ng-click="init_create()"><i class="fa fa-plus"></i></button</p>
 								</h1>
 							</div>
-
 						</div>
-						<!-- /.row -->
-						<!-- FILTER -->
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
-						</div>
-						{% raw %}
-						<div class="row">
-							<div class="col-md-1 text-right">
-								<div class="panel">
-									<div class="label label-default">Кол-во: {{pharmacies.length}}</div>
-								</div>
-							</div>
-						</div>	
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="pharmacy in pharmacies | filter: search">					
-								<div class="panel panel-yellow">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-building fa-5x"></i>
-												<h3 ng-bind="pharmacy.territory.name"></h3>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="pharmacy.id"></div>
-												<div ng-bind="pharmacy.fullName"></div>										
-												<div ng-bind="pharmacy.address"></div>	
-											</div>
-										</div>
-									</div>
-									<a ng-click="init_update(pharmacy.id)" href="#pharmacy_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
-										<div class="panel-footer">
-										<span class="pull-left"><h4>Подробнее</h4></span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-										<div class="clearfix"></div>
-										</div>
-									</a>
-								</div>
-							</div>
-						<!-- MODAL -->	
-							<div class="modal fade" id="pharmacy_add" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
-								<div class="modal-dialog">		    
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="Heading">Новая аптека</h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
-											</div>
-											<div class="form-group">
-												<input id="autocomp" class="form-control" type="text" placeholder="Адрес">
-												<div id="autocomp_map"></div>
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" placeholder="Адрес">
-											</div>					
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>
-											<div class="form-group">
-											    <div class="checkbox">
-													<label><input type="checkbox" ng-model="last_pharmacy.validated" ng-checked="last_pharmacy.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
-												</div>		
-											</div>
-											<div class="form-group">
-												<label for="territory">Территория:</label>
-												<select class="form-control" name="territory" id="territory"  ng-model="last_pharmacy.territory">
-													<option ng-repeat="option in last_pharmacy.territories" value="{{option.id}}">{{option.name}}</option>
-												</select>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-										</div>
-
-									</div>
-								</div>
-							</div>	
-							
-							<div class="modal fade" id="pharmacy_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
-								<div class="modal-dialog">		    
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="modal-title"></h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.phone" placeholder="Телефон">
-											</div>
-											<div class="form-group">
-												<map data="last_pharmacy.address" show="show"></map>
-											</div>					
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>	
-											<div class="form-group">
-											    <div class="checkbox">
-													<label><input type="checkbox" ng-model="last_pharmacy.validated" ng-checked="last_pharmacy.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
-												</div>	
-											</div>
-											<div class="form-group">
-												<label for="territory">Территория:</label>
-												<select class="form-control" name="territory" id="territory"  ng-options="option.name for option in last_pharmacy.territories track by option.id" ng-model="last_pharmacy.territory">
-												</select>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="update(last_pharmacy.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-										</div>
-
-									</div>
-								</div>
-							</div>	
-							
-						{% endraw %}	
-						</div>
-						<!-- /.row -->
 						
-						<!-- Button HTML (to Trigger Modal) -->
-    					
+					  <tile action="init_upd()" items="pharmacies"></tile>
+
+					  <modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>	
+					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					</div>
-					
 					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
 						<!-- Page Heading -->
 						<div class="row">

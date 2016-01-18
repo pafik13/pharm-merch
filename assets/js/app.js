@@ -689,7 +689,37 @@
 		   	}
 		}
 	  });
-      
+	  
+      app.directive('modal', function(){
+	  	return {
+	  		restrict:'E',
+	  		scope:{
+	  			caption: '@',
+	  			last: '=',
+	  			modalId: '@',
+	  			contentUrl: '@',
+	  			action: '&'
+	  		},
+	  		templateUrl: '/templates/modal.html',
+	  		controller: function($scope){
+	  		
+	  		}
+	  	}
+	  });
+      app.directive('tile', function(){
+	  	return {
+	  		restrict:'E',
+	  		scope:{
+	  			items: '=',
+	  			action: '&'
+	  		},
+	  		templateUrl: '/templates/tile.html',
+	  		controller: function($scope){
+	  		
+	  		}
+	  	}
+	  });     
+
      //Global data factory
       app.factory('getData',function($http,$q){
       	  var getList =  function(model,filter){
@@ -782,7 +812,7 @@
                   
                   $http({
                       method:'POST',
-                      url: "/"+model+"/find",
+                      url: "/"+model+"/update",
                       data: data
                   }).then(function(response){
                       //SUCCESS
@@ -1074,6 +1104,7 @@
 		  $scope.last_pharmacy.latitude = 0;
 		  $scope.last_pharmacy.longitude = 0;
 		  
+		  //for hide map before shown modal form
 		  $scope.show = 0;
 		  
 		  $scope.clearAutocomplete = function(parent){
@@ -1259,6 +1290,7 @@
 		  $('#pharmacy_upd').on('shown.bs.modal', function(event){
 
 		  });
+		  
       });	
 
 	  /*------------------------------- DRUGS -----------------------------------*/
