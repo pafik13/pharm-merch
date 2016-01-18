@@ -72,7 +72,25 @@ module.exports = {
     },
 
     admin: function(req, res) {
-        return res.view('admin');
+        findMe(req.user.id, function(err, result) {
+            if (err) return res.negotiate(err);
+            if (result.rowCount == 1) {
+                var mid = result.rows[0].mid;
+                var mcid = result.rows[0].mcid;
+                if (mid != null && mcid == null) {
+                    return res.view('admin', {
+                        'manager': {
+                            id: mid
+                        }
+                    });
+
+                } else {
+                    return res.negotiate("You don't have permissions to view this page.");
+                }
+            } else {
+                return res.negotiate('Error user type detection.')
+            }
+        });
     },
 
     guest: function(req, res) {

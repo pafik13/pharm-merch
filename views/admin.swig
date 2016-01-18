@@ -557,7 +557,7 @@
 							</div>
 						</div>
 						
-					  <tile action="init_upd()" items="pharmacies"></tile>
+					  <tile action="init_update(id)" items="pharmacies"></tile>
 
 					  <modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>	
 					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>

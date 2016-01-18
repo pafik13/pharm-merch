@@ -715,7 +715,11 @@
 	  		},
 	  		templateUrl: '/templates/tile.html',
 	  		controller: function($scope){
-	  		
+	  			$scope.initial = function(id){
+	  				console.log('initial ' + id);
+	  				$scope.action({id: id});
+	  				
+	  			}
 	  		}
 	  	}
 	  });     
@@ -1228,6 +1232,7 @@
 		    $scope.last_pharmacy = {};
 		  };
 		  $scope.init_update = function(id){
+		  	console.log('init_update '+ id);
 		    var cu = getPharmacy(id);
 			
 			$scope.last_pharmacy.fullName  = cu.fullName;
@@ -1236,7 +1241,14 @@
 		    $scope.last_pharmacy.email     = cu.email;
 			$scope.last_pharmacy.id        = cu.id;
 			$scope.last_pharmacy.validated = cu.validated;
-			$scope.last_pharmacy.territories = getTerritories();
+			getData.getTerritories().then(function(result){
+				//SUCCESS
+				$scope.last_pharmacy.territories = result.data;
+			},function(result){
+				//ERROR
+				console.log(JSON.stringify(result));
+			});
+			
 			$scope.last_pharmacy.territory = cu.territory;	
 		    
 		  };
