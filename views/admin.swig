@@ -548,19 +548,22 @@
 					<!-- END MANAGERS -->
 					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
 
-						<div class="row">
-							<div class="col-lg-12">
-								<h1 class="page-header">
-									Аптеки <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="pharmacy_add" data-toggle="modal" data-target="#pharmacy_add" ng-click="init_create()"><i class="fa fa-plus"></i></button</p>
-								</h1>
-							</div>
-						</div>
 						
-					  <tile action="init_update(id)" items="pharmacies"></tile>
-
-					  <modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>	
-					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
+						
+					  <tile caption="Аптеки" 
+					        update="init_update(id)" 
+					        create="init_create()" 
+					        create-id="pharmacy_add" 
+					        update-id="pharmacy_upd" 
+					        items="pharmacies" 
+					        meta="meta"
+					        show-grid='true'
+					        tile-class="panel-yellow"
+					        tile-icon=""
+					        content-url="/templates/tile/pharmacy.html"></tile>
+					  <pagination count="count" limit="50" items="pharmacies"></pagination>
+	  				  <modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>	
+					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update(id)" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					</div>
 					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
 						<!-- Page Heading -->

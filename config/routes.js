@@ -62,4 +62,5 @@ module.exports.routes = {
   '/Report/Monthly'         : 'ReportController.monthly',
   '/Report/Pharmacies'      : 'ReportController.pharmacies',
   '/Report/Generate'        : 'ReportController.generate',  
+  '/:Model/count'           : 'MainController.count',
 };
