@@ -547,10 +547,7 @@
 					</div>
 					<!-- END MANAGERS -->
 					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
-
-						
-						
-					  <tile caption="Аптеки" 
+					  <dataview caption="Аптеки" 
 					        update="init_update(id)" 
 					        create="init_create()" 
 					        create-id="pharmacy_add" 
@@ -559,9 +556,9 @@
 					        meta="meta"
 					        show-grid='true'
 					        tile-class="panel-yellow"
-					        tile-icon=""
-					        content-url="/templates/tile/pharmacy.html"></tile>
-					  <pagination count="count" limit="50" items="pharmacies"></pagination>
+					        pagination-mode="client"
+					        content-url="/templates/tile/pharmacy.html"></dataview>
+					  
 	  				  <modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>	
 					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update(id)" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					</div>

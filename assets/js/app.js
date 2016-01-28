@@ -710,25 +710,40 @@
 	  	};
 	  });
       
-      app.directive('tile', function(){
+      app.directive('dataview', function($compile){
 	  	return {
 	  		restrict:'E',
 	  		scope:{
-	  			items:       '=',
-	  			caption:     '@',
-	  			createId:    '@',
-	  			updateId:    '@',
-	  			contentUrl:  '@',
-	  			meta:		 '=',
-	  			showGrid:	 '@',
-	  			init_create: '&create',
-	  			init_update: '&update',
-	  			tileClass:	 '@'
+	  			items:          '=',
+	  			caption:        '@',
+	  			createId:       '@',
+	  			updateId:       '@',
+	  			contentUrl:     '@',
+	  			meta:		    '=',
+	  			showGrid:	    '@',
+	  			init_create:    '&create',
+	  			init_update:    '&update',
+	  			tileClass:	    '@',
+	  			paginationMode: '@'
 	  		},
 	  		templateUrl: '/templates/tile.html',
-	  		controller: function($scope){
+	  		controller: function($scope, $element){
 	  			$scope.view = 'tile';
 	  			$scope.useView = $scope.showGrid == 'true';
+	  			$scope.search = {page: 0};
+	  			
+	  			$scope.pages = [];
+	  			
+	  			$scope.onChange = function(page){
+	  				$scope.search.page = page;
+	  			};
+	  			
+	  			$scope.$watch('items',function(){
+	  				$scope.pages = [];
+	  				for(var i = 0; i < 10;i++){
+	  					$scope.pages.push(i);
+	  				}
+	  			});
 	  			
 	  			$scope.create = function(){
 	  				$scope.init_create();
@@ -759,7 +774,8 @@
 	  		scope:{
 	  			count: '@',
 	  			obj: '=items',
-	  			limit: '@'
+	  			limit: '@',
+	  			onChange: '&'
 	  		},
 	  		templateUrl: '/templates/pagination.html',
 	  		controller: function($scope){
@@ -769,13 +785,10 @@
 	  			}
 	  			$scope.items = [];
 	  			
-	  			//onsole.log($scope.count+ ' ' + $scope.limit);
-	  			
 	  			$scope.$watch('count',function(){
 	  				//console.log($scope.count+ ' ' + $scope.limit);
 		  			for(var i = 1; i < $scope.count/$scope.limit; i++)
 		  			{
-		  				//console.log(i);
 						$scope.items.push(i);	  			
 		  			}	
 	  			});
@@ -1200,6 +1213,7 @@
 			});
 		  });			  
       });
+      
 	  /*---------------------------- PHARMACIES -----------------------------------*/
       app.controller('pharmaciesList', function($scope, getData) {
 	      $scope.pharmacies = [];
@@ -1219,6 +1233,9 @@
 		  
 		  //for hide map before shown modal form
 		  $scope.show = 0;
+		  
+		  //pagination
+		  $scope.limit = 50;
 		  
 		  $scope.clearAutocomplete = function(parent){
 		  	$(parent +' #autocomp').val('clear autocmoplete');
@@ -1299,6 +1316,9 @@
 		  $scope.$watch('menuPharmacies', function(oldValue, newValue) {
 		  	getData.getPharmacies().then(function(result){
 		  		$scope.pharmacies = result.data;
+		  		for(var i = 0; i < $scope.pharmacies.length; i++){
+		  			$scope.pharmacies[i].page = Math.floor((i+1)/$scope.limit);
+		  		}
 		  	},function(result){
 		  		console.log(JSON.stringify(result));
 		  	}).then(function(){
