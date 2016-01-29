@@ -12,7 +12,10 @@
     <title>ИС - "Аптечные мерчендайзеры"</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+<!--     <link href="/styles/bootstrap.min.css" rel="stylesheet"> -->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Custom CSS -->
     <link href="/styles/main.css" rel="stylesheet">
@@ -40,14 +43,14 @@
         margin-top: 5px;
         padding: 0;
     }
- 
+
     #custom-search-form .search-query {
         padding-right: 3px;
         padding-right: 4px \9;
         padding-left: 3px;
         padding-left: 4px \9;
         /* IE7-8 doesn't have border-radius, so don't indent the padding */
- 
+
         margin-bottom: 0;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
@@ -57,7 +60,7 @@
     -o-transition: width  0.2s ease-in-out;
     transition: width  0.2s ease-in-out;
     }
- 
+
     #custom-search-form button {
         border: 0;
         background: none;
@@ -72,13 +75,13 @@
         -moz-border-radius: 3px;
         border-radius: 3px;
     }
- 
+
     .search-query:focus + button {
-        z-index: 3;   
-    }   
+        z-index: 3;
+    }
     .search-query:focus{
         width: 260px;
-    }   
+    }
 
 .two-columns {
     -moz-column-count: 2;
@@ -95,8 +98,11 @@
     width: 100%;
     background-color: #ccc;
    margin:2px;
-}	
+}
 
+  .pretable {
+    margin-bottom: 20px;
+  }
 </style>
 
     <div id="wrapper"  ng-controller="menuController">
@@ -111,7 +117,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">ИС - "Аптечные мерчендайзеры"</a>
+                <a class="navbar-brand" href="/">SBL - CRM</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -222,9 +228,9 @@
                     </li>
                     <li>
                         <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
-                   
+
 						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
-							<li class="active"><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>					
+							<li class="active"><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>
 							<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
 							<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
 							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
@@ -237,7 +243,7 @@
 						</ul>
                     </li>
                     <li>
-                        <a href="/reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-list-ol"></i> Отчеты </a>          
+                        <a href="/reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-list-ol"></i> Отчеты </a>
                     </li>
                 </ul>
             </div>
@@ -253,7 +259,7 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Мерчендайзеры <small>Основная информация</small>													
+									Мерчендайзеры <small>Основная информация</small>
 									<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
@@ -270,7 +276,7 @@
 									</div>
 								</form>
 							</div>
-						</div>		
+						</div>
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 text-right">
@@ -278,9 +284,9 @@
 									<div class="label label-default">Кол-во: {{users.length}}</div>
 								</div>
 							</div>
-						</div>	
-						<div class="row">						
-							<div class="col-lg-6 col-md-6" ng-repeat="user in users | filter:search">					
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6" ng-repeat="user in users | filter:search">
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
@@ -289,17 +295,11 @@
 											</div>
 											<div class="col-xs-9 text-right">
 												<div class="huge" ng-bind="user.id"></div>
-												<label ng-bind="user.email"></label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-8">
 												<label ng-bind="user.firstName"></label>&nbsp;
 												<label ng-bind="user.middleName"></label>&nbsp;
 												<label ng-bind="user.lastName"></label>
-
 											</div>
-										</div>										
+										</div>
 									</div>
 									<a href="#update" data-target="#update" ng-click="init_update(user.id)" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений" data-id="{{x.id}}">
 										<div class="panel-footer">
@@ -310,11 +310,11 @@
 									</a>
 								</div>
 							</div>
-						{% endraw %}	
+						{% endraw %}
 						</div>
 						<!-- /.row -->
 						<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">		    
+							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -329,16 +329,16 @@
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
-										</div>		
+										</div>
 										<div class="checkbox">
 											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>										
+										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-										</div>	
+										</div>
 										<div class="form-group">
 											<label for="merchantTerritory">Территория:</label>
 											<select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
@@ -348,16 +348,16 @@
 											<label for="merchantProject">Проект:</label>
 											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
 											</select>
-										</div>	
+										</div>
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
 									</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">		    
+							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -372,10 +372,10 @@
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
-										</div>		
+										</div>
 										<div class="checkbox">
 											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>										
+										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
 										</div>
@@ -391,14 +391,14 @@
 											<label for="merchantProject">Проект:</label>
 											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
 											</select>
-										</div>										
+										</div>
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="update(last_user.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
 									</div>
 								</div>
 							</div>
-						</div>												
+						</div>
 					</div>
 					<!-- START MANAGERS -->
 					<div  id="managers" class="tab-pane fade" ng-controller="managersList">
@@ -406,7 +406,7 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Менеджеры <small>Основная информация</small>													
+									Менеджеры <small>Основная информация</small>
 									<p data-placement="top" data-toggle="tooltip" title="Добавить нового менеджера"><button class="btn btn-danger btn-xs" data-title="manager_add" data-toggle="modal" id="add_plugin" data-target="#manager_add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
@@ -423,7 +423,7 @@
 									</div>
 								</form>
 							</div>
-						</div>		
+						</div>
 						{% raw %}
 						<div class="row">
 							<div class="col-md-1 text-right">
@@ -431,9 +431,9 @@
 									<div class="label label-default">Кол-во: {{managers.length}}</div>
 								</div>
 							</div>
-						</div>	
-						<div class="row">						
-							<div class="col-lg-6 col-md-6" ng-repeat="manager in managers | filter:search">					
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6" ng-repeat="manager in managers | filter:search">
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										<div class="row">
@@ -452,7 +452,7 @@
 												<label ng-bind="manager.lastName"></label>
 
 											</div>
-										</div>										
+										</div>
 									</div>
 									<a href="#manager_update" data-target="#manager_update" ng-click="init_update(manager.id)" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
 										<div class="panel-footer">
@@ -463,11 +463,11 @@
 									</a>
 								</div>
 							</div>
-						{% endraw %}	
+						{% endraw %}
 						</div>
 						<!-- /.row -->
 						<div class="modal fade" id="manager_add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">		    
+							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -482,25 +482,25 @@
 										</div>
 										<div class="form-group">
 											<input class="form-control" ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
-										</div>		
+										</div>
 										<div class="checkbox">
 											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>										
+										</div>
 										<div class="form-group">
 											<input class="form-control" ng-model="last_manager.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
 											<input class="form-control" ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
-										</div>					
+										</div>
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
 									</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div class="modal fade" id="manager_update" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">		    
+							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -515,23 +515,23 @@
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
-										</div>		
+										</div>
 										<div class="checkbox">
 											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>										
+										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_manager.phone" type="text" placeholder="Телефон">
 										</div>
 										<div class="form-group">
 											<input class="form-control " ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
-										</div>					
+										</div>
 									</div>
 									<div class="modal-footer ">
 										<button ng-click="update(last_manager.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
 									</div>
 								</div>
 							</div>
-						</div>												
+						</div>
 					</div>
 					<!-- END MANAGERS -->
 					<div  id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
@@ -539,8 +539,8 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Аптеки <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="pharmacy_add" data-toggle="modal" data-target="#pharmacy_add" ng-click="init_create()"><i class="fa fa-plus"></i></button</p>
+									Аптеки <small>Основная информация</small>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="pharmacy_add" data-toggle="modal" data-target="#pharmacy_add" ng-click="init_create()"><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
 
@@ -564,22 +564,22 @@
 									<div class="label label-default">Кол-во: {{pharmacies.length}}</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="pharmacy in pharmacies | filter: search">					
+							<div class="col-lg-6 col-md-6" ng-repeat="pharmacy in pharmacies | filter: search">
 								<div class="panel panel-yellow">
 									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-building fa-5x"></i>
-												<h3 ng-bind="pharmacy.territory.name"></h3>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="pharmacy.id"></div>
-												<div ng-bind="pharmacy.fullName"></div>										
-												<div ng-bind="pharmacy.address"></div>	
-											</div>
-										</div>
+                    <div class="row">
+                      <div class="col-xs-4 text-center">
+                        <i class="fa fa-building fa-5x"></i>
+                        <div>Терриятория: {{ pharmacy.territory.name }}</div>
+                      </div>
+                      <div class="col-xs-8 text-right">
+                        <div class="huge" ng-bind="pharmacy.id"></div>
+                        <div ng-bind="pharmacy.fullName"></div>
+                        <div ng-bind="pharmacy.address"></div>
+                      </div>
+                    </div>
 									</div>
 									<a ng-click="init_update(pharmacy.id)" href="#pharmacy_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
 										<div class="panel-footer">
@@ -590,9 +590,9 @@
 									</a>
 								</div>
 							</div>
-						<!-- MODAL -->	
+						<!-- MODAL -->
 							<div class="modal fade" id="pharmacy_add" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -611,14 +611,14 @@
 											</div>
 											<div class="form-group">
 												<input class="form-control " type="text" placeholder="Адрес">
-											</div>					
+											</div>
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
 											</div>
 											<div class="form-group">
 											    <div class="checkbox">
 													<label><input type="checkbox" ng-model="last_pharmacy.validated" ng-checked="last_pharmacy.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
-												</div>		
+												</div>
 											</div>
 											<div class="form-group">
 												<label for="territory">Территория:</label>
@@ -633,10 +633,10 @@
 
 									</div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class="modal fade" id="pharmacy_upd" tabindex="-1" role="dialog" aria-labelledby="pharmacy_add" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -652,14 +652,14 @@
 											<div class="form-group">
 												<input id="autocomp" class="form-control" type="text" placeholder="Адрес" ng-model="last_pharmacy.address">
 												<div id="autocomp_map"></div>
-											</div>					
+											</div>
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_pharmacy.email" placeholder="Эл. почта">
-											</div>	
+											</div>
 											<div class="form-group">
 											    <div class="checkbox">
 													<label><input type="checkbox" ng-model="last_pharmacy.validated" ng-checked="last_pharmacy.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
-												</div>	
+												</div>
 											</div>
 											<div class="form-group">
 												<label for="territory">Территория:</label>
@@ -674,23 +674,23 @@
 
 									</div>
 								</div>
-							</div>	
-							
-						{% endraw %}	
+							</div>
+
+						{% endraw %}
 						</div>
 						<!-- /.row -->
-						
+
 						<!-- Button HTML (to Trigger Modal) -->
-    					
+
 					</div>
-					
+
 					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Лекарственные препараты <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="drug_add" data-toggle="modal" data-target="#drug_add" ><i class="fa fa-plus"></i></button</p>
+									Лекарственные препараты <small>Основная информация</small>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="drug_add" data-toggle="modal" data-target="#drug_add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
 
@@ -719,10 +719,10 @@
 									<span class="glyphicon" ng-class="view == 'grid'? 'glyphicon glyphicon-list':'glyphicon glyphicon-th'"></span>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div class="row" ng-switch on="view">
 							<div ng-switch-when="tile">
-								<div class="col-lg-6 col-md-6" ng-repeat="drug in drugs | filter: search">					
+								<div class="col-lg-6 col-md-6" ng-repeat="drug in drugs | filter: search">
 										<div class="panel panel-green">
 											<div class="panel-heading">
 												<div class="row">
@@ -732,8 +732,8 @@
 													</div>
 													<div class="col-xs-9 text-right">
 														<div class="huge" ng-bind="drug.id"></div>
-														<div ng-bind="drug.fullName"></div>										
-														<div ng-bind="drug.barcode"></div>	
+														<div ng-bind="drug.fullName"></div>
+														<div ng-bind="drug.barcode"></div>
 													</div>
 												</div>
 											</div>
@@ -745,7 +745,7 @@
 												</div>
 											</a>
 										</div>
-									
+
 								</div>
 							</div>
 								<div ng-switch-when="grid">
@@ -753,14 +753,14 @@
 									  <table id="mytable" class="table table-bordered table-striped">
 									  	<tr>
 									  		<td><input type="checkbox" /></td>
-										    <td>Полное наименование</td>							 
+										    <td>Полное наименование</td>
 										    <td>Идентификатор</td>
 										    <td>Штрихкод</td>
 										    <td>&nbsp;</td>
 									  	</tr>
 										<tr ng-repeat="drug in drugs | filter: search">
 										  <td><input type="checkbox" /></td>
-										  <td>{{ drug.fullName }}</td>							 
+										  <td>{{ drug.fullName }}</td>
 										  <td>{{ drug.id }}</td>
 										  <td>{{ drug.barcode }}</td>
 										  <td><div class="pull-left" data-placement="top" data-toggle="tooltip" title="Редактировать"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#drug_upd" ng-click="init_update(drug.id)"><span class="glyphicon glyphicon-pencil"></span></button></div>
@@ -768,12 +768,12 @@
 										      <div class="pull-left" data-placement="top" data-toggle="tooltip" title="Удалить"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></div></td>
 										</tr>
 									  </table>
-									</div>								
+									</div>
 								</div>
-							
-						<!-- MODAL -->	
+
+						<!-- MODAL -->
 							<div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="drug_add" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -788,10 +788,10 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_drug.description" placeholder="Описание"></textarea>
-											</div>					
+											</div>
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_drug.barcode" placeholder="Штрихкод">
-											</div>					
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -799,10 +799,10 @@
 
 									</div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class="modal fade" id="drug_upd" tabindex="-1" role="dialog" aria-labelledby="drug_upd" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -817,10 +817,10 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_drug.description" placeholder="Описание"></textarea>
-											</div>					
+											</div>
 											<div class="form-group">
 												<input class="form-control " type="text" ng-model="last_drug.barcode" placeholder="Штрихкод">
-											</div>					
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_drug.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -829,20 +829,20 @@
 
 									</div>
 								</div>
-							</div>	
-							
-						{% endraw %}	
+							</div>
+
+						{% endraw %}
 						</div>
 						<!-- /.row -->
-													
-					</div>			
+
+					</div>
 					<div id="companies" class="tab-pane fade" ng-controller="companiesList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Поставщики <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить компанию"><button class="btn btn-danger btn-xs" data-title="company_add" data-toggle="modal" data-target="#company_add" ><i class="fa fa-plus"></i></button</p>
+									Поставщики <small>Основная информация</small>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить компанию"><button class="btn btn-danger btn-xs" data-title="company_add" data-toggle="modal" data-target="#company_add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
 
@@ -866,9 +866,9 @@
 									<div class="label label-default">Кол-во компаний: {{companies.length}}</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="company in companies | filter: search">					
+							<div class="col-lg-6 col-md-6" ng-repeat="company in companies | filter: search">
 								<div class="panel panel-red">
 									<div class="panel-heading">
 										<div class="row">
@@ -878,8 +878,8 @@
 											</div>
 											<div class="col-xs-9 text-right">
 												<div class="huge" ng-bind="company.id"></div>
-												<div ng-bind="company.fullName"></div>										
-												<div ng-bind="company.description"></div>	
+												<div ng-bind="company.fullName"></div>
+												<div ng-bind="company.description"></div>
 											</div>
 										</div>
 									</div>
@@ -892,9 +892,9 @@
 									</a>
 								</div>
 							</div>
-						<!-- MODAL -->	
+						<!-- MODAL -->
 							<div class="modal fade" id="company_add" tabindex="-1" role="dialog" aria-labelledby="company_add" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -912,7 +912,7 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_company.description" placeholder="Описание"></textarea>
-											</div>				
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
@@ -920,10 +920,10 @@
 
 									</div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class="modal fade" id="company_upd" tabindex="-1" role="dialog" aria-labelledby="company_upd" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -941,7 +941,7 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control" type="text" ng-model="last_company.description" placeholder="Описание"></textarea>
-											</div>				
+											</div>
 										</div>
 										<div class="modal-footer ">
 											<button ng-click="update(last_company.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
@@ -950,58 +950,54 @@
 
 									</div>
 								</div>
-							</div>	
-							
-						{% endraw %}	
+							</div>
+
+						{% endraw %}
 						</div>
 						<!-- /.row -->
-													
-					</div>	
-					
+
+					</div>
+
 					<div id="projects" class="tab-pane fade in active" ng-controller="projectsList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Проекты <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить проект"><button class="btn btn-danger btn-xs" data-title="project_add" data-toggle="modal" data-target="#project_add" ><i class="fa fa-plus"></i></button</p>
+									Проекты
 								</h1>
 							</div>
 
 						</div>
 						<!-- /.row -->
+            {% raw %}
 						<!-- FILTER -->
 						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
+
+             <form class="form-inline pretable">
+              <div class="form-group">
+                <label class="sr-only" for="projectSearch">Поиск</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                  <input type="text" ng-model="search" class="form-control" id="projectSearch" placeholder="Поиск">
+                  <div class="input-group-addon">Количество: {{(projects | filter: search).length}}</div>
+                </div>
+              </div>
+              <button class="btn btn-danger" data-title="project_add" data-toggle="modal" data-target="#project_add"><i class="fa fa-plus"></i> Добавить новый проект</button>
+            </form>
+
 						</div>
-						{% raw %}
 						<div class="row">
-							<div class="col-md-1 text-right">
-								<div class="panel">
-									<div class="label label-default">Кол-во проектов: {{projects.length}}</div>
-								</div>
-							</div>
-						</div>	
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="project in projects | filter: search">					
+							<div class="col-lg-6 col-md-6" ng-repeat="project in projects | filter: search">
 								<div class="panel panel-yellow">
 									<div class="panel-heading">
 										<div class="row">
 											<div class="col-xs-3">
 												<i class="fa fa-users fa-5x"></i>
-												<h3 ng-bind="project.fullName"></h3>
 											</div>
+
 											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="project.id"></div>
-												<div ng-bind="project.fullName"></div>										
-												<div ng-bind="project.description"></div>	
+												<h4> {{ project.fullName }} </h4>
+												<div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" ng-bind="project.description"></div>
 											</div>
 										</div>
 									</div>
@@ -1014,9 +1010,9 @@
 									</a>
 								</div>
 							</div>
-						<!-- MODAL -->	
+						<!-- MODAL -->
 							<div class="modal fade" id="project_add" tabindex="-1" role="dialog" aria-labelledby="company_add" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -1028,7 +1024,7 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>	
+											</div>
 											<div class="form-group">
 												<div class="form-group">
 													<label for="projectDrugs">Лекарственные препараты:</label>
@@ -1050,10 +1046,10 @@
 
 									</div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class="modal fade" id="project_upd" tabindex="-1" role="dialog" aria-labelledby="project_upd" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -1065,7 +1061,7 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>	
+											</div>
 											<div class="form-group">
 												<div class="form-group">
 													<label for="projectDrugs">Лекарственные препараты:</label>
@@ -1088,20 +1084,20 @@
 
 									</div>
 								</div>
-							</div>	
-							
-						{% endraw %}	
+							</div>
+
+						{% endraw %}
 						</div>
 						<!-- /.row -->
-													
+
 					</div>
 					<div id="territories" class="tab-pane fade" ng-controller="territoriesList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Территории <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить территорию"><button class="btn btn-danger btn-xs" data-title="territory_add" data-toggle="modal" data-target="#territory_add" ><i class="fa fa-plus"></i></button</p>
+									Территории <small>Основная информация</small>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить территорию"><button class="btn btn-danger btn-xs" data-title="territory_add" data-toggle="modal" data-target="#territory_add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
 
@@ -1125,9 +1121,9 @@
 									<div class="label label-default">Кол-во территорий: {{territories.length}}</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="territory in territories | filter: search">					
+							<div class="col-lg-6 col-md-6" ng-repeat="territory in territories | filter: search">
 								<div class="panel panel-green">
 									<div class="panel-heading">
 										<div class="row">
@@ -1137,8 +1133,8 @@
 											</div>
 											<div class="col-xs-9 text-right">
 												<div class="huge" ng-bind="territory.id"></div>
-												<div ng-bind="territory.info"></div>										
-												<div ng-bind="territory.baseCity"></div>	
+												<div ng-bind="territory.info"></div>
+												<div ng-bind="territory.baseCity"></div>
 											</div>
 										</div>
 									</div>
@@ -1151,9 +1147,9 @@
 									</a>
 								</div>
 							</div>
-						<!-- MODAL -->	
+						<!-- MODAL -->
 							<div class="modal fade" id="territory_add" tabindex="-1" role="dialog" aria-labelledby="territory_add" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -1165,7 +1161,7 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_territory.info" placeholder="Описание"></textarea>
-											</div>	
+											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_territory.baseCity" placeholder="Основной город"></textarea>
 											</div>
@@ -1176,10 +1172,10 @@
 
 									</div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class="modal fade" id="territory_upd" tabindex="-1" role="dialog" aria-labelledby="territory_upd" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -1191,7 +1187,7 @@
 											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_territory.info" placeholder="Описание"></textarea>
-											</div>	
+											</div>
 											<div class="form-group">
 												<textarea class="form-control " type="text" ng-model="last_territory.baseCity" placeholder="Основной город"></textarea>
 											</div>
@@ -1203,20 +1199,20 @@
 
 									</div>
 								</div>
-							</div>	
-							
-						{% endraw %}	
+							</div>
+
+						{% endraw %}
 						</div>
 						<!-- /.row -->
-													
+
 					</div>
 					<div id="druginfotypes" class="tab-pane fade" ng-controller="drugInfoTypesList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
 								<h1 class="page-header">
-									Типы данных <small>Основная информация</small>													
-									<p data-placement="top" data-toggle="tooltip" title="Добавить новый тип информации"><button class="btn btn-danger btn-xs" data-title="druginfotype_add" data-toggle="modal" data-target="#druginfotype_add" ><i class="fa fa-plus"></i></button</p>
+									Типы данных <small>Основная информация</small>
+									<p data-placement="top" data-toggle="tooltip" title="Добавить новый тип информации"><button class="btn btn-danger btn-xs" data-title="druginfotype_add" data-toggle="modal" data-target="#druginfotype_add" ><i class="fa fa-plus"></i></button></p>
 								</h1>
 							</div>
 
@@ -1240,9 +1236,9 @@
 									<div class="label label-default">Кол-во типов информации: {{druginfotypes.length}}</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="druginfotype in drugInfoTypes | filter: search">					
+							<div class="col-lg-6 col-md-6" ng-repeat="druginfotype in drugInfoTypes | filter: search">
 								<div class="panel panel-red">
 									<div class="panel-heading">
 										<div class="row">
@@ -1252,8 +1248,8 @@
 											</div>
 											<div class="col-xs-9 text-right">
 												<div class="huge" ng-bind="druginfotype.id"></div>
-												<div ng-bind="druginfotype.name"></div>										
-												<div ng-bind="druginfotype.valueType"></div>	
+												<div ng-bind="druginfotype.name"></div>
+												<div ng-bind="druginfotype.valueType"></div>
 											</div>
 										</div>
 									</div>
@@ -1266,9 +1262,9 @@
 									</a>
 								</div>
 							</div>
-						<!-- MODAL -->	
+						<!-- MODAL -->
 							<div class="modal fade" id="druginfotype_add" tabindex="-1" role="dialog" aria-labelledby="druginfotype_add" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -1293,10 +1289,10 @@
 
 									</div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class="modal fade" id="druginfotype_upd" tabindex="-1" role="dialog" aria-labelledby="druginfotype_upd" aria-hidden="true">
-								<div class="modal-dialog">		    
+								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -1322,18 +1318,18 @@
 
 									</div>
 								</div>
-							</div>	
-							
-						{% endraw %}	
+							</div>
+
+						{% endraw %}
 						</div>
 						<!-- /.row -->
-													
-					</div>					
+
+					</div>
 					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
 					</div>
 					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
 					</div>
-				</div>				
+				</div>
             </div>
             <!-- /.container-fluid -->
         </div>
@@ -1344,18 +1340,18 @@
       var manager = {};
 	  //SWIG Injection!!! How to another get manager.id in the page?
 	  manager.id = 0{{manager.id}};
-	</script>		
+	</script>
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-	
+
 	<!-- jQuery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
-    
+
      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-    
+
 	<!-- Angular application -->
 	<script src="/js/app.js"></script>
 
@@ -1383,18 +1379,18 @@
     float: left;
 }
 .modal{
-    z-index: 20;   
+    z-index: 20;
 }
 .modal-backdrop{
     z-index: 10;
 }
 
-.modal-dialog {   
+.modal-dialog {
     margin: 80px auto; !important;
 }
 
 </style>
-    
+
 </body>
 
 </html>

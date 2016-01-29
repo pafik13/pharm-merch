@@ -1,0 +1,61 @@
+<!-- Page Heading -->
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      {{pageHeader}}
+    </h1>
+  </div>
+</div>
+<!-- /.row -->
+<!-- Filter -->
+<div class="row">
+ <form class="form-inline" style="margin-bottom: 20px;">
+  <div class="form-group">
+    <label class="sr-only" for="searchInput">Поиск</label>
+    <div class="input-group">
+      <div class="input-group-addon"><i class="fa fa-search"></i></div>
+      <input type="text" ng-model="search" class="form-control" id="searchInput" placeholder="Поиск">
+      <div class="input-group-addon">Количество: {{(items | filter: search).length}}</div>
+    </div>
+  </div>
+  <button class="btn btn-danger" data-title="{{creatId}}" data-toggle="modal" data-target="#{{createId}}" ng-click="create()"><i class="fa fa-plus"></i> {{addButtonCaption}}</button>
+ </form>
+</div>
+<!-- /.row -->
+<!-- Tiles with data -->
+<div class="row">
+  <div class="col-lg-6 col-md-6" ng-repeat="item in items | filter: search">
+    <div class="panel panel-yellow">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-4">
+            <i class="{{tileClass}}"></i>
+            <div ng-if="fieldForTileLRow1" class="ellipsis" ng-bind="item.{{fieldForTileLRow1}}"></div>
+          </div>
+
+          <div class="col-xs-8 text-right">
+            <h4 class="ellipsis" ng-bind="item.{{fieldForTileCaption}}"></h4>
+            <div ng-if="fieldForTileRRow1" class="ellipsis" ng-bind="item.{{fieldForTileRRow1}}"></div>
+            <div ng-if="fieldForTileRRow2" class="ellipsis" ng-bind="item.{{fieldForTileRRow2}}"></div>
+          </div>
+        </div>
+      </div>
+      <a ng-click="update(item.id)" ng-model="item" href="#{{updateId}}" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+        <div class="panel-footer">
+        <span class="pull-left"><h4>Подробнее</h4></span>
+        <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+        <div class="clearfix"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- /.row -->
+<!-- Pagination -->
+<div ng-if="pages.length > 1" class="row">
+  <ul class="pagination">
+    <li ng-model="search.page" ng-click="onChange(page)" ng-repeat="page in pages">
+        <a href="#">{{page}}</a>
+    </li>
+  </ul>
+</div>
