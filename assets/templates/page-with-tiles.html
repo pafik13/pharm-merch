@@ -25,11 +25,11 @@
 <!-- Tiles with data -->
 <div class="row">
   <div class="col-lg-6 col-md-6" ng-repeat="item in items | filter: search">
-    <div class="panel panel-yellow">
+    <div class="panel {{tileClass}}">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-4">
-            <i class="{{tileClass}}"></i>
+            <i class="{{tileIcon}}"></i>
             <div ng-if="fieldForTileLRow1" class="ellipsis" ng-bind="item.{{fieldForTileLRow1}}"></div>
           </div>
 

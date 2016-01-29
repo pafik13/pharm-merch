@@ -289,70 +289,8 @@
                 <!-- /.row -->
           </div>
 					<div id="merchants" class="tab-pane fade" ng-controller="merchantList">
-					<!-- Page Heading -->
-						<div class="row">
-							<div class="col-lg-12">
-								<h1 class="page-header">
-									Мерчендайзеры <small>Основная информация</small>
-									<p data-placement="top" data-toggle="tooltip" title="Добавить нового мерчендайзера"><button class="btn btn-danger btn-xs" data-title="user_add" data-toggle="modal" id="add_plugin" data-target="#add" ><i class="fa fa-plus"></i></button></p>
-								</h1>
-							</div>
+            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" items="users" tile-class="panel-primary" tile-icon="fa fa-user-md fa-5x" field-for-tile-caption="lastName" field-for-tile-r-row-1="email" update="init_update(id)" create="init_create()" create-id="add" update-id="update"></page-with-tiles>
 
-						</div>
-						<!-- /.row -->
-						<!-- FILTER -->
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
-						</div>
-						{% raw %}
-						<div class="row">
-							<div class="col-md-1 text-right">
-								<div class="panel">
-									<div class="label label-default">Кол-во: {{users.length}}</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="user in users | filter:search">
-								<div class="panel panel-primary">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-user-md fa-5x"></i>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="user.id"></div>
-												<label ng-bind="user.email"></label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-8">
-												<label ng-bind="user.firstName"></label>&nbsp;
-												<label ng-bind="user.middleName"></label>&nbsp;
-												<label ng-bind="user.lastName"></label>
-
-											</div>
-										</div>
-									</div>
-									<a href="#update" data-target="#update" ng-click="init_update(user.id)" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений" data-id="{{x.id}}">
-										<div class="panel-footer">
-										<span class="pull-left"><h4>Подробнее</h4></span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-										<div class="clearfix"></div>
-										</div>
-									</a>
-								</div>
-							</div>
-						{% endraw %}
-						</div>
-						<!-- /.row -->
 						<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -863,9 +801,8 @@
 						<!-- /.row -->
 
 					</div>
-
 					<div id="projects" class="tab-pane fade" ng-controller="projectsList">
-            <page-with-tiles page-header="Проекты" add-button-caption="Добавить новый проект" items="projects" tile-class="fa fa-users fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" update="init_update(id)" create="init_create()" create-id="project_add" update-id="project_upd"></page-with-tiles>
+            <page-with-tiles page-header="Проекты" add-button-caption="Добавить новый проект" items="projects" tile-class="panel-yellow" tile-icon="fa fa-users fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" update="init_update(id)" create="init_create()" create-id="project_add" update-id="project_upd"></page-with-tiles>
 						<!-- MODAL -->
             {% raw %}
 							<div class="modal fade" id="project_add" tabindex="-1" role="dialog" aria-labelledby="company_add" aria-hidden="true">
@@ -945,7 +882,6 @@
 
 						{% endraw %}
 						</div>
-						<!-- /.row -->
 					<div id="territories" class="tab-pane fade" ng-controller="territoriesList">
 						<!-- Page Heading -->
 						<div class="row">

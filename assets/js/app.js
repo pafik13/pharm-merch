@@ -798,6 +798,7 @@
 	  			pageHeader:     '@',
           items:          '=',
           tileClass:      '@',
+          tileIcon:       '@',
           fieldForTileCaption:    '@',
           fieldForTileRRow1:      '@',
           fieldForTileRRow2:      '@',
