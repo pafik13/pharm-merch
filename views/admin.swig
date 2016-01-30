@@ -226,13 +226,15 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
               <ul class="nav navbar-nav side-nav">
-                <li>
+<!--                 <li>
                   <a data-toggle="pill" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
                 </li>
                 <li>
                   <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
 
-						<ul  id="dictionary" class="collapse in active" class="nav nav-pills">
+						<ul  id="dictionary" class="collapse in active" class="nav nav-pills"> -->
+              <li><a data-toggle="pill" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a></li>
+              <li class="divider"></li>
 							<li><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>
 							<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
 							<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
@@ -243,20 +245,21 @@
 							<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы данных</a></li>
 							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
 							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
-						</ul>
-                    </li>
+<!-- 						</ul>
+                    </li> -->
                     <li>
                         <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
 
-                        <ul  id="reports" class="collapse in active" class="nav nav-pills">    <li class="active"><a href="/Report/Merchants">Мерчендайзеры</a></li>
-                            <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
+                        <ul  id="reports" class="collapse in active">
+                          <li><a href="/Report/Merchants">Мерчендайзеры</a></li>
+                          <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
 <!--                             <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li> -->
                         </ul>
                     </li>
                     <li>
                     	<a href="#admin" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-gears"></i> Tools<i class="fa fa-fw fa-caret-down"></i></a>
 
-						<ul id="admin" class="collapse in active" class="nav nav-pills">
+						<ul id="admin" class="collapse in active">
 							<li><a data-toggle="pill" href="#sql">Запросы</a></li>
 						</ul>
                     </li>
@@ -380,70 +383,8 @@
 					</div>
 					<!-- START MANAGERS -->
 					<div id="managers" class="tab-pane fade" ng-controller="managersList">
-					<!-- Page Heading -->
-						<div class="row">
-							<div class="col-lg-12">
-								<h1 class="page-header">
-									Менеджеры <small>Основная информация</small>
-									<p data-placement="top" data-toggle="tooltip" title="Добавить нового менеджера"><button class="btn btn-danger btn-xs" data-title="manager_add" data-toggle="modal" id="add_plugin" data-target="#manager_add" ><i class="fa fa-plus"></i></button></p>
-								</h1>
-							</div>
+            <page-with-tiles page-header="Менеджеры" add-button-caption="Добавить нового менеджера" items="managers" tile-class="panel-primary" tile-icon="fa fa-user-md fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="email" update="init_update(id)" create="init_create()" create-id="manager_add" update-id="manager_update"></page-with-tiles>
 
-						</div>
-						<!-- /.row -->
-						<!-- FILTER -->
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
-						</div>
-						{% raw %}
-						<div class="row">
-							<div class="col-md-1 text-right">
-								<div class="panel">
-									<div class="label label-default">Кол-во: {{managers.length}}</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="manager in managers | filter:search">
-								<div class="panel panel-primary">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-user-md fa-5x"></i>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="manager.id"></div>
-												<label ng-bind="manager.email"></label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-8">
-												<label ng-bind="manager.firstName"></label>&nbsp;
-												<label ng-bind="manager.middleName"></label>&nbsp;
-												<label ng-bind="manager.lastName"></label>
-
-											</div>
-										</div>
-									</div>
-									<a href="#manager_update" data-target="#manager_update" ng-click="init_update(manager.id)" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
-										<div class="panel-footer">
-										<span class="pull-left"><h4>Подробнее</h4></span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-										<div class="clearfix"></div>
-										</div>
-									</a>
-								</div>
-							</div>
-						{% endraw %}
-						</div>
-						<!-- /.row -->
 						<div class="modal fade" id="manager_add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -529,94 +470,10 @@
 					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update(id)" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					</div>
 					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
-						<!-- Page Heading -->
-						<div class="row">
-							<div class="col-lg-12">
-								<h1 class="page-header">
-									Лекарственные препараты <small>Основная информация</small>
-									<p data-placement="top" data-toggle="tooltip" title="Добавить аптеку"><button class="btn btn-danger btn-xs" data-title="drug_add" data-toggle="modal" data-target="#drug_add" ><i class="fa fa-plus"></i></button></p>
-								</h1>
-							</div>
-
-						</div>
-						<!-- /.row -->
-						<!-- FILTER -->
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
-						</div>
-						{% raw %}
-						<div class="row">
-							<div class="col-lg-8 pull-left">
-								<div class="panel">
-									<div class="label label-default">Кол-во: {{drugs.length}}</div>
-								</div>
-							</div>
-							<div class="col-lg-1 pull-right">
-								<div class="btn btn-checkbox" ng-model="view" ng-click="view = view == 'grid'? 'tile': 'grid'">
-									<span class="glyphicon" ng-class="view == 'grid'? 'glyphicon glyphicon-list':'glyphicon glyphicon-th'"></span>
-								</div>
-							</div>
-						</div>
-						<div class="row" ng-switch on="view">
-							<div ng-switch-when="tile">
-								<div class="col-lg-6 col-md-6" ng-repeat="drug in drugs | filter: search">
-										<div class="panel panel-green">
-											<div class="panel-heading">
-												<div class="row">
-													<div class="col-xs-3">
-														<i class="fa fa-flask fa-5x"></i>
-														<h3 ng-bind="drug.officialName"></h3>
-													</div>
-													<div class="col-xs-9 text-right">
-														<div class="huge" ng-bind="drug.id"></div>
-														<div ng-bind="drug.fullName"></div>
-														<div ng-bind="drug.barcode"></div>
-													</div>
-												</div>
-											</div>
-											<a ng-click="init_update(drug.id)" href="#drug_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
-												<div class="panel-footer">
-												<span class="pull-left"><h4>Подробнее</h4></span>
-												<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-												<div class="clearfix"></div>
-												</div>
-											</a>
-										</div>
-
-								</div>
-							</div>
-								<div ng-switch-when="grid">
-									<div class="table-responsive">
-									  <table id="mytable" class="table table-bordered table-striped">
-									  	<tr>
-									  		<td><input type="checkbox" /></td>
-										    <td>Полное наименование</td>
-										    <td>Идентификатор</td>
-										    <td>Штрихкод</td>
-										    <td>&nbsp;</td>
-									  	</tr>
-										<tr ng-repeat="drug in drugs | filter: search">
-										  <td><input type="checkbox" /></td>
-										  <td>{{ drug.fullName }}</td>
-										  <td>{{ drug.id }}</td>
-										  <td>{{ drug.barcode }}</td>
-										  <td><div class="pull-left" data-placement="top" data-toggle="tooltip" title="Редактировать"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#drug_upd" ng-click="init_update(drug.id)"><span class="glyphicon glyphicon-pencil"></span></button></div>
-										      <span class="pull-left">&nbsp;</span>
-										      <div class="pull-left" data-placement="top" data-toggle="tooltip" title="Удалить"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></div></td>
-										</tr>
-									  </table>
-									</div>
-								</div>
-
+            <page-with-tiles page-header="Лекарственные препараты" add-button-caption="Добавить новый препарат" items="drugs" tile-class="panel-green" tile-icon="fa fa-flask fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" update="init_update(id)" create="init_create()" create-id="drug_add" update-id="drug_upd"></page-with-tiles>
 						<!-- MODAL -->
-							<div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="drug_add" aria-hidden="true">
+            {% raw %}
+					  <div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="drug_add" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -645,7 +502,7 @@
 								</div>
 							</div>
 
-							<div class="modal fade" id="drug_upd" tabindex="-1" role="dialog" aria-labelledby="drug_upd" aria-hidden="true">
+						<div class="modal fade" id="drug_upd" tabindex="-1" role="dialog" aria-labelledby="drug_upd" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -674,10 +531,7 @@
 									</div>
 								</div>
 							</div>
-
 						{% endraw %}
-						</div>
-						<!-- /.row -->
 
 					</div>
 					<div id="companies" class="tab-pane fade" ng-controller="companiesList">
@@ -879,66 +733,12 @@
 									</div>
 								</div>
 							</div>
-
 						{% endraw %}
 						</div>
 					<div id="territories" class="tab-pane fade" ng-controller="territoriesList">
-						<!-- Page Heading -->
-						<div class="row">
-							<div class="col-lg-12">
-								<h1 class="page-header">
-									Территории <small>Основная информация</small>
-									<p data-placement="top" data-toggle="tooltip" title="Добавить территорию"><button class="btn btn-danger btn-xs" data-title="territory_add" data-toggle="modal" data-target="#territory_add" ><i class="fa fa-plus"></i></button></p>
-								</h1>
-							</div>
-
-						</div>
-						<!-- /.row -->
-						<!-- FILTER -->
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
-						</div>
-						{% raw %}
-						<div class="row">
-							<div class="col-md-1 text-right">
-								<div class="panel">
-									<div class="label label-default">Кол-во территорий: {{territories.length}}</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="territory in territories | filter: search">
-								<div class="panel panel-green">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-map fa-5x"></i>
-												<h3 ng-bind="territory.name"></h3>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="territory.id"></div>
-												<div ng-bind="territory.info"></div>
-												<div ng-bind="territory.baseCity"></div>
-											</div>
-										</div>
-									</div>
-									<a ng-click="init_update(territory.id)" href="#territory_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
-										<div class="panel-footer">
-										<span class="pull-left"><h4>Подробнее</h4></span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-										<div class="clearfix"></div>
-										</div>
-									</a>
-								</div>
-							</div>
+            <page-with-tiles page-header="Территории" add-button-caption="Добавить новую территорию" items="territories" tile-class="panel-green" tile-icon="fa fa-map fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="info" update="init_update(id)" create="init_create()" create-id="territory_add" update-id="territory_upd"></page-with-tiles>
 						<!-- MODAL -->
+            {% raw %}
 							<div class="modal fade" id="territory_add" tabindex="-1" role="dialog" aria-labelledby="territory_add" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -991,69 +791,14 @@
 									</div>
 								</div>
 							</div>
-
 						{% endraw %}
-						</div>
-						<!-- /.row -->
 
 					</div>
 					<div id="druginfotypes" class="tab-pane fade" ng-controller="drugInfoTypesList">
-						<!-- Page Heading -->
-						<div class="row">
-							<div class="col-lg-12">
-								<h1 class="page-header">
-									Типы данных <small>Основная информация</small>
-									<p data-placement="top" data-toggle="tooltip" title="Добавить новый тип информации"><button class="btn btn-danger btn-xs" data-title="druginfotype_add" data-toggle="modal" data-target="#druginfotype_add" ><i class="fa fa-plus"></i></button></p>
-								</h1>
-							</div>
+            <page-with-tiles page-header="Типы информации" add-button-caption="Добавить новый тип информации" items="druginfotypes" tile-class="panel-green" tile-icon="fa fa-cubes fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="valueType" update="init_update(id)" create="init_create()" create-id="druginfotype_add" update-id="druginfotype_upd"></page-with-tiles>
 
-						</div>
-						<!-- /.row -->
-						<!-- FILTER -->
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
-						</div>
-						{% raw %}
-						<div class="row">
-							<div class="col-md-1 text-right">
-								<div class="panel">
-									<div class="label label-default">Кол-во типов информации: {{druginfotypes.length}}</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="druginfotype in drugInfoTypes | filter: search">
-								<div class="panel panel-red">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-cubes fa-5x"></i>
-												<h3 ng-bind="druginfotype.name"></h3>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="druginfotype.id"></div>
-												<div ng-bind="druginfotype.name"></div>
-												<div ng-bind="druginfotype.valueType"></div>
-											</div>
-										</div>
-									</div>
-									<a ng-click="init_update(druginfotype.id)" href="#druginfotype_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
-										<div class="panel-footer">
-										<span class="pull-left"><h4>Подробнее</h4></span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-										<div class="clearfix"></div>
-										</div>
-									</a>
-								</div>
-							</div>
 						<!-- MODAL -->
+            {% raw %}
 							<div class="modal fade" id="druginfotype_add" tabindex="-1" role="dialog" aria-labelledby="druginfotype_add" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -1110,10 +855,7 @@
 									</div>
 								</div>
 							</div>
-
 						{% endraw %}
-						</div>
-						<!-- /.row -->
 
 					</div>
 					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
