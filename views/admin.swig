@@ -34,243 +34,168 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- CUSTOM STYLES  -->
+    <style>
+      .ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    </style>
+
 </head>
 
 <body ng-app="App">
-<style>
-    #custom-search-form {
-        margin:0;
-        margin-top: 5px;
-        padding: 0;
-    }
-
-    #custom-search-form .search-query {
-        padding-right: 3px;
-        padding-right: 4px \9;
-        padding-left: 3px;
-        padding-left: 4px \9;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
-
-        margin-bottom: 0;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        -webkit-transition: width  0.2s ease-in-out;
-    -moz-transition:width  0.2s ease-in-out;
-    -o-transition: width  0.2s ease-in-out;
-    transition: width  0.2s ease-in-out;
-    }
-
-    #custom-search-form button {
-        border: 0;
-        background: none;
-        /** belows styles are working good */
-        padding: 2px 5px;
-        margin-top: 2px;
-        position: relative;
-        left: -28px;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
-        margin-bottom: 0;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-    }
-
-    .search-query:focus + button {
-        z-index: 3;
-    }
-    .search-query:focus{
-        width: 260px;
-    }
-
-.two-columns {
-    -moz-column-count: 2;
-    -moz-column-gap: 10px;
-    -webkit-column-count: 2;
-    -webkit-column-gap: 10px;
-    column-count: 2;
-    column-gap: 10px;
-    width: 360px;
-}
-
-.two-columns .column {
-    display: inline-block;
-    width: 100%;
-    background-color: #ccc;
-   margin:2px;
-}
-
-  .ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-</style>
-
-    <div id="wrapper"  ng-controller="menuController">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">ИС - "Аптечные мерчендайзеры"</a>
-            </div>
-            <!-- Top Menu Items -->
-            <ul class="nav navbar-right top-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu message-dropdown">
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong> {{ user.username }}</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>{{ user.username }}</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>{{ user.username }}</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-footer">
-                            <a href="#">Read All New Messages</a>
-                        </li>
-                    </ul>
+  <div id="wrapper"  ng-controller="menuController">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">ИС - "Аптечные мерчендайзеры"</a>
+      </div>
+      <!-- Top Menu Items -->
+      <ul class="nav navbar-right top-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+            <ul class="dropdown-menu message-dropdown">
+                <li class="message-preview">
+                    <a href="#">
+                        <div class="media">
+                            <span class="pull-left">
+                                <img class="media-object" src="" alt="">
+                            </span>
+                            <div class="media-body">
+                                <h5 class="media-heading"><strong> {{ user.username }}</strong>
+                                </h5>
+                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                            </div>
+                        </div>
+                    </a>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">View All</a>
-                        </li>
-                    </ul>
+                <li class="message-preview">
+                    <a href="#">
+                        <div class="media">
+                            <span class="pull-left">
+                                <img class="media-object" src="" alt="">
+                            </span>
+                            <div class="media-body">
+                                <h5 class="media-heading"><strong>{{ user.username }}</strong>
+                                </h5>
+                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                            </div>
+                        </div>
+                    </a>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ manager.shortName }} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="/logout?next=login"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                        </li>
-                    </ul>
+                <li class="message-preview">
+                    <a href="#">
+                        <div class="media">
+                            <span class="pull-left">
+                                <img class="media-object" src="" alt="">
+                            </span>
+                            <div class="media-body">
+                                <h5 class="media-heading"><strong>{{ user.username }}</strong>
+                                </h5>
+                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="message-footer">
+                    <a href="#">Read All New Messages</a>
                 </li>
             </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-              <ul class="nav navbar-nav side-nav">
-<!--                 <li>
-                  <a data-toggle="pill" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+            <ul class="dropdown-menu alert-dropdown">
+                <li>
+                    <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
                 </li>
                 <li>
-                  <a href="#dictionary" data-toggle="collapse" data-target="#dictionary"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
-
-						<ul  id="dictionary" class="collapse in active" class="nav nav-pills"> -->
-              <li><a data-toggle="pill" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a></li>
-              <li class="divider"></li>
-							<li><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>
-							<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
-							<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
-							<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
-							<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
-							<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
-							<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
-							<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы данных</a></li>
-							<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
-							<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
-<!-- 						</ul>
-                    </li> -->
-                    <li>
-                        <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
-
-                        <ul  id="reports" class="collapse in active">
-                          <li><a href="/Report/Merchants">Мерчендайзеры</a></li>
-                          <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
-<!--                             <li><a href="/Report/WeeklyAll?date1={{date1}}&date2={{date2}}">Отчет еженедельный</a></li> -->
-                        </ul>
-                    </li>
-                    <li>
-                    	<a href="#admin" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-gears"></i> Tools<i class="fa fa-fw fa-caret-down"></i></a>
-
+                    <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                </li>
+                <li>
+                    <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                </li>
+                <li>
+                    <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                </li>
+                <li>
+                    <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                </li>
+                <li>
+                    <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">View All</a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ manager.shortName }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="/logout?next=login"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                </li>
+            </ul>
+        </li>
+      </ul>
+      <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav side-nav">
+          <li><a data-toggle="pill" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a></li>
+          <li class="divider"></li>
+					<li><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>
+					<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
+					<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
+					<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
+					<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
+					<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
+					<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
+					<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы данных</a></li>
+					<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
+					<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
+          <li>
+            <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul  id="reports" class="collapse in active">
+              <li><a href="/Report/Merchants">Мерчендайзеры</a></li>
+              <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#admin" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-gears"></i> Tools<i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="admin" class="collapse in active">
 							<li><a data-toggle="pill" href="#sql">Запросы</a></li>
 						</ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </nav>
+          </li>
+        </ul>
+      </div>
+    <!-- /.navbar-collapse -->
+    </nav>
 
-        <div id="page-wrapper">
-          <div class="container-fluid">
-				<div class="tab-content">
+    <div id="page-wrapper">
+      <div class="container-fluid">
+        <div class="tab-content">
           <div id="main" class="tab-pane fade in active">
                 <!-- Page Heading -->
                 <div class="row">
@@ -294,92 +219,9 @@
 					<div id="merchants" class="tab-pane fade" ng-controller="merchantList">
             <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" items="users" tile-class="panel-primary" tile-icon="fa fa-user-md fa-5x" field-for-tile-caption="lastName" field-for-tile-r-row-1="email" update="init_update(id)" create="init_create()" create-id="add" update-id="update"></page-with-tiles>
 
-						<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-										<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
-									</div>
-									<div class="modal-body">
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
-										</div>
-										<div class="checkbox">
-											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-										</div>
-										<div class="form-group">
-											<label for="merchantTerritory">Территория:</label>
-											<select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
-											</select>
-										</div>
-										<div class="form-group">
-											<label for="merchantProject">Проект:</label>
-											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
-											</select>
-										</div>
-									</div>
-									<div class="modal-footer ">
-										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-										<h4 ng-bind="last_user.firstName" class="modal-title custom_align" id="Heading"></h4>
-									</div>
-									<div class="modal-body">
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.lastName" type="text" placeholder="Фамилия">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.firstName" type="text" placeholder="Имя">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.middleName" type="text" placeholder="Отчество">
-										</div>
-										<div class="checkbox">
-											<label><input type="checkbox" ng-model="last_user.sex" ng-checked="last_user.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.phone" type="text" placeholder="Телефон">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_user.email"  type="text" placeholder="Эл. почта">
-										</div>
-										<div class="form-group">
-											<label for="merchantTerritory">Территория:</label>
-											<select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last_user.territories track by option.id" ng-model="last_user.territory">
-											</select>
-										</div>
-										<div class="form-group">
-											<label for="merchantProject">Проект:</label>
-											<select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last_user.projects track by option.id" ng-model="last_user.project">
-											</select>
-										</div>
-									</div>
-									<div class="modal-footer ">
-										<button ng-click="update(last_user.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-									</div>
-								</div>
-							</div>
-						</div>
+            <modal caption="Новый мерчендайзер" modal-id="add" action="create()" content-url='/templates/modal/merchant.html' last="last_user"></modal>
+
+            <modal caption="Обновление:" modal-id="update" action="update(id)" content-url='/templates/modal/merchant.html' last="last_user"></modal>
 					</div>
 					<!-- START MANAGERS -->
 					<div id="managers" class="tab-pane fade" ng-controller="managersList">
@@ -466,7 +308,7 @@
 					        pagination-mode="client"
 					        content-url="/templates/tile/pharmacy.html"></dataview>
 
-	  				  <modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
+	  				<modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update(id)" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					</div>
 					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
@@ -902,15 +744,14 @@
 
 								</div>
 							</div>
+              {% endraw %}
 						</div>
-					{% endraw %}
-				</div>
             </div>
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
-    </div>
-    <!-- /#wrapper -->
+      </div>
+      <!-- /#wrapper -->
 	<script>
       var manager = {};
 	  //SWIG Injection!!! How to another get manager.id in the page?
