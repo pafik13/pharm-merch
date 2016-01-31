@@ -111,7 +111,7 @@
 		$.ajax({
 		    async: false,
 			type: "POST",
-			url: "/Merchant/create?",
+			url: "/Merchant/create?populate=true",
 			dataType: 'json',
 			data: data,
 			success: function(msg){
@@ -124,23 +124,24 @@
 		return d;
 	  }
 
-	  function updateUser(data){
+	  function updateUser(data, id){
 	    var d = {};
-		data.manager = manager.id;
-		$.ajax({
-		    async: false,
-			type: "POST",
-			url: "/Merchant/update/"+data.id+"/?",
-			dataType: 'json',
-			data: data,
-			success: function(msg){
-			   d = msg;
-			},
-			error: function(xhr, status, data){
-			   alert(status + " ERROR " + JSON.stringify(data));
-			}
-		});
-		return d;
+
+      $.ajax({
+        async: false,
+        type: "PUT",
+        url: "/Merchant/"+id,
+        dataType: 'json',
+        data: data,
+        success: function(msg){
+           d = msg;
+        },
+        error: function(xhr, status, data){
+           alert(status + " ERROR " + JSON.stringify(data));
+        }
+      });
+
+		  return d;
 	  }
 	  /*--------------------- PHARMACIES -------------------------*/
 	  function getPharmacies(){
@@ -431,14 +432,17 @@
 	    $.ajax(
 		{
 		  async: false,
+
+      dataType: "json",
+      type: "GET",
+
 		  url: "/Territory/find?",
 		  success: function (data) {
 		    d = data;
 		  },
 		  error: function(xhr, status, data){
 			alert(status + "\n" + data + "\n" + 'getTerritories');
-		  },
-		  dataType: 'json'
+		  }
 		});
 
 		return d;
@@ -571,6 +575,13 @@
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
       var app = angular.module('App', []);  /*global angular*/
 
+      app.factory('_', ['$window',
+            function($window) {
+              // place lodash include before angular
+              return $window._;
+            }
+          ]);
+
       app.directive('map', function(){
       	return {
       		scope:{
@@ -690,7 +701,7 @@
 		};
 	  });
 
-      app.directive('modal', function(){
+      app.directive('modal', function(_){
 	  	return {
 	  		restrict:'E',
 	  		scope:{
@@ -824,9 +835,11 @@
 
 	  			$scope.$watch('items',function(){
 	  				$scope.pages = [];
-	  				for(var i = 0; i < item.length / 30;i++){
-	  					$scope.pages.push(i);
-	  				}
+            if (!!$scope.items){
+              for(var i = 0; i < $scope.items.length / 30;i++){
+                $scope.pages.push(i);
+              }
+            }
 	  			});
 
 	  			$scope.create = function(){
@@ -839,9 +852,7 @@
 	  	};
 	  });
 
-
-
-	  app.directive('pagination', function(){
+	    app.directive('pagination', function(){
 	  	return {
 	  		scope:{
 	  			count: '@',
@@ -880,7 +891,7 @@
 
                   if(filter){
                   	data = {
-                          	populate: [],
+                          	populate: ['project'],
                           	manager: manager.id,
                           	skip: skip,
                           	limit: limit
@@ -907,18 +918,20 @@
 
                   return deferred.promise;
               };
-      	  var getOne =  function(model, id, filter){
+      	  var getOne =  function(model, id, filter, populate){
       	  	      var deferred = $q.defer();
                   var data = {};
 
+                  populate = populate || [];
+
                   if(filter){
                   	data = {
-                          	populate: [],
+                          	populate: populate,
                           	manager: manager.id
                           };
                   }else{
                   	data = {
-                          	populate: []
+                          	populate: populate
                           };
                   }
 
@@ -981,7 +994,7 @@
 
                   return deferred.promise;
               };
-		  var count =  function(model){
+		      var count =  function(model){
                   var deferred = $q.defer();
 
                   $http({
@@ -999,7 +1012,7 @@
               };
           return {
               getMerchants:     function(){  return getList("Merchant", true)},
-              getMerchant:      function(id){ return getOne("Merchant", id, true)},
+              getMerchant:      function(id){ return getOne("Merchant", id, true, ['project','territory'])},
               insMerchant:		function(data){return create("Merchant", data, true)},
               updMerchant:		function(data){return update("Merchant", data, true)},
               Merchant:{
@@ -1063,7 +1076,6 @@
               }
           }
       });
-
 
 	  /*--------------------------- MANAGERS ------------------------------------------*/
       app.controller('managersList', function($scope, getData) {
@@ -1167,124 +1179,98 @@
 		  });
       });
 	  /*--------------------------- MERCHANTS ------------------------------------------*/
-      app.controller('merchantList', function($scope, getData) {
-          $scope.users = [];
-		  $scope.last_user = {};
-		  $scope.last_user.firstName = '';
-		  $scope.last_user.middleName = '';
-		  $scope.last_user.lastName = '';
-		  $scope.last_user.sex = 0;
-		  $scope.last_user.phone = '';
-		  $scope.last_user.email = '';
-		  $scope.last_user.territories = [];
-		  $scope.last_user.projects = [];
-		  $scope.last_user.territory = {};
-		  $scope.last_user.project = {};
-		  $scope.last_user.id    = 0;
+      app.controller('merchantList', function($scope, getData, _) {
+        $scope.clear_last  = function(){
+          $scope.last_user = {
+            changed: false,
+            entity: {},
+            refs: {
+              territories: [],
+              projects: []
+            }
+          };
+          $scope.last_user.change = function(){
+            $scope.last_user.changed = true;
+          };
 
-		  $scope.$watch('menuMerchants', function(oldValue, newValue) {
-		  	getData.getMerchants().then(function(result){
-		  		$scope.users = result.data;
-		  	},function(result){
-		  		console.log(JSON.stringify(result));
-		  	});
-		  }, true);
+          getData.getTerritories().then(function(result){
+            $scope.last_user.refs.territories = result.data;
+          },function(result){
+            console.log(JSON.stringify(result));
+          });
+
+          getData.getProjects().then(function(result){
+            $scope.last_user.refs.projects = result.data;
+          },function(result){
+            console.log(JSON.stringify(result));
+          });
+        };
+
+        $scope.users = [];
+
+        $scope.$watch('menuMerchants', function(oldValue, newValue) {
+          getData.getMerchants().then(function(result){
+            $scope.users = result.data;
+          },function(result){
+            console.log(JSON.stringify(result));
+          });
+        }, true);
 
 		  $scope.init_create = function(){
-		  	$scope.last_user = {};
-		  	$scope.last_user.territories = getTerritories();
-		    $scope.last_user.projects    = getProjects();
+		    $scope.clear_last();
 		  }
 
 		  $scope.create = function(){
-			var data = {
-			    username:   $scope.last_user.username,
-				firstName:  $scope.last_user.firstName,
-				middleName: $scope.last_user.middleName,
-				lastName:   $scope.last_user.lastName,
-				sex:        $scope.last_user.sex,
-				email:      $scope.last_user.email,
-				phone:      $scope.last_user.phone,
-				territory:  $scope.last_user.territory,
-				project:	$scope.last_user.project
-			};
-			var cu = createUser(data);
+        var cu = createUser($scope.last_user.entity);
+        console.log('updated:', JSON.stringify(cu));
+        // it needed because after 'create' not populate references
+        if (!!cu.project){
+          var project = _.find($scope.last_user.refs.projects, { 'id': cu.project});
+          console.log(JSON.stringify(project));
+          cu.project = project;
+        }
+        $scope.users.push(cu);
+        $("#add").modal('hide');
+		  };
 
-			$scope.users.push({
-			    username:   cu.username,
-				firstName:  cu.firstName,
-				middleName: cu.middleName,
-				lastName:   cu.lastName,
-				sex:        cu.sex,
-				email:      cu.email,
-				phone:      cu.phone,
-				territory:  cu.territory,
-				project:	cu.project,
-			    id:         cu.id
-			});
-			$scope.last_user = {};
-			$("#add").modal('hide');
-		  };
-		  $scope.clear_last  = function(){
-		    $scope.last_user = {};
-		  };
 		  $scope.init_update = function(id){
-		    var cu = getUser(id);
+        $scope.clear_last();
+        //$scope.last_user.entity = getUser(id);
+        getData.getMerchant(id).then(function(result){
+		  		$scope.last_user.entity = result.data;
+          console.log('init_update:', JSON.stringify($scope.last_user.entity));
+		  	},function(result){
+		  		console.log(JSON.stringify(result));
+		  	});
+		  };
 
-			$scope.last_user.username = cu.username;
-			$scope.last_user.firstName = cu.firstName,
-			$scope.last_user.middleName = cu.middleName;
-			$scope.last_user.lastName = cu.lastName;
-			$scope.last_user.sex = cu.sex;
-			$scope.last_user.email = cu.email;
-			$scope.last_user.phone = cu.phone;
-			$scope.last_user.territories = getTerritories();
-			$scope.last_user.projects = getProjects();
-			$scope.last_user.territory = cu.territory;
-			$scope.last_user.project = cu.project;
-			$scope.last_user.id    = cu.id;
-		  };
 		  $scope.update = function(id){
-		    var data = {
-			    username:   $scope.last_user.username,
-				firstName:  $scope.last_user.firstName,
-				middleName: $scope.last_user.middleName,
-				lastName:   $scope.last_user.lastName,
-				sex:        $scope.last_user.sex,
-				email:      $scope.last_user.email,
-				phone:      $scope.last_user.phone,
-				territory:  $scope.last_user.territory,
-				project:	$scope.last_user.project,
-				id:			id
-			};
-			var cu = updateUser(data);
-			var idx = -1;
-			var old = $.grep($scope.users,function(u,i){
-			          if (u.id == id){
-			            idx = i;
-					  }
-			        });
-			$scope.users[idx] = {
-			    username:   cu.username,
-				firstName:  cu.firstName,
-				middleName: cu.middleName,
-				lastName:   cu.lastName,
-				sex:        cu.sex,
-				email:      cu.email,
-				phone:      cu.phone,
-				territory:  cu.territory,
-				project:	cu.project,
-			    id:         cu.id
-			};
-			$scope.last_user = {};
-			$("#update").modal('hide');
+        // pre-save actions
+        delete $scope.last_user.entity.id;
+        delete $scope.last_user.entity.createdAt;
+        delete $scope.last_user.entity.updatedAt;
+        if (!!$scope.last_user.entity.project){
+          $scope.last_user.entity.project = $scope.last_user.entity.project.id;
+        }
+        if (!!$scope.last_user.entity.territory){
+          $scope.last_user.entity.territory = $scope.last_user.entity.territory.id;
+        }
+        //
+        var cu = updateUser($scope.last_user.entity, id);
+        console.log('updated:', JSON.stringify(cu));
+        var index = _.indexOf($scope.users, _.find($scope.users, {id: cu.id}));
+        $scope.users.splice(index, 1, cu);
+
+        $("#update").modal('hide');
+        $scope.clear_last();
 		  };
+
 		  $('#add').on('show.bs.modal', function (event) {
 		    $scope.$apply(function(){
-			  $scope.init_create();
-			});
+          $scope.init_create();
+        });
 		  });
-      });
+    });
 
 	  /*---------------------------- PHARMACIES -----------------------------------*/
       app.controller('pharmaciesList', function($scope, getData) {

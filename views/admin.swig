@@ -217,7 +217,7 @@
                 <!-- /.row -->
           </div>
 					<div id="merchants" class="tab-pane fade" ng-controller="merchantList">
-            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" items="users" tile-class="panel-primary" tile-icon="fa fa-user-md fa-5x" field-for-tile-caption="lastName" field-for-tile-r-row-1="email" update="init_update(id)" create="init_create()" create-id="add" update-id="update"></page-with-tiles>
+            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" items="users" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" update="init_update(id)" create="init_create()" create-id="add" update-id="update"></page-with-tiles>
 
             <modal caption="Новый мерчендайзер" modal-id="add" action="create()" content-url='/templates/modal/merchant.html' last="last_user"></modal>
 
@@ -757,6 +757,10 @@
 	  //SWIG Injection!!! How to another get manager.id in the page?
 	  manager.id = 0{{manager.id}};
 	</script>
+
+    <!-- Lo-Dash -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.1.0/lodash.min.js"></script>
+
     <!-- AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 

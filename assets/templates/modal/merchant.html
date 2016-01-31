@@ -1,28 +1,28 @@
 <div class="form-group">
-  <input class="form-control " ng-model="last.lastName" type="text" placeholder="Фамилия">
+  <input class="form-control " ng-model="last.entity.lastName" ng-change="last.change()" type="text" placeholder="Фамилия">
 </div>
 <div class="form-group">
-  <input class="form-control " ng-model="last.firstName" type="text" placeholder="Имя">
+  <input class="form-control " ng-model="last.entity.firstName" ng-change="last.change()" type="text" placeholder="Имя">
 </div>
 <div class="form-group">
-  <input class="form-control " ng-model="last.middleName" type="text" placeholder="Отчество">
+  <input class="form-control " ng-model="last.entity.middleName" ng-change="last.change()" type="text" placeholder="Отчество">
 </div>
 <div class="checkbox">
-  <label><input type="checkbox" ng-model="last.sex" ng-checked="last.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
+  <label><input type="checkbox" ng-model="last.entity.sex" ng-change="last.change()" ng-checked="last.entity.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
 </div>
 <div class="form-group">
-  <input class="form-control " ng-model="last.phone" type="text" placeholder="Телефон">
+  <input class="form-control " ng-model="last.entity.phone" ng-change="last.change()" type="text" placeholder="Телефон">
 </div>
 <div class="form-group">
-  <input class="form-control " ng-model="last.email"  type="text" placeholder="Эл. почта">
+  <input class="form-control " ng-model="last.entity.email" ng-change="last.change()" type="text" placeholder="Эл. почта">
 </div>
 <div class="form-group">
   <label for="merchantTerritory">Территория:</label>
-  <select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last.territories track by option.id" ng-model="last.territory">
+  <select class="form-control" name="merchantTerritory" id="merchantTerritory"  ng-options="option.name for option in last.refs.territories track by option.id" ng-model="last.entity.territory" ng-change="last.change()" ng-disabled="last.refs.territories.length == 0">
   </select>
 </div>
 <div class="form-group">
   <label for="merchantProject">Проект:</label>
-  <select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last.projects track by option.id" ng-model="last.project">
+  <select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last.refs.projects track by option.id" ng-model="last.entity.project" ng-change="last.change()" ng-disabled="last.refs.projects.length == 0">
   </select>
 </div>
