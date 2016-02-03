@@ -20,13 +20,15 @@
         fieldForTileRRow2:    '@',
         fieldForTileLRow1:    '@',
         fieldForLength:       '@',
+        addButtonCaption:	    '@',
         createId:             '@',
+        createCaption:        '@',
+        beforeCreateParams:   '=',
         updateId:             '@',
+        updateCaption:        '@',
+        fieldForUpdateCaption:'@',
         modalUpdateTemplate:  '@',
         modalCreateTemplate:  '@',
-        create:               '&',
-        addButtonCaption:	    '@',
-        beforeCreateParams:   '=',
       },
       templateUrl: '/templates/page-with-tiles.html',
       controller: PageWithTilesController,
@@ -119,6 +121,8 @@
 
     function clear_last(){
         pwtCntrl.last_user = {
+          caption: '<Empty>',
+          loaded: false,
           changed: false,
           entity: {},
           refs: {},
@@ -152,6 +156,8 @@
     function beforeUpdate(id){
       clear_last();
 
+      pwtCntrl.last_user.caption = pwtCntrl.updateCaption + ' ';
+
       var config = {
         'params': {
           'id': id,
@@ -163,6 +169,8 @@
 
       dataService.getOne(pwtCntrl.modelMeta.model, id, config)
         .then(function(data) {
+          pwtCntrl.last_user.loaded = true;
+          pwtCntrl.last_user.caption += data[pwtCntrl.fieldForUpdateCaption];
           pwtCntrl.last_user.entity = data;
           return pwtCntrl.last_user.entity;
         });
@@ -196,6 +204,7 @@
         .then(function(data) {
           console.log('updated:', JSON.stringify(data));
           var index = _.indexOf(pwtCntrl.items, _.find(pwtCntrl.items, {id: data.id}));
+          data.page = pwtCntrl.items[index].page;
           pwtCntrl.items.splice(index, 1, data);
           filterPage();
           $("#update").modal('hide');
@@ -209,7 +218,9 @@
 
     function beforeCreate(){
       clear_last();
-      pwtCntrl.last_user.entity = pwtCntrl.beforeCreateParams;
+      pwtCntrl.last_user.caption = pwtCntrl.createCaption;
+      pwtCntrl.last_user.loaded = true;
+      pwtCntrl.last_user.entity = Object.create(pwtCntrl.beforeCreateParams);
       //.manager = manager.id;
     }
 
@@ -232,7 +243,7 @@
             pwtCntrl.pages.push(data.page);
           }
           pwtCntrl.items.push(data);
-          filterPage();
+          changePage(data.page);
           $("#add").modal('hide');
           return data;
         });

@@ -217,7 +217,7 @@
                 <!-- /.row -->
           </div>
 					<div id="merchants" class="tab-pane fade" ng-controller="merchantList">
-            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" model-meta="meta" items="users" loaded="loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" create="init_create()" create-id="add" update-id="update" before-create-params="params" modal-update-template="/templates/modal/merchant.html" modal-create-template="/templates/modal/merchant.html"></page-with-tiles>
+            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" model-meta="meta" items="users" loaded="loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" create-id="add" create-caption="Новый мерчендайзер" before-create-params="params" modal-create-template="/templates/modal/merchant.html" update-id="update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/merchant.html"></page-with-tiles>
 
 <!--             <modal caption="Обновление:" modal-id="update" action="update(id)" content-url='/templates/modal/merchant.html' last="last_user"></modal> -->
 					</div>
