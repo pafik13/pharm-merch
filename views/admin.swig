@@ -57,7 +57,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">ИС - "Аптечные мерчендайзеры"</a>
+          <a class="navbar-brand" href="/admin">ИС - "Аптечные мерчендайзеры"</a>
       </div>
       <!-- Top Menu Items -->
       <ul class="nav navbar-right top-nav">
@@ -217,11 +217,9 @@
                 <!-- /.row -->
           </div>
 					<div id="merchants" class="tab-pane fade" ng-controller="merchantList">
-            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" items="users" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" update="init_update(id)" create="init_create()" create-id="add" update-id="update"></page-with-tiles>
+            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" model-meta="meta" items="users" loaded="loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" create="init_create()" create-id="add" update-id="update" before-create-params="params" modal-update-template="/templates/modal/merchant.html" modal-create-template="/templates/modal/merchant.html"></page-with-tiles>
 
-            <modal caption="Новый мерчендайзер" modal-id="add" action="create()" content-url='/templates/modal/merchant.html' last="last_user"></modal>
-
-            <modal caption="Обновление:" modal-id="update" action="update(id)" content-url='/templates/modal/merchant.html' last="last_user"></modal>
+<!--             <modal caption="Обновление:" modal-id="update" action="update(id)" content-url='/templates/modal/merchant.html' last="last_user"></modal> -->
 					</div>
 					<!-- START MANAGERS -->
 					<div id="managers" class="tab-pane fade" ng-controller="managersList">
@@ -312,7 +310,7 @@
 					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update(id)" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					</div>
 					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
-            <page-with-tiles page-header="Лекарственные препараты" add-button-caption="Добавить новый препарат" items="drugs" tile-class="panel-green" tile-icon="fa fa-flask fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" update="init_update(id)" create="init_create()" create-id="drug_add" update-id="drug_upd"></page-with-tiles>
+            <page-with-tiles page-header="Лекарственные препараты" add-button-caption="Добавить новый препарат" items="drugs" tile-class="panel-green" tile-icon="fa fa-flask fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" update="init_update(item.id)" create="init_create()" create-id="drug_add" update-id="drug_upd"></page-with-tiles>
 						<!-- MODAL -->
             {% raw %}
 					  <div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="drug_add" aria-hidden="true">
@@ -775,6 +773,11 @@
      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 
 	<!-- Angular application -->
+  <script src="/js/angular/app.module.js"></script>
+  <script src="/js/angular/factories/getdata.js"></script>
+  <script src="/js/angular/factories/lodash.js"></script>
+  <script src="/js/angular/factories/dataservice.js"></script>
+  <script src="/js/angular/directives/pageWithTiles.js"></script>
 	<script src="/js/app.js"></script>
 	<script src="/js/admin.js"></script>
     <!-- Morris Charts JavaScript -->

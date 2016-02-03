@@ -573,14 +573,8 @@
 
 
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
-      var app = angular.module('App', []);  /*global angular*/
-
-      app.factory('_', ['$window',
-            function($window) {
-              // place lodash include before angular
-              return $window._;
-            }
-          ]);
+//       var app = angular.module('App', []);  /*global angular*/
+      var app = angular.module('App');
 
       app.directive('map', function(){
       	return {
@@ -780,77 +774,99 @@
 	  	};
 	  });
 
-      app.directive('tileCaption', function(){
-        return {
-            compile: function compile(templateElement, templateAttrs) {
-                templateElement.html("<h4>{{item."+templateAttrs.field+"}}</h4>");
-            },
-            link: function (scope, element, attrs) {
+//       app.directive('tileCaption', function(){
+//         return {
+//             compile: function compile(templateElement, templateAttrs) {
+//                 templateElement.html("<h4>{{item."+templateAttrs.field+"}}</h4>");
+//             },
+//             link: function (scope, element, attrs) {
 
-            }
-        }
-      });
+//             }
+//         }
+//       });
 
-      app.directive('tileRow', function(){
-        return {
-            compile: function compile(templateElement, templateAttrs) {
-                templateElement.html("<div class=\""+templateAttrs.class+"\">{{item."+templateAttrs.field+"}}</div>");
-            },
-            link: function (scope, element, attrs) {
+//       app.directive('tileRow', function(){
+//         return {
+//             compile: function compile(templateElement, templateAttrs) {
+//                 templateElement.html("<div class=\""+templateAttrs.class+"\">{{item."+templateAttrs.field+"}}</div>");
+//             },
+//             link: function (scope, element, attrs) {
 
-            }
-        }
-      });
+//             }
+//         }
+//       });
 
-      app.directive('pageWithTiles', function($compile){
-	  	return {
-	  		restrict:'E',
-	  		scope:{
-	  			pageHeader:     '@',
-          items:          '=',
-          tileClass:      '@',
-          tileIcon:       '@',
-          fieldForTileCaption:    '@',
-          fieldForTileRRow1:      '@',
-          fieldForTileRRow2:      '@',
-          fieldForTileLRow1:      '@',
-          fieldForLength: '@',
-	  			createId:       '@',
-	  			updateId:       '@',
-	  			init_create:    '&create',
-	  			init_update:     '&update',
-	  			addButtonCaption:	    '@',
-	  			paginationMode: '@'
-	  		},
-	  		templateUrl: '/templates/page-with-tiles.html',
-	  		controller: function($scope, $element){
+//       app.directive('pageWithTiles', function($compile, _){
+// 	  	return {
+// 	  		restrict:'E',
+// 	  		scope:{
+// 	  			pageHeader:     '@',
+//           loaded:         '=',
+//           items:          '=',
+//           tileClass:      '@',
+//           tileIcon:       '@',
+//           fieldForTileCaption:    '@',
+//           fieldForTileRRow1:      '@',
+//           fieldForTileRRow2:      '@',
+//           fieldForTileLRow1:      '@',
+//           fieldForLength: '@',
+// 	  			createId:       '@',
+// 	  			updateId:       '@',
+// 	  			init_create:    '&create',
+// 	  			init_update:     '&update',
+// 	  			addButtonCaption:	    '@',
+// 	  			paginationMode: '@'
+// 	  		},
+// 	  		templateUrl: '/templates/page-with-tiles.html',
+// 	  		controller: function($scope, $element){
 
-	  			$scope.search = "";
+// 	  			$scope.search = "";
+// 	  			$scope.pages = [];
+//           $scope.currentPage = 1;
 
-	  			$scope.pages = [];
+//           $scope.searchChange = function(){
+//             if (!!$scope.search) {
+//               $scope.itemsOnPage = _.filter($scope.items, function(item){
+//                 return ( item.fullName.toLowerCase().indexOf($scope.search.toLowerCase()) > -1
+//                       || item.project.fullName.toLowerCase().indexOf($scope.search.toLowerCase()) > -1
+//                        )
+//               });
+//             } else {
+//               $scope.itemsOnPage = $scope.items;
+//               $scope.filterPage();
+//             }
+//           }
 
-	  			$scope.onChange = function(page){
-	  				$scope.search.page = page;
-	  			};
+// 	  			$scope.changePage = function(page){
+// 	  				$scope.currentPage = page;
+//             $scope.filterPage();
+// 	  			};
 
-	  			$scope.$watch('items',function(){
-	  				$scope.pages = [];
-            if (!!$scope.items){
-              for(var i = 0; i < $scope.items.length / 30;i++){
-                $scope.pages.push(i);
-              }
-            }
-	  			});
+// 	  			$scope.$watch('items',function(){
+// 	  				$scope.pages = [];
+//             if (!!$scope.items){
+//               for(var i = 0; i < $scope.items.length;i++){
+//                 $scope.items[i].page = (i / 6 |0) + 1;
+//                 $scope.pages.push((i / 6 |0) + 1);
+//               }
+//               $scope.pages = _.uniq($scope.pages);
+//               $scope.filterPage();
+//             }
+// 	  			});
 
-	  			$scope.create = function(){
-	  				$scope.init_create();
-	  			};
-	  			$scope.update = function(id){
-	  				$scope.init_update({id: id});
-	  			};
-	  		}
-	  	};
-	  });
+//           $scope.filterPage = function(){
+//             $scope.itemsOnPage = _.filter($scope.items, {'page':$scope.currentPage});
+//           }
+
+// 	  			$scope.create = function(){
+// 	  				$scope.init_create();
+// 	  			};
+// 	  			$scope.update = function(id){
+// 	  				$scope.init_update({id: id});
+// 	  			};
+// 	  		}
+// 	  	};
+// 	  });
 
 	    app.directive('pagination', function(){
 	  	return {
@@ -880,202 +896,6 @@
 
 	  	}
 	  });
-
-     //Global data factory
-      app.factory('getData',function($http,$q){
-      	  var getList =  function(model,filter,skip,limit){
-      	  	      var deferred = $q.defer();
-                  var data = {};
-                  skip = 0;
-                  limit = 10000;
-
-                  if(filter){
-                  	data = {
-                          	populate: ['project'],
-                          	manager: manager.id,
-                          	skip: skip,
-                          	limit: limit
-                          };
-                  }else{
-                  	data = {
-                          	populate: ['drugs'],
-                          	skip: skip,
-                          	limit: limit
-                          };
-                  }
-
-                  $http({
-                      method:'POST',
-                      url: "/"+model+"/find",
-                      data: data
-                  }).then(function(response){
-                      //SUCCESS
-                      deferred.resolve(response);
-                  },function(response){
-                      //ERROR
-                      deferred.reject(response);
-                  });
-
-                  return deferred.promise;
-              };
-      	  var getOne =  function(model, id, filter, populate){
-      	  	      var deferred = $q.defer();
-                  var data = {};
-
-                  populate = populate || [];
-
-                  if(filter){
-                  	data = {
-                          	populate: populate,
-                          	manager: manager.id
-                          };
-                  }else{
-                  	data = {
-                          	populate: populate
-                          };
-                  }
-
-                  data.id = id;
-
-                  $http({
-                      method:'POST',
-                      url: "/"+model+"/find",
-                      data: data
-                  }).then(function(response){
-                      //SUCCESS
-                      deferred.resolve(response);
-                  },function(response){
-                      //ERROR
-                      deferred.reject(response);
-                  });
-
-                  return deferred.promise;
-              };
-      	  var create =  function(model, data, setOwner){
-      	  	      var deferred = $q.defer();
-
-                  if(setOwner){
-                  	data.manager = manager.id
-                  }
-
-                  $http({
-                      method:'POST',
-                      url: "/"+model+"/create",
-                      data: data
-                  }).then(function(response){
-                      //SUCCESS
-                      deferred.resolve(response);
-                  },function(response){
-                      //ERROR
-                      deferred.reject(response);
-                  });
-
-                  return deferred.promise;
-              };
-
-      	  var update =  function(model, data, setOwner){
-      	  	      var deferred = $q.defer();
-
-                  if(setOwner){
-                  	data.manager = manager.id
-                  }
-
-                  $http({
-                      method:'POST',
-                      url: "/"+model+"/update",
-                      data: data
-                  }).then(function(response){
-                      //SUCCESS
-                      deferred.resolve(response);
-                  },function(response){
-                      //ERROR
-                      deferred.reject(response);
-                  });
-
-                  return deferred.promise;
-              };
-		      var count =  function(model){
-                  var deferred = $q.defer();
-
-                  $http({
-                      method:'GET',
-                      url: "/"+model+"/count"
-                  }).then(function(response){
-                      //SUCCESS
-                      deferred.resolve(response.data.count);
-                  },function(response){
-                      //ERROR
-                      deferred.reject(response);
-                  });
-
-                  return deferred.promise;
-              };
-          return {
-              getMerchants:     function(){  return getList("Merchant", true)},
-              getMerchant:      function(id){ return getOne("Merchant", id, true, ['project','territory'])},
-              insMerchant:		function(data){return create("Merchant", data, true)},
-              updMerchant:		function(data){return update("Merchant", data, true)},
-              Merchant:{
-              	count: function(){return count("Merchant")}
-              },
-
-              getManagers:      function(){   return getList("Manager", false)},
-              getManager:       function(id){ return getOne("Manager", id, false)},
-              insManager:		function(data){return create("Manager", data, false)},
-              updManager:		function(data){return update("Manager", data, false)},
-              Manager:{
-              	count: function(){return count("Manager")}
-              },
-
-              getPharmacies:    function(){   return getList("Pharmacy", false)},
-              getPharmacy:      function(id){ return getOne("Pharmacy", id, false)},
-              insPharmacy:		function(data){return create("Pharmacy", data, false)},
-              updPharmacy:		function(data){return update("Pharmacy", data, false)},
-              Pharmacy:{
-              	count: function(){return count("Pharmacy")}
-              },
-
-              getDrugs:         function(){   return getList("Drug", false)},
-              getDrug:          function(id){ return getOne("Drug", id, false)},
-              insDrug:			function(data){return create("Drug", data, false)},
-              updDrug:			function(data){return update("Drug", data, false)},
-              Drug:{
-              	count: function(){return count("Drug")}
-              },
-
-              getCompanies:     function(){   return getList("Company", false)},
-              getCompany:       function(id){ return getOne("Company", id, false)},
-              insCompany:		function(data){return create("Compan", data, false)},
-              updCompany:		function(data){return update("Compan", data, false)},
-              Company:{
-              	count: function(){return count("Company")}
-              },
-
-              getProjects:      function(){   return getList("Project", false)},
-              getProject:       function(id){ return getOne("Project", id, false)},
-              insProject:		function(data){return create("Project", data, false)},
-              updProject:		function(data){return update("Project", data, false)},
-              Project:{
-              	count: function(){return count("Project")}
-              },
-
-              getTerritories:   function(){   return getList("Territory", false)},
-              getTerritory:     function(id){ return getOne("Territory", id, false)},
-              insTerritory:		function(data){return create("Territory", data, false)},
-              updTerritory:		function(data){return update("Territory", data, false)},
-              Territory:{
-              	count: function(){return count("Territory")}
-              },
-
-              getDrugInfoTypes: function(){   return getList("DrugInfoType", false)},
-              getDrugInfoType:  function(id){ return getOne("DrugInfoType", id, false)},
-              insDrugInfoType:	function(data){return create("DrugInfoType", data, false)},
-              updDrugInfoType:	function(data){return update("DrugInfoType", data, false)},
-              DrugInfoType:{
-              	count: function(){return count("DrugInfoType")}
-              }
-          }
-      });
 
 	  /*--------------------------- MANAGERS ------------------------------------------*/
       app.controller('managersList', function($scope, getData) {
@@ -1179,7 +999,25 @@
 		  });
       });
 	  /*--------------------------- MERCHANTS ------------------------------------------*/
-      app.controller('merchantList', function($scope, getData, _) {
+      app.controller('merchantList', function($scope, getData, _, dataService) {
+        $scope.meta = {
+          model: 'Merchant',
+          refs: [ { modelAttr: 'project',
+                    refModel: 'Project',
+                    refAttr: 'projects'
+                  },
+                  { modelAttr: 'territory',
+                    refModel: 'Territory',
+                    refAttr: 'territories'
+                  },
+                ],
+           searches: ['fullName', 'project.fullName']
+        },
+
+        $scope.params = {
+          'manager': manager.id,
+        };
+
         $scope.clear_last  = function(){
           $scope.last_user = {
             changed: false,
@@ -1189,6 +1027,7 @@
               projects: []
             }
           };
+
           $scope.last_user.change = function(){
             $scope.last_user.changed = true;
           };
@@ -1207,13 +1046,28 @@
         };
 
         $scope.users = [];
+        $scope.loaded = false;
 
         $scope.$watch('menuMerchants', function(oldValue, newValue) {
-          getData.getMerchants().then(function(result){
-            $scope.users = result.data;
-          },function(result){
-            console.log(JSON.stringify(result));
-          });
+          var config = {
+            'params': {
+              'manager': manager.id,
+              'populate': ['project'],
+            },
+          }
+
+          dataService.getList('Merchant', config)
+            .then(function(data) {
+              $scope.users = data;
+              $scope.loaded = true;
+              return $scope.users;
+            });
+//           getData.getMerchants().then(function(result){
+//             $scope.users = result.data;
+//             $scope.loaded = true;
+//           },function(result){
+//             console.log(JSON.stringify(result));
+//           });
         }, true);
 
 		  $scope.init_create = function(){
@@ -1236,12 +1090,19 @@
 		  $scope.init_update = function(id){
         $scope.clear_last();
         //$scope.last_user.entity = getUser(id);
-        getData.getMerchant(id).then(function(result){
-		  		$scope.last_user.entity = result.data;
-          console.log('init_update:', JSON.stringify($scope.last_user.entity));
-		  	},function(result){
-		  		console.log(JSON.stringify(result));
-		  	});
+        console.log('id: ', JSON.stringify(id));
+        console.log('items: ', JSON.stringify($scope.users));
+        dataService.getOne('Merchant', id).
+          then(function(data) {
+            $scope.last_user.entity = data;
+            return $scope.last_user.entity;
+          });
+//         getData.getMerchant(id).then(function(result){
+// 		  		$scope.last_user.entity = result.data;
+//           console.log('init_update:', JSON.stringify($scope.last_user.entity));
+// 		  	},function(result){
+// 		  		console.log(JSON.stringify(result));
+// 		  	});
 		  };
 
 		  $scope.update = function(id){

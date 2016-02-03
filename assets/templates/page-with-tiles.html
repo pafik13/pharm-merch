@@ -2,7 +2,9 @@
 <div class="row">
   <div class="col-lg-12">
     <h1 class="page-header">
-      {{pageHeader}}
+      {{pwtCntrl.pageHeader}}
+      <!-- Spinner -->
+      <i ng-hide="pwtCntrl.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
     </h1>
   </div>
 </div>
@@ -14,33 +16,33 @@
     <label class="sr-only" for="searchInput">Поиск</label>
     <div class="input-group">
       <div class="input-group-addon"><i class="fa fa-search"></i></div>
-      <input type="text" ng-model="search" class="form-control" id="searchInput" placeholder="Поиск">
-      <div class="input-group-addon">Количество: {{(items | filter: search).length}}</div>
+      <input type="text" ng-model="pwtCntrl.search" ng-change="pwtCntrl.searchChange()" class="form-control" id="searchInput" placeholder="Поиск">
+      <div class="input-group-addon">Количество: {{ !!pwtCntrl.search ? pwtCntrl.itemsOnPage.length : pwtCntrl.items.length }}</div>
     </div>
   </div>
-  <button class="btn btn-danger" data-title="{{creatId}}" data-toggle="modal" data-target="#{{createId}}" ng-click="create()"><i class="fa fa-plus"></i> {{addButtonCaption}}</button>
- </form>
+  <button class="btn btn-danger" data-title="{{pwtCntrl.creatId}}" data-toggle="modal" data-target="#{{pwtCntrl.createId}}" ng-click="pwtCntrl.beforeCreate()"><i class="fa fa-plus"></i> {{pwtCntrl.addButtonCaption}}</button>
+  </form>
 </div>
 <!-- /.row -->
 <!-- Tiles with data -->
 <div class="row">
-  <div class="col-lg-6 col-md-6" ng-repeat="item in items | filter: search">
-    <div class="panel {{tileClass}}">
+  <div class="col-lg-6 col-md-6" ng-repeat="item in pwtCntrl.itemsOnPage">
+    <div class="panel {{pwtCntrl.tileClass}}">
       <div class="panel-heading">
         <div class="row">
           <div class="col-xs-4">
-            <i class="{{tileIcon}}"></i>
-            <div ng-if="fieldForTileLRow1" class="ellipsis" ng-bind="item.{{fieldForTileLRow1}}"></div>
+            <i class="{{pwtCntrl.tileIcon}}"></i>
+            <div ng-if="pwtCntrl.fieldForTileLRow1" class="ellipsis" ng-bind="item.{{pwtCntrl.fieldForTileLRow1}}"></div>
           </div>
 
           <div class="col-xs-8 text-right">
-            <h4 class="ellipsis" ng-bind="item.{{fieldForTileCaption}}"></h4>
-            <div ng-if="fieldForTileRRow1" class="ellipsis" ng-bind="item.{{fieldForTileRRow1}}"></div>
-            <div ng-if="fieldForTileRRow2" class="ellipsis" ng-bind="item.{{fieldForTileRRow2}}"></div>
+            <h4 class="ellipsis" ng-bind="item.{{pwtCntrl.fieldForTileCaption}}"></h4>
+            <div ng-if="pwtCntrl.fieldForTileRRow1" class="ellipsis" ng-bind="item.{{pwtCntrl.fieldForTileRRow1}}"></div>
+            <div ng-if="pwtCntrl.fieldForTileRRow2" class="ellipsis" ng-bind="item.{{pwtCntrl.fieldForTileRRow2}}"></div>
           </div>
         </div>
       </div>
-      <a ng-click="update(item.id)" ng-model="item" href="#{{updateId}}" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
+      <a ng-click="pwtCntrl.beforeUpdate(item.id)" href="#{{pwtCntrl.updateId}}" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
         <div class="panel-footer">
         <span class="pull-left"><h4>Подробнее</h4></span>
         <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
@@ -52,10 +54,14 @@
 </div>
 <!-- /.row -->
 <!-- Pagination -->
-<div ng-if="pages.length > 1" class="row">
+<div ng-if="!(pwtCntrl.pages.length < 2 || !!pwtCntrl.search)"  class="row">
   <ul class="pagination">
-    <li ng-model="search.page" ng-click="onChange(page)" ng-repeat="page in pages">
-        <a href="#">{{page}}</a>
-    </li>
+   <li ng-class="{'active' : page == pwtCntrl.currentPage}" ng-click="pwtCntrl.changePage(page)" ng-repeat="page in pwtCntrl.pages">
+     <a href="#">{{page}}</a>
+   </li>
   </ul>
 </div>
+<!-- Modal Create-->
+<modal caption="Новый мерчендайзер" modal-id="add" action="pwtCntrl.create()" content-url="{{pwtCntrl.modalCreateTemplate}}" last="pwtCntrl.last_user"></modal>
+<!-- Modal Update-->
+<modal caption="Обновление:" field-for-caption="shortName" modal-id="update" action="pwtCntrl.update()" content-url="{{pwtCntrl.modalUpdateTemplate}}" last="pwtCntrl.last_user"></modal>
