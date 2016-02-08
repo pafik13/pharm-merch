@@ -165,16 +165,20 @@
         <ul class="nav navbar-nav side-nav">
           <li><a data-toggle="pill" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a></li>
           <li class="divider"></li>
-					<li><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>
-					<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
 					<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
-					<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
-					<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
-					<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
-					<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
-					<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы данных</a></li>
-					<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
+					<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
 					<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
+					<li><a data-toggle="pill" href="#pharmacies" ng-model="menuPharmacies" ng-click="update_pharmacies()">Аптеки</a></li>
+					<li><a data-toggle="pill" href="#categories" ng-model="menuCategories" ng-click="update_categories()">Категории в сети</a></li>
+					<li><a data-toggle="pill" href="#drugs" ng-model="menuDrugs" ng-click="update_drugs()">Препараты</a></li>
+					<li><a data-toggle="pill" href="#druginfotypes" ng-model="menuDrugInfoTypes" ng-click="update_druginfotypes()">Типы информации</a></li>
+					<li><a data-toggle="pill" href="#projects" ng-model="menuProjects" ng-click="update_projects()">Проекты</a></li>
+					<li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
+					<li><a data-toggle="pill" href="#promos" ng-model="menuPromos" ng-click="update_promos()">ТМ акции</a></li>
+					<li><a data-toggle="pill" href="#phototypes" ng-model="menuPhotoTyypes" ng-click="update_phototypes()">Типы фотографий</a></li>
+					<li><a data-toggle="pill" href="#photosubtypes" ng-model="menuPhotoSubTyypes" ng-click="update_photosubtypes()">Подтипы фотографий</a></li>
+					<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
+					<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
           <li>
             <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
             <ul  id="reports" class="collapse in active">
@@ -216,83 +220,21 @@
                 </div>
                 <!-- /.row -->
           </div>
-					<div id="merchants" class="tab-pane fade" ng-controller="merchantList">
-            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" model-meta="meta" items="users" loaded="loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" create-id="add" create-caption="Новый мерчендайзер" before-create-params="params" modal-create-template="/templates/modal/merchant.html" update-id="update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/merchant.html"></page-with-tiles>
-
-<!--             <modal caption="Обновление:" modal-id="update" action="update(id)" content-url='/templates/modal/merchant.html' last="last_user"></modal> -->
+					<!-- Manager -->
+					<div id="managers" class="tab-pane fade" ng-controller="ManagerController as manCntrl">
+            <page-with-tiles page-header="Менеджеры" add-button-caption="Добавить нового менеджера" model-meta="manCntrl.meta" items="manCntrl.managers" loaded="manCntrl.loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="email" create-id="manager_add" create-caption="Новый менеджер" modal-create-template="/templates/modal/manager.html" update-id="manager_update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/manager.html"></page-with-tiles>
+          </div>
+					<!-- ./Manager -->
+          <!-- Merchant -->
+					<div id="merchants" class="tab-pane fade" ng-controller="MerchantController as merchCntrl">
+            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" model-meta="merchCntrl.meta" items="merchCntrl.users" loaded="merchCntrl.loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" create-id="merch_add" create-caption="Новый мерчендайзер" before-create-params="merchCntrl.params" modal-create-template="/templates/modal/merchant.html" update-id="merch_update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/merchant.html"></page-with-tiles>
 					</div>
-					<!-- START MANAGERS -->
-					<div id="managers" class="tab-pane fade" ng-controller="managersList">
-            <page-with-tiles page-header="Менеджеры" add-button-caption="Добавить нового менеджера" items="managers" tile-class="panel-primary" tile-icon="fa fa-user-md fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="email" update="init_update(id)" create="init_create()" create-id="manager_add" update-id="manager_update"></page-with-tiles>
-
-						<div class="modal fade" id="manager_add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-										<h4 class="modal-title custom_align" id="Heading">Новый мерчендайзер</h4>
-									</div>
-									<div class="modal-body">
-										<div class="form-group">
-											<input class="form-control" ng-model="last_manager.firstName" type="text" placeholder="Имя">
-										</div>
-										<div class="form-group">
-											<input class="form-control" ng-model="last_manager.middleName" type="text" placeholder="Отчество">
-										</div>
-										<div class="form-group">
-											<input class="form-control" ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
-										</div>
-										<div class="checkbox">
-											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>
-										<div class="form-group">
-											<input class="form-control" ng-model="last_manager.phone" type="text" placeholder="Телефон">
-										</div>
-										<div class="form-group">
-											<input class="form-control" ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
-										</div>
-									</div>
-									<div class="modal-footer ">
-										<button ng-click="create()" type="button" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal fade" id="manager_update" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-										<h4 ng-bind="last_manager.firstName" class="modal-title custom_align" id="Heading"></h4>
-									</div>
-									<div class="modal-body">
-										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.firstName" type="text" placeholder="Имя">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.middleName" type="text" placeholder="Отчество">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.lastName" type="text" placeholder="Фамилия">
-										</div>
-										<div class="checkbox">
-											<label><input type="checkbox" ng-model="last_manager.sex" ng-checked="last_manager.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.phone" type="text" placeholder="Телефон">
-										</div>
-										<div class="form-group">
-											<input class="form-control " ng-model="last_manager.email"  type="text" placeholder="Эл. почта">
-										</div>
-									</div>
-									<div class="modal-footer ">
-										<button ng-click="update(last_manager.id)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-									</div>
-								</div>
-							</div>
-						</div>
+          <!-- ./Merchant -->
+          <!-- Tradenet -->
+					<div  id="tradenets" class="tab-pane fade" ng-controller="TradenetController as netCntrl">
+            <page-with-tiles page-header="Аптечные сети" add-button-caption="Добавить новую аптечную сеть" model-meta="netCntrl.meta" items="netCntrl.tradenets" loaded="netCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-hospital-o fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" create-id="net_add" create-caption="Новая аптечная сеть" modal-create-template="/templates/modal/tradenet.html" update-id="net_update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/tradenet.html"></page-with-tiles>
 					</div>
-					<!-- END MANAGERS -->
+          <!-- ./Tradenet -->
 					<div id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
 					  <dataview caption="Аптеки"
 					        update="init_update(id)"
@@ -309,72 +251,48 @@
 	  				<modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update(id)" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
 					</div>
-					<div id="drugs" class="tab-pane fade" ng-controller="drugsList">
-            <page-with-tiles page-header="Лекарственные препараты" add-button-caption="Добавить новый препарат" items="drugs" tile-class="panel-green" tile-icon="fa fa-flask fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" update="init_update(item.id)" create="init_create()" create-id="drug_add" update-id="drug_upd"></page-with-tiles>
-						<!-- MODAL -->
-            {% raw %}
-					  <div class="modal fade" id="drug_add" tabindex="-1" role="dialog" aria-labelledby="drug_add" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="Heading">Новый препарат</h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drug.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drug.officialName" placeholder="Оффициальное наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_drug.description" placeholder="Описание"></textarea>
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drug.barcode" placeholder="Штрихкод">
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-						<div class="modal fade" id="drug_upd" tabindex="-1" role="dialog" aria-labelledby="drug_upd" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" ng-bind="last_drug.fullName" id="modal-title"></h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drug.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drug.officialName" placeholder="Оффициальное наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_drug.description" placeholder="Описание"></textarea>
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drug.barcode" placeholder="Штрихкод">
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="update(last_drug.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						{% endraw %}
-
+          <!-- CategoryInNet -->
+					<div  id="categories" class="tab-pane fade" ng-controller="CategoryInNetController as catCntrl">
+            <page-with-tiles page-header="Категории в сети" add-button-caption="Добавить категорию в сети" model-meta="catCntrl.meta" items="catCntrl.categories" loaded="catCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-hospital-o fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="key" create-id="cat_add" create-caption="Новая категория в сети" modal-create-template="/templates/modal/categoryInNet.html" update-id="cat_update" update-caption="Обновление:" field-for-update-caption="key" modal-update-template="/templates/modal/categoryInNet.html"></page-with-tiles>
 					</div>
-					<div id="companies" class="tab-pane fade" ng-controller="companiesList">
+          <!-- ./CategoryInNet -->
+          <!-- Drug -->
+					<div id="drugs" class="tab-pane fade" ng-controller="DrugController as drugCntrl">
+            <page-with-tiles page-header="Препараты" add-button-caption="Добавить новый препарат" model-meta="drugCntrl.meta" items="drugCntrl.drugs" loaded="drugCntrl.loaded" tile-class="panel-green" tile-icon="fa fa-flask fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" create-id="drug_add" create-caption="Новый препарат" modal-create-template="/templates/modal/drug.html" update-id="drug_update" update-caption="Обновление:" field-for-update-caption="fullName" modal-update-template="/templates/modal/drug.html"></page-with-tiles>
+					</div>
+          <!-- ./Drug -->
+          <!-- DrugInfoType -->
+					<div id="druginfotypes" class="tab-pane fade" ng-controller="DrugInfoTypeController as ditCntrl">
+            <page-with-tiles page-header="Типы информации" add-button-caption="Добавить новый тип информации" model-meta="ditCntrl.meta" items="ditCntrl.druginfotypes" loaded="ditCntrl.loaded" tile-class="panel-green" tile-icon="fa fa-cubes fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="valueType" create-id="druginfotype_add" create-caption="Новый препарат" modal-create-template="/templates/modal/drugInfoType.html" update-id="druginfotype_upd" update-caption="Обновление:" field-for-update-caption="name" modal-update-template="/templates/modal/drugInfoType.html"></page-with-tiles>
+					</div>
+          <!-- ./DrugInfoType -->
+          <!-- Project -->
+					<div id="projects" class="tab-pane fade" ng-controller="ProjectController as projCntrl">
+            <page-with-tiles page-header="Проекты" add-button-caption="Добавить новый проект" model-meta="projCntrl.meta" items="projCntrl.projects" loaded="projCntrl.loaded" tile-class="panel-red" tile-icon="fa fa-users fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" create-id="project_add" create-caption="Новый препарат" modal-create-template="/templates/modal/project.html" update-id="project_upd" update-caption="Обновление:" field-for-update-caption="fullName" modal-update-template="/templates/modal/project.html"></page-with-tiles>
+						</div>
+          <!-- ./Project -->
+          <!-- Territory -->
+					<div id="territories" class="tab-pane fade" ng-controller="TerritoryController as terrCntrl">
+            <page-with-tiles page-header="Территории" add-button-caption="Добавить новую территорию" model-meta="terrCntrl.meta" items="terrCntrl.territories" loaded="terrCntrl.loaded" tile-class="panel-green" tile-icon="fa fa-map fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="baseCity" create-id="territory_add" create-caption="Новая территория" modal-create-template="/templates/modal/territory.html" update-id="territory_upd" update-caption="Обновление:" field-for-update-caption="name" modal-update-template="/templates/modal/territory.html"></page-with-tiles>
+          <!-- ./Territory -->
+					</div>
+          <!-- ./Territory -->
+          <!-- Promo -->
+					<div  id="promos" class="tab-pane fade" ng-controller="PromoController as promoCntrl">
+            <page-with-tiles page-header="ТМ акции" add-button-caption="Добавить новую ТМ акцию" model-meta="promoCntrl.meta" items="promoCntrl.promos" loaded="promoCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-picture-o fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="key" create-id="promo_add" create-caption="Новая ТМ акция" modal-create-template="/templates/modal/promo.html" update-id="promo_upd" update-caption="Обновление:" field-for-update-caption="key" modal-update-template="/templates/modal/promo.html"></page-with-tiles>
+					</div>
+          <!-- ./Promo -->
+          <!-- PhotoType -->
+					<div  id="phototypes" class="tab-pane fade" ng-controller="PhotoTypeController as ptCntrl">
+            <page-with-tiles page-header="Типы фотографий" add-button-caption="Добавить новый тип фотографии" model-meta="ptCntrl.meta" items="ptCntrl.phototypes" loaded="ptCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-file-image-o fa-5x" field-for-tile-caption="name" create-id="phototype_add" create-caption="Новый тип фотографии" modal-create-template="/templates/modal/phototype.html" update-id="phototype_upd" update-caption="Обновление:" field-for-update-caption="name" modal-update-template="/templates/modal/phototype.html"></page-with-tiles>
+					</div>
+          <!-- ./PhotoType -->
+          <!-- PhotoSubType -->
+					<div  id="photosubtypes" class="tab-pane fade" ng-controller="PhotoSubTypeController as pstCntrl">
+            <page-with-tiles page-header="Подтипы фотографий" add-button-caption="Добавить новый подтип фотографии" model-meta="pstCntrl.meta" items="pstCntrl.photosubtypes" loaded="pstCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-file-image-o fa-5x" field-for-tile-caption="name" field-for-tile-r-row1="type.name" create-id="photosubtype_add" create-caption="Новый подтип фотографии" modal-create-template="/templates/modal/photosubtype.html" update-id="photosubtype_upd" update-caption="Обновление:" field-for-update-caption="name" modal-update-template="/templates/modal/photosubtype.html"></page-with-tiles>
+					</div>
+          <!-- ./PhotoSubType -->
+          <div id="companies" class="tab-pane fade" ng-controller="companiesList">
 						<!-- Page Heading -->
 						<div class="row">
 							<div class="col-lg-12">
@@ -495,212 +413,7 @@
 						<!-- /.row -->
 
 					</div>
-					<div id="projects" class="tab-pane fade" ng-controller="projectsList">
-            <page-with-tiles page-header="Проекты" add-button-caption="Добавить новый проект" items="projects" tile-class="panel-yellow" tile-icon="fa fa-users fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" update="init_update(id)" create="init_create()" create-id="project_add" update-id="project_upd"></page-with-tiles>
-						<!-- MODAL -->
-            {% raw %}
-							<div class="modal fade" id="project_add" tabindex="-1" role="dialog" aria-labelledby="company_add" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="Heading">Новый проект</h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_project.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>
-											<div class="form-group">
-												<div class="form-group">
-													<label for="projectDrugs">Лекарственные препараты:</label>
-													<select class="form-control" name="projectDrugs" id="projectDrugs"  ng-options="option.fullName for option in last_project.drugList track by option.id" ng-model="last_project.drugs" multiple>
-													</select>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="form-group">
-													<label for="projectDrugInfoTypes">Тип информации:</label>
-													<select class="form-control" name="projectDrugInfoTypes" id="projectDrugInfoTypes"  ng-options="option.name for option in last_project.drugInfoTypesList track by option.id" ng-model="last_project.druginfotypes" multiple>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-							<div class="modal fade" id="project_upd" tabindex="-1" role="dialog" aria-labelledby="project_upd" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" ng-bind="last_project.fullName" id="modal-title"></h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_project.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_project.description" placeholder="Описание"></textarea>
-											</div>
-											<div class="form-group">
-												<div class="form-group">
-													<label for="projectDrugs">Лекарственные препараты:</label>
-													<select class="form-control" name="projectDrugs" id="projectDrugs"  ng-options="option.fullName for option in last_project.drugList track by option.id" ng-model="last_project.drugs" multiple>
-													</select>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="form-group">
-													<label for="projectDrugInfoTypes">Тип информации:</label>
-													<select class="form-control" name="projectDrugInfoTypes" id="projectDrugInfoTypes"  ng-options="option.name for option in last_project.grugInfoTypesList track by option.id" ng-model="last_project.druginfotypes" multiple>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="update(last_project.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						{% endraw %}
-						</div>
-					<div id="territories" class="tab-pane fade" ng-controller="territoriesList">
-            <page-with-tiles page-header="Территории" add-button-caption="Добавить новую территорию" items="territories" tile-class="panel-green" tile-icon="fa fa-map fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="info" update="init_update(id)" create="init_create()" create-id="territory_add" update-id="territory_upd"></page-with-tiles>
-						<!-- MODAL -->
-            {% raw %}
-							<div class="modal fade" id="territory_add" tabindex="-1" role="dialog" aria-labelledby="territory_add" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="Heading">Новая территория</h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_territory.name" placeholder="Наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_territory.info" placeholder="Описание"></textarea>
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_territory.baseCity" placeholder="Основной город"></textarea>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-							<div class="modal fade" id="territory_upd" tabindex="-1" role="dialog" aria-labelledby="territory_upd" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" ng-bind="last_territory.name" id="modal-title"></h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_territory.name" placeholder="Наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_territory.info" placeholder="Описание"></textarea>
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_territory.baseCity" placeholder="Основной город"></textarea>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="update(last_territory.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						{% endraw %}
-
-					</div>
-					<div id="druginfotypes" class="tab-pane fade" ng-controller="drugInfoTypesList">
-            <page-with-tiles page-header="Типы информации" add-button-caption="Добавить новый тип информации" items="druginfotypes" tile-class="panel-green" tile-icon="fa fa-cubes fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="valueType" update="init_update(id)" create="init_create()" create-id="druginfotype_add" update-id="druginfotype_upd"></page-with-tiles>
-
-						<!-- MODAL -->
-            {% raw %}
-							<div class="modal fade" id="druginfotype_add" tabindex="-1" role="dialog" aria-labelledby="druginfotype_add" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="Heading">Новый тип</h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drugInfoType.name" placeholder="Наименование">
-											</div>
-											<div class="form-group">
-												<select class="form-control " type="text" ng-model="last_drugInfoType.valueType" placeholder="Значение">
-													<option>boolean</option>
-													<option>number</option>
-													<option>list</option>
-													<option>string</option>
-												</select>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-							<div class="modal fade" id="druginfotype_upd" tabindex="-1" role="dialog" aria-labelledby="druginfotype_upd" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" ng-bind="last_drugInfoType.name" id="modal-title"></h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_drugInfoType.name" placeholder="Наименование">
-											</div>
-											<div class="form-group">
-												<select class="form-control " type="text" ng-model="last_drugInfoType.valueType" placeholder="Значение">
-													<option>boolean</option>
-													<option>number</option>
-													<option>list</option>
-													<option>string</option>
-												</select>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="update(last_drugInfoType.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						{% endraw %}
-
-					</div>
 					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
-					</div>
-					<div  id="tradenets" class="tab-pane fade" style="height: 500px">
 					</div>
 					<div  id="sql" class="tab-pane fade" style="height: 500px" ng-controller="adminQueryController">
 						{% raw %}
@@ -778,6 +491,17 @@
   <script src="/js/angular/factories/lodash.js"></script>
   <script src="/js/angular/factories/dataservice.js"></script>
   <script src="/js/angular/directives/pageWithTiles.js"></script>
+  <script src="/js/angular/controllers/MerchantController.js"></script>
+  <script src="/js/angular/controllers/ManagerController.js"></script>
+  <script src="/js/angular/controllers/TradenetController.js"></script>
+  <script src="/js/angular/controllers/CategoryInNetController.js"></script>
+  <script src="/js/angular/controllers/DrugController.js"></script>
+  <script src="/js/angular/controllers/DrugInfoTypeController.js"></script>
+  <script src="/js/angular/controllers/ProjectController.js"></script>
+  <script src="/js/angular/controllers/TerritoryController.js"></script>
+  <script src="/js/angular/controllers/PromoController.js"></script>
+  <script src="/js/angular/controllers/PhotoTypeController.js"></script>
+  <script src="/js/angular/controllers/PhotoSubTypeController.js"></script>
 	<script src="/js/app.js"></script>
 	<script src="/js/admin.js"></script>
     <!-- Morris Charts JavaScript -->

@@ -77,9 +77,12 @@
           var result = false;
 
           _(pwtCntrl.modelMeta.searches).forEach(function(searchAttr) {
-            result = result || (_.get(item,searchAttr, '~').toLowerCase().indexOf(pwtCntrl.search.toLowerCase()) > -1);
-            if (result) {
-              return result;
+            var attrValue = _.get(item,searchAttr, null);
+            if (!!attrValue) {
+              result = result || (attrValue.toLowerCase().indexOf(pwtCntrl.search.toLowerCase()) > -1);
+              if (result) {
+                return result;
+              }
             }
           });
 
@@ -125,7 +128,7 @@
           loaded: false,
           changed: false,
           entity: {},
-          refs: {},
+          refs: [],
           change: entityChanged
         };
 
@@ -207,7 +210,7 @@
           data.page = pwtCntrl.items[index].page;
           pwtCntrl.items.splice(index, 1, data);
           filterPage();
-          $("#update").modal('hide');
+          $("#"+pwtCntrl.updateId).modal('hide');
           return data;
         });
 //       var cu = updateUser($scope.last_user.entity, id);
@@ -220,8 +223,9 @@
       clear_last();
       pwtCntrl.last_user.caption = pwtCntrl.createCaption;
       pwtCntrl.last_user.loaded = true;
-      pwtCntrl.last_user.entity = Object.create(pwtCntrl.beforeCreateParams);
-      //.manager = manager.id;
+      if (!!pwtCntrl.beforeCreateParams){
+        pwtCntrl.last_user.entity = Object.create(pwtCntrl.beforeCreateParams);
+      }
     }
 
     function create(){
@@ -244,7 +248,7 @@
           }
           pwtCntrl.items.push(data);
           changePage(data.page);
-          $("#add").modal('hide');
+          $("#"+pwtCntrl.createId).modal('hide');
           return data;
         });
 //         var cu = createUser($scope.last_user.entity);
