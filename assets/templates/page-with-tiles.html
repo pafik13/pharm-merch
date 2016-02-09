@@ -62,6 +62,6 @@
   </ul>
 </div>
 <!-- Modal Create-->
-<modal modal-id="{{pwtCntrl.createId}}" action="pwtCntrl.create()" content-url="{{pwtCntrl.modalCreateTemplate}}" last="pwtCntrl.last_user"></modal>
+<modal modal-id="{{pwtCntrl.createId}}" prefix="add" action="pwtCntrl.create()" content-url="{{pwtCntrl.modalCreateTemplate}}" last="pwtCntrl.last_user"></modal>
 <!-- Modal Update-->
-<modal caption="Обновление:" field-for-caption="shortName" modal-id="{{pwtCntrl.updateId}}" action="pwtCntrl.update()" content-url="{{pwtCntrl.modalUpdateTemplate}}" last="pwtCntrl.last_user"></modal>
+<modal caption="Обновление:" prefix="upd" field-for-caption="shortName" modal-id="{{pwtCntrl.updateId}}" action="pwtCntrl.update()" content-url="{{pwtCntrl.modalUpdateTemplate}}" last="pwtCntrl.last_user"></modal>

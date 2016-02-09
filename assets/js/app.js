@@ -703,7 +703,8 @@
 	  			last: '=',
 	  			modalId: '@',
 	  			contentUrl: '@',
-	  			initial: '&action'
+	  			initial: '&action',
+	  			prefix: '@'
 	  		},
 	  		templateUrl: '/templates/modal.html',
 	  		controller: function($scope){
