@@ -1,0 +1,8 @@
+<div class="form-group">
+  <input class="form-control " ng-model="last.entity.name" ng-change="last.change()" type="text" placeholder="Наименование">
+</div>
+<div class="form-group">
+  <label for="pstType">Проект:</label>
+  <select class="form-control" name="pstType" id="pstType"  ng-options="option.name for option in last.refs.phototypes track by option.id" ng-model="last.entity.type" ng-change="last.change()" ng-disabled="last.refs.phototypes.length == 0">
+  </select>
+</div>

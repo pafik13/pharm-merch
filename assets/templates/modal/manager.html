@@ -1,0 +1,18 @@
+<div class="form-group">
+  <input class="form-control " ng-model="last.entity.lastName" ng-change="last.change()" type="text" placeholder="Фамилия">
+</div>
+<div class="form-group">
+  <input class="form-control " ng-model="last.entity.firstName" ng-change="last.change()" type="text" placeholder="Имя">
+</div>
+<div class="form-group">
+  <input class="form-control " ng-model="last.entity.middleName" ng-change="last.change()" type="text" placeholder="Отчество">
+</div>
+<div class="checkbox">
+  <label><input type="checkbox" ng-model="last.entity.sex" ng-change="last.change()" ng-checked="last.entity.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
+</div>
+<div class="form-group">
+  <input class="form-control " ng-model="last.entity.phone" ng-change="last.change()" type="text" placeholder="Телефон">
+</div>
+<div class="form-group">
+  <input class="form-control " ng-model="last.entity.email" ng-change="last.change()" type="text" placeholder="Эл. почта">
+</div>

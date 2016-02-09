@@ -11,7 +11,12 @@ module.exports = {
         firstName: 'string',
         middleName: 'string',
         lastName: 'string',
-        sex: 'integer',
+        shortName: 'string',
+        fullName: 'string',
+        sex: {
+            type: 'integer',
+            required: true
+        },
         phone: 'string',
         email: 'string',
         job_role: 'string',
@@ -34,35 +39,45 @@ module.exports = {
             via: 'merchant'
         },
         initPwd: 'string',
+    },
 
-        // Lifecycle Callbacks
-        beforeCreate: function(values, next) {
-            console.log('beforeCreate');
-            /*
-            var ext = require('../extensions.js');
-            var rnd = Math.floor((Math.random() * 1000));
-            //console.log(rnd);
-            var username = ext.transliterate(values.lastName) + rnd;
-            //console.log(username);
-            var data = {
-                username: username,
-                email: values.email,
-                firstName: values.firstName,
-                middleName: values.middleName,
-                lastName: values.lastName,
-                head: values.manager
-            };
-            console.log('Data: %j', data);
-            
-            User.create(data).exec(function(err, res) {
-                console.log('Data: %j', res);
-                if (err) return next(err);
-                values.user = res.id;
+    // Lifecycle Callbacks
+    beforeCreate: function(values, cb) {
 
-            });
-            next();
-			*/
+        values.shortName = values.lastName;
+        values.fullName = values.lastName;
+
+        if (!!values.firstName) {
+            values.shortName = values.shortName + " " + values.firstName.substring(0, 1) + ".";
+            values.fullName = values.fullName + " " + values.firstName;
+
+            if (!!values.middleName) {
+                values.shortName = values.shortName + " " + values.middleName.substring(0, 1) + ".";
+                values.fullName = values.fullName + " " + values.middleName;
+            }
         }
 
+        //calling cb() with an argument returns an error. Useful for canceling the entire operation if some criteria fails.
+        cb();
+    },
+
+    // Lifecycle Callbacks
+    beforeUpdate: function(valuesToUpdate, cb) {
+
+        valuesToUpdate.shortName = valuesToUpdate.lastName;
+        valuesToUpdate.fullName = valuesToUpdate.lastName;
+
+        if (!!valuesToUpdate.firstName) {
+            valuesToUpdate.shortName = valuesToUpdate.shortName + " " + valuesToUpdate.firstName.substring(0, 1) + ".";
+            valuesToUpdate.fullName = valuesToUpdate.fullName + " " + valuesToUpdate.firstName;
+
+            if (!!valuesToUpdate.middleName) {
+                valuesToUpdate.shortName = valuesToUpdate.shortName + " " + valuesToUpdate.middleName.substring(0, 1) + ".";
+                valuesToUpdate.fullName = valuesToUpdate.fullName + " " + valuesToUpdate.middleName;
+            }
+        }
+
+        //calling cb() with an argument returns an error. Useful for canceling the entire operation if some criteria fails.
+        cb();
     }
 };
