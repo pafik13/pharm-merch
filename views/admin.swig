@@ -263,12 +263,12 @@
           <!-- ./Drug -->
           <!-- DrugInfoType -->
 					<div id="druginfotypes" class="tab-pane fade" ng-controller="DrugInfoTypeController as ditCntrl">
-            <page-with-tiles page-header="Типы информации" add-button-caption="Добавить новый тип информации" model-meta="ditCntrl.meta" items="ditCntrl.druginfotypes" loaded="ditCntrl.loaded" tile-class="panel-green" tile-icon="fa fa-cubes fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="valueType" create-id="druginfotype_add" create-caption="Новый препарат" modal-create-template="/templates/modal/drugInfoType.html" update-id="druginfotype_upd" update-caption="Обновление:" field-for-update-caption="name" modal-update-template="/templates/modal/drugInfoType.html"></page-with-tiles>
+            <page-with-tiles page-header="Типы информации" add-button-caption="Добавить новый тип информации" model-meta="ditCntrl.meta" items="ditCntrl.druginfotypes" loaded="ditCntrl.loaded" tile-class="panel-green" tile-icon="fa fa-cubes fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="valueType" create-id="druginfotype_add" create-caption="Новый тип информации" modal-create-template="/templates/modal/drugInfoType.html" update-id="druginfotype_upd" update-caption="Обновление:" field-for-update-caption="name" modal-update-template="/templates/modal/drugInfoType.html"></page-with-tiles>
 					</div>
           <!-- ./DrugInfoType -->
           <!-- Project -->
 					<div id="projects" class="tab-pane fade" ng-controller="ProjectController as projCntrl">
-            <page-with-tiles page-header="Проекты" add-button-caption="Добавить новый проект" model-meta="projCntrl.meta" items="projCntrl.projects" loaded="projCntrl.loaded" tile-class="panel-red" tile-icon="fa fa-users fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" create-id="project_add" create-caption="Новый препарат" modal-create-template="/templates/modal/project.html" update-id="project_upd" update-caption="Обновление:" field-for-update-caption="fullName" modal-update-template="/templates/modal/project.html"></page-with-tiles>
+            <page-with-tiles page-header="Проекты" add-button-caption="Добавить новый проект" model-meta="projCntrl.meta" items="projCntrl.projects" loaded="projCntrl.loaded" tile-class="panel-red" tile-icon="fa fa-users fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" create-id="project_add" create-caption="Новый проект" modal-create-template="/templates/modal/project.html" update-id="project_upd" update-caption="Обновление:" field-for-update-caption="fullName" modal-update-template="/templates/modal/project.html"></page-with-tiles>
 						</div>
           <!-- ./Project -->
           <!-- Territory -->

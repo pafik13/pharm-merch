@@ -1,16 +1,40 @@
-<div class="form-group">
-  <input class="form-control " ng-model="last.entity.fullName" ng-change="last.change()" type="text" placeholder="Полное наименование">
-</div>
-<div class="form-group">
-  <textarea class="form-control " ng-model="last.entity.description" ng-change="last.change()" rows="3" placeholder="Описание"></textarea>
-</div>
-<div class="form-group">
-  <label for="projectDrugs">Препараты:</label>
-  <select class="form-control" multiple name="projectDrugs" id="projectDrugs" ng-options="option.fullName for option in last.refs.drugs track by option.id" ng-model="last.entity.drugs" ng-change="last.change()" ng-disabled="last.refs.drugs.length == 0">
-  </select>
-</div>
-<div class="form-group">
-  <label for="projectDITs">Типы информации:</label>
-  <select class="form-control" multiple name="projectDITs" id="projectDITs"  ng-options="option.name for option in last.refs.druginfotypes track by option.id" ng-model="last.entity.infos" ng-change="last.change()" ng-disabled="last.refs.druginfotypes.length == 0">
-  </select>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#project_main" aria-controls="project_main" role="tab" data-toggle="tab">Основное</a></li>
+  <li role="presentation"><a href="#project_drugs" aria-controls="project_drugs" role="tab" data-toggle="tab">Препараты</a></li>
+  <li role="presentation"><a href="#project_dits" aria-controls="project_dits" role="tab" data-toggle="tab">Типы информации</a></li>
+  <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <!-- TAB main   -->
+  <div role="tabpanel" class="tab-pane active" id="project_main">
+    <form>
+      <div class="form-group">
+        <input class="form-control " ng-model="last.entity.fullName" ng-change="last.change()" type="text" placeholder="Полное наименование">
+      </div>
+      <div class="form-group">
+        <textarea class="form-control " ng-model="last.entity.description" ng-change="last.change()" rows="3" placeholder="Описание"></textarea>
+      </div>
+    </form>
+  </div>
+  <!-- ./TAB main   -->
+  <div role="tabpanel" class="tab-pane" id="project_drugs">
+    <form>
+      <div class="form-group">
+        <select class="form-control" multiple name="projectDrugs" id="projectDrugs" ng-options="option.fullName for option in last.refs.drugs track by option.id" ng-model="last.entity.drugs" ng-change="last.change()">
+        </select>
+      </div>
+    </form>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="project_dits">
+    <form>
+      <div class="form-group">
+        <select class="form-control" multiple name="projectDITs" id="projectDITs"  ng-options="option.name for option in last.refs.druginfotypes track by option.id" ng-model="last.entity.infos" ng-change="last.change()" ng-disabled="last.refs.druginfotypes.length == 0">
+        </select>
+      </div>
+    </form>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="settings">...</div>
 </div>

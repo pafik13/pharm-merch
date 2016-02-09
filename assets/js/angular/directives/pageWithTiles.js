@@ -187,9 +187,12 @@
       delete pwtCntrl.last_user.entity.updatedAt;
       _(pwtCntrl.modelMeta.refs).forEach(function(ref) {
         if(!!pwtCntrl.last_user.entity[ref.modelAttr]){
-          pwtCntrl.last_user.entity[ref.modelAttr] = pwtCntrl.last_user.entity[ref.modelAttr].id;
+          pwtCntrl.last_user.entity[ref.modelAttr] = _.map(pwtCntrl.last_user.entity[ref.modelAttr], 'id');
+            //pwtCntrl.last_user.entity[ref.modelAttr].id;
+
         }
       });
+      $log.info('after depopulate:' + JSON.stringify(pwtCntrl.last_user.entity));
 //       if (!!$scope.last_user.entity.project){
 //         $scope.last_user.entity.project = $scope.last_user.entity.project.id;
 //       }
