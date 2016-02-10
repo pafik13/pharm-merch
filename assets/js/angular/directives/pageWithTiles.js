@@ -134,7 +134,12 @@
 
         _(pwtCntrl.modelMeta.refs).forEach(function(ref) {
           console.log(JSON.stringify(ref));
-          dataService.getList(ref.refModel)
+          var config = {
+            params: {
+              limit: 300,
+            },
+          };
+          dataService.getList(ref.refModel, config)
             .then(function(data){
             pwtCntrl.last_user.refs[ref.refAttr] = data;
           });
@@ -187,9 +192,11 @@
       delete pwtCntrl.last_user.entity.updatedAt;
       _(pwtCntrl.modelMeta.refs).forEach(function(ref) {
         if(!!pwtCntrl.last_user.entity[ref.modelAttr]){
-          pwtCntrl.last_user.entity[ref.modelAttr] = _.map(pwtCntrl.last_user.entity[ref.modelAttr], 'id');
-            //pwtCntrl.last_user.entity[ref.modelAttr].id;
-
+          if (_.isArray(pwtCntrl.last_user.entity[ref.modelAttr])) {
+            pwtCntrl.last_user.entity[ref.modelAttr] = _.map(pwtCntrl.last_user.entity[ref.modelAttr], 'id');
+          } else {
+            pwtCntrl.last_user.entity[ref.modelAttr] = pwtCntrl.last_user.entity[ref.modelAttr].id;
+          }
         }
       });
       $log.info('after depopulate:' + JSON.stringify(pwtCntrl.last_user.entity));

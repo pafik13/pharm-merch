@@ -11,13 +11,25 @@
       var projCntrl = this;
       projCntrl.meta = {
         model: 'Project',
-        refs: [ { modelAttr: 'drugs',
+        refs: [ { modelAttr: 'photoTypes',
+                  refModel: 'PhotoType',
+                  refAttr: 'phototypes'
+                },
+                { modelAttr: 'drugs',
                   refModel: 'Drug',
                   refAttr: 'drugs'
                 },
                 { modelAttr: 'infos',
                   refModel: 'DrugInfoType',
                   refAttr: 'druginfotypes'
+                },
+                { modelAttr: 'netCats',
+                  refModel: 'CategoryInNet',
+                  refAttr: 'netcategories'
+                },
+                { modelAttr: 'promos',
+                  refModel: 'Promo',
+                  refAttr: 'promos'
                 },
               ],
         searches: ['fullName', 'description']

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ИС - "Аптечные мерчендайзеры"</title>
+    <title>SBL - CRM</title>
 
     <!-- Bootstrap Core CSS -->
 <!--     <link href="/styles/bootstrap.min.css" rel="stylesheet"> -->
@@ -57,103 +57,13 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/admin">ИС - "Аптечные мерчендайзеры"</a>
+          <a class="navbar-brand" href="/admin">SBL - CRM</a>
       </div>
       <!-- Top Menu Items -->
       <ul class="nav navbar-right top-nav">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-            <ul class="dropdown-menu message-dropdown">
-                <li class="message-preview">
-                    <a href="#">
-                        <div class="media">
-                            <span class="pull-left">
-                                <img class="media-object" src="" alt="">
-                            </span>
-                            <div class="media-body">
-                                <h5 class="media-heading"><strong> {{ user.username }}</strong>
-                                </h5>
-                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li class="message-preview">
-                    <a href="#">
-                        <div class="media">
-                            <span class="pull-left">
-                                <img class="media-object" src="" alt="">
-                            </span>
-                            <div class="media-body">
-                                <h5 class="media-heading"><strong>{{ user.username }}</strong>
-                                </h5>
-                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li class="message-preview">
-                    <a href="#">
-                        <div class="media">
-                            <span class="pull-left">
-                                <img class="media-object" src="" alt="">
-                            </span>
-                            <div class="media-body">
-                                <h5 class="media-heading"><strong>{{ user.username }}</strong>
-                                </h5>
-                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li class="message-footer">
-                    <a href="#">Read All New Messages</a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-            <ul class="dropdown-menu alert-dropdown">
-                <li>
-                    <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                </li>
-                <li>
-                    <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                </li>
-                <li>
-                    <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                </li>
-                <li>
-                    <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                </li>
-                <li>
-                    <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                </li>
-                <li>
-                    <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">View All</a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ manager.shortName }} <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                </li>
-                <li class="divider"></li>
                 <li>
                     <a href="/logout?next=login"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                 </li>
@@ -164,7 +74,6 @@
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
           <li><a data-toggle="pill" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a></li>
-          <li class="divider"></li>
 					<li><a data-toggle="pill" href="#managers" ng-model="menuManagers" ng-click="update_managers()">Менеджеры</a></li>
 					<li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
 					<li><a data-toggle="pill" href="#tradenets" ng-model="menuTradenets" ng-click="update_tradenets()">Сети</a></li>
@@ -177,21 +86,6 @@
 					<li><a data-toggle="pill" href="#promos" ng-model="menuPromos" ng-click="update_promos()">ТМ акции</a></li>
 					<li><a data-toggle="pill" href="#phototypes" ng-model="menuPhotoTyypes" ng-click="update_phototypes()">Типы фотографий</a></li>
 					<li><a data-toggle="pill" href="#photosubtypes" ng-model="menuPhotoSubTyypes" ng-click="update_photosubtypes()">Подтипы фотографий</a></li>
-					<li><a data-toggle="pill" href="#companies" ng-model="menuCompanies" ng-click="update_companies()">Компании</a></li>
-					<li><a data-toggle="pill" href="#hospitals" ng-model="menuHospitals" ng-click="update_hospitals()">Поликлиники</a></li>
-          <li>
-            <a href="#reports" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-database"></i> Отчеты <i class="fa fa-fw fa-caret-down"></i></a>
-            <ul  id="reports" class="collapse in active">
-              <li><a href="/Report/Merchants">Мерчендайзеры</a></li>
-              <li><a href="/Report/DailyAll?date={{dDate|date('Y-m-d')}}">Отчет ежедневный</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#admin" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-gears"></i> Tools<i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="admin" class="collapse in active">
-							<li><a data-toggle="pill" href="#sql">Запросы</a></li>
-						</ul>
-          </li>
         </ul>
       </div>
     <!-- /.navbar-collapse -->
@@ -227,7 +121,7 @@
 					<!-- ./Manager -->
           <!-- Merchant -->
 					<div id="merchants" class="tab-pane fade" ng-controller="MerchantController as merchCntrl">
-            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" model-meta="merchCntrl.meta" items="merchCntrl.users" loaded="merchCntrl.loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" create-id="merch_add" create-caption="Новый мерчендайзер" before-create-params="merchCntrl.params" modal-create-template="/templates/modal/merchant.html" update-id="merch_update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/merchant.html"></page-with-tiles>
+            <page-with-tiles page-header="Мерчендайзеры" add-button-caption="Добавить нового мерчендайзера" model-meta="merchCntrl.meta" items="merchCntrl.merchants" loaded="merchCntrl.loaded" tile-class="panel-primary" tile-icon="fa fa-user fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="project.fullName" create-id="merch_add" create-caption="Новый мерчендайзер" before-create-params="merchCntrl.params" modal-create-template="/templates/modal/merchant.html" update-id="merch_update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/merchant.html"></page-with-tiles>
 					</div>
           <!-- ./Merchant -->
           <!-- Tradenet -->
@@ -292,177 +186,15 @@
             <page-with-tiles page-header="Подтипы фотографий" add-button-caption="Добавить новый подтип фотографии" model-meta="pstCntrl.meta" items="pstCntrl.photosubtypes" loaded="pstCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-file-image-o fa-5x" field-for-tile-caption="name" field-for-tile-r-row1="type.name" create-id="photosubtype_add" create-caption="Новый подтип фотографии" modal-create-template="/templates/modal/photosubtype.html" update-id="photosubtype_upd" update-caption="Обновление:" field-for-update-caption="name" modal-update-template="/templates/modal/photosubtype.html"></page-with-tiles>
 					</div>
           <!-- ./PhotoSubType -->
-          <div id="companies" class="tab-pane fade" ng-controller="companiesList">
-						<!-- Page Heading -->
-						<div class="row">
-							<div class="col-lg-12">
-								<h1 class="page-header">
-									Поставщики <small>Основная информация</small>
-									<p data-placement="top" data-toggle="tooltip" title="Добавить компанию"><button class="btn btn-danger btn-xs" data-title="company_add" data-toggle="modal" data-target="#company_add" ><i class="fa fa-plus"></i></button></p>
-								</h1>
-							</div>
 
-						</div>
-						<!-- /.row -->
-						<!-- FILTER -->
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form id="custom-search-form" class="form-search form-horizontal pull-left">
-									<div class="input-append span12">
-										<input type="text" ng-model="search" class="search-query mac-style" placeholder="Поиск">
-										<button type="submit" class="btn"><i class="icon-search"></i></button>
-									</div>
-								</form>
-							</div>
-						</div>
-						{% raw %}
-						<div class="row">
-							<div class="col-md-1 text-right">
-								<div class="panel">
-									<div class="label label-default">Кол-во компаний: {{companies.length}}</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-6" ng-repeat="company in companies | filter: search">
-								<div class="panel panel-red">
-									<div class="panel-heading">
-										<div class="row">
-											<div class="col-xs-3">
-												<i class="fa fa-ambulance fa-5x"></i>
-												<h3 ng-bind="company.shortName"></h3>
-											</div>
-											<div class="col-xs-9 text-right">
-												<div class="huge" ng-bind="company.id"></div>
-												<div ng-bind="company.fullName"></div>
-												<div ng-bind="company.description"></div>
-											</div>
-										</div>
-									</div>
-									<a ng-click="init_update(company.id)" href="#company_upd" data-toggle="modal" data-placement="top" data-toggle="tooltip" title="Просмотр дополнительных сведений">
-										<div class="panel-footer">
-										<span class="pull-left"><h4>Подробнее</h4></span>
-										<span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
-										<div class="clearfix"></div>
-										</div>
-									</a>
-								</div>
-							</div>
-						<!-- MODAL -->
-							<div class="modal fade" id="company_add" tabindex="-1" role="dialog" aria-labelledby="company_add" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" id="Heading">Новая компания</h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_company.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_company.shortName" placeholder="Краткое наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control " type="text" ng-model="last_company.officialName" placeholder="Оффициальное наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control " type="text" ng-model="last_company.description" placeholder="Описание"></textarea>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="create()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-							<div class="modal fade" id="company_upd" tabindex="-1" role="dialog" aria-labelledby="company_upd" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-											<h4 class="modal-title custom_align" ng-bind="last_company.fullName" id="modal-title"></h4>
-										</div>
-										<div class="modal-body">
-											<div class="form-group">
-												<input class="form-control" type="text" ng-model="last_company.fullName" placeholder="Полное наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control" type="text" ng-model="last_company.shortName" placeholder="Краткое наименование">
-											</div>
-											<div class="form-group">
-												<input class="form-control" type="text" ng-model="last_company.officialName" placeholder="Оффициальное наименование">
-											</div>
-											<div class="form-group">
-												<textarea class="form-control" type="text" ng-model="last_company.description" placeholder="Описание"></textarea>
-											</div>
-										</div>
-										<div class="modal-footer ">
-											<button ng-click="update(last_company.id)" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Сохранить</button>
-											<button type="button" data-dismiss="modal" class="btn btn-default" ><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-						{% endraw %}
-						</div>
-						<!-- /.row -->
-
-					</div>
-					<div  id="hospitals" class="tab-pane fade" style="height: 500px">
-					</div>
-					<div  id="sql" class="tab-pane fade" style="height: 500px" ng-controller="adminQueryController">
-						{% raw %}
-						<div class="row">
-							<div class="col-md-1 col-lg-6 ">
-								<form class="form-horizontal pull-left">
-									<div class="span12">
-										<textarea ng-model="query" class="mac-style"></textarea>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6">
-								<div class="span12">
-									<div type="button" class="btn btn-danger" ng-click="admin_query()"><i class="icon-search"></i> Выполнить</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-1 col-lg-6">
-								<div class="span12">
-									<table class="table table-bordered table-striped">
-										<thead>
-											<tr>
-												<th ng-model="results" ng-repeat="(key, data) in results[0]">
-													{{key}}
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-model="results" ng-repeat="(key, data) in results">
-												<td ng-repeat="d in data">
-													{{d}}
-												</td>
-											</tr>
-										</tbody>
-									</table>
-
-								</div>
-							</div>
-              {% endraw %}
-						</div>
-            </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
+        <!-- ./tab-content -->
       </div>
-      <!-- /#wrapper -->
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+  </div>
+  <!-- /#wrapper -->
 	<script>
       var manager = {};
 	  //SWIG Injection!!! How to another get manager.id in the page?
