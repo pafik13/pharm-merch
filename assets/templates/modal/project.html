@@ -1,0 +1,80 @@
+<div>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#{{prefix}}_project_main" aria-controls="project_main" role="tab" data-toggle="tab">Основное</a></li>
+  <li role="presentation"><a href="#{{prefix}}_project_drugs" aria-controls="project_drugs" role="tab" data-toggle="tab">Препараты</a></li>
+  <li role="presentation"><a href="#{{prefix}}_project_dits" aria-controls="project_dits" role="tab" data-toggle="tab">Типы информации</a></li>
+  <li role="presentation"><a href="#{{prefix}}_project_categories" aria-controls="project_categories" role="tab" data-toggle="tab">Категории в сети</a></li>
+  <li class="dropdown" role="presentation">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <i class="fa fa-ellipsis-v"></i>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#{{prefix}}_project_promos" aria-controls="project_promos" role="tab" data-toggle="tab">ТМ акции</a></li>
+      <li><a href="#{{prefix}}_project_phototypes" aria-controls="project_phototypes" role="tab" data-toggle="tab">Типы фото</a></li>
+    </ul>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" style="margin-top: 20px;">
+  <!-- TAB main   -->
+  <div role="tabpanel" class="tab-pane fade in active" id="{{prefix}}_project_main">
+    <form>
+      <div class="form-group">
+        <input class="form-control " ng-model="last.entity.fullName" ng-change="last.change()" type="text" placeholder="Полное наименование" />
+      </div>
+      <div class="form-group">
+        <textarea class="form-control " ng-model="last.entity.description" ng-change="last.change()" rows="5" placeholder="Описание"></textarea>
+      </div>
+    </form>
+  </div>
+  <!-- ./TAB main   -->
+  <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_project_drugs">
+    <form>
+      <div class="form-group">
+        <select class="form-control" multiple size="10" name="projectDrugs" id="projectDrugs" ng-options="option.fullName for option in last.refs.drugs track by option.id" ng-model="last.entity.drugs" ng-change="last.change()">
+        </select>
+        <h5>Выбрано {{last.entity.drugs.length || 0}} из {{last.refs.drugs.length}}</h5>
+      </div>
+    </form>
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_project_dits">
+    <form>
+      <div class="form-group">
+        <select class="form-control" multiple size="10" name="projectDITs" id="projectDITs"  ng-options="option.name for option in last.refs.druginfotypes track by option.id" ng-model="last.entity.infos" ng-change="last.change()" ng-disabled="last.refs.druginfotypes.length == 0">
+        </select>
+        <h5>Выбрано {{last.entity.infos.length || 0}} из {{last.refs.druginfotypes.length}}</h5>
+      </div>
+    </form>
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_project_categories">
+    <form>
+      <div class="form-group">
+        <select class="form-control" multiple size="10" name="projectCATs" id="projectCATs"  ng-options="option.name for option in last.refs.netcategories track by option.id" ng-model="last.entity.netCats" ng-change="last.change()" ng-disabled="last.refs.netcategories.length == 0">
+        </select>
+        <h5>Выбрано {{last.entity.netCats.length || 0}} из {{last.refs.netcategories.length}}</h5>
+      </div>
+    </form>
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_project_promos">
+    <form>
+      <div class="form-group">
+        <select class="form-control" multiple size="10" name="projectPromos" id="projectPromos"  ng-options="option.name for option in last.refs.promos track by option.id" ng-model="last.entity.promos" ng-change="last.change()" ng-disabled="last.refs.promos.length == 0">
+        </select>
+        <h5>Выбрано {{last.entity.promos.length || 0}} из {{last.refs.promos.length}}</h5>
+      </div>
+    </form>
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_project_phototypes">
+    <form>
+      <div class="form-group">
+        <select class="form-control" multiple size="10" name="projectPTypes" id="projectPTypes"  ng-options="option.name for option in last.refs.phototypes track by option.id" ng-model="last.entity.photoTypes" ng-change="last.change()" ng-disabled="last.refs.phototypes.length == 0">
+        </select>
+        <h5>Выбрано {{last.entity.photoTypes.length || 0}} из {{last.refs.phototypes.length}}</h5>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>
