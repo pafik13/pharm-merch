@@ -19,6 +19,10 @@
                   refModel: 'Territory',
                   refAttr: 'territories'
                 },
+                { modelAttr: 'user',
+                  refModel: 'User',
+                  refAttr: 'user'
+                },
               ],
         searches: ['fullName', 'project.fullName']
       };

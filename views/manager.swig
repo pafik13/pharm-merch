@@ -584,8 +584,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 
 	<!-- jQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<!--     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
 <!--     <script src="/js/bootstrap.min.js"></script> -->
     <!-- Latest compiled and minified JavaScript -->
@@ -624,6 +624,12 @@
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
 
+  <script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>
+  
 <style>
 #autocomp_map {
 	height: 400px;

@@ -708,6 +708,10 @@
 	  		},
 	  		templateUrl: '/templates/modal.html',
 	  		controller: function($scope){
+//           $('[data-toggle="popover"]').popover();
+//           $("#"+$scope.modalId).modal().on('hide.bs.modal', function(){
+//             $('[data-toggle="popover"]').popover('hide');
+//           });
 	  			//init action
 	  			$scope.action = function(id){
 	  				$scope.initial({id:id});
