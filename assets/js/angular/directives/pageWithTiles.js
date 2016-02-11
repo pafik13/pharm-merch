@@ -122,6 +122,10 @@
       }
     });
 
+    $scope.$watch('pwtCntrl.last_user',function(){
+      $('[data-toggle="popover"]').popover();
+    });
+
     function clear_last(){
         pwtCntrl.last_user = {
           caption: '<Empty>',
