@@ -38,6 +38,10 @@
 
     <!-- CUSTOM STYLES  -->
     <style>
+      .datepicker table tbody tr:hover > td.day{background: #04c}
+
+/*       .weekHover {background: #428BCA} */
+
       .ellipsis {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -45,7 +49,30 @@
       }
 
       .form-filter {
-        margin-bottom: 20px;
+        margin-bottom: 12px;
+      }
+
+      table.report {
+        font-size: 12px;
+      }
+
+      table.report th {
+        text-align: center;
+        vertical-align: middle !important;
+      }
+
+      table.report td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .form-filter .form-group {
+        margin-bottom: 8px;
+      }
+
+      .form-filter .control-label {
+        margin-bottom: 8px;
       }
     </style>
 
@@ -98,9 +125,9 @@
             <a href="#reports" data-toggle="collapse"><i class="fa fa-fw fa-file-text"></i> Отчеты<i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="reports" class="collapse in active" class="nav nav-pills">
               <li><a data-toggle="pill" href="#merchBase">База аптек</a></li>
-              <li><a data-toggle="pill" href="#merchVisits">Нормы визитов</a></li>
+              <li><a data-toggle="pill" href="#merchVisits">Норма визитов</a></li>
               <li><a data-toggle="pill" href="#merchVisitsFreq">Частота визитов</a></li>
-              <li><a data-toggle="pill" href="#teamVisits">Нормы визитов по команде</a></li>
+              <li><a data-toggle="pill" href="#teamVisits">Норма визитов по команде</a></li>
               <li><a data-toggle="pill" href="#defect">Дефектура</a></li>
               <li><a data-toggle="pill" href="#display">Выкладка</a></li>
               <li><a data-toggle="pill" href="#pos">POS</a></li>
@@ -205,47 +232,48 @@
           <!-- ./PhotoSubType -->
 
           <!--  REPORTS -->
-            <div  id="merchBase" class="tab-pane fade" ng-controller="merchBaseController">
-						{% raw %}
-              <!-- Page Heading -->
-              <div class="row">
-                <div class="col-lg-12">
-                  <h1 class="page-header">
-                      База аптек + ТМ Акции
-                  </h1>
-                </div>
+          <div  id="merchBase" class="tab-pane fade" ng-controller="merchBaseController">
+            <!-- Page Heading -->
+            <div class="row">
+              <div class="col-lg-12">
+                <h1 class="page-header">
+                    База аптек + ТМ Акции
+                </h1>
               </div>
-              <!-- /.row -->
-              <!--Filters-->
-              <div class="row">
-                <div class="col-lg-12">
-                  <form class="form-inline form-filter">
-                    <div class="form-group">
-                        <label for="merchant">Мерчендайзер:</label>
-                        <select class="form-control" name="merchant" id="merchant" ng-options="merch.shortName for merch in merchantList" ng-model="merchant">
-                        </select>
-                    </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
-                  </form>
-                </div>
-              </div>
-              <!-- /.row -->
-              <!-- Report -->
-              <div class="row">
-                <div class="col-lg-12">
-                  <report  results="results" meta="meta" ng-model="results" />
-                </div>
-              </div>
-              <!-- /.row -->
-            {% endraw %}
             </div>
+            <!-- /.row -->
+            <!--Filters-->
+            <div class="row">
+              <div class="col-lg-12">
+                <form class="form-inline form-filter">
+                  <div class="form-group">
+                    <label for="merchant">Мерчендайзер:</label>
+                    <select class="form-control" name="merchant" id="merchant" ng-change="change()" ng-options="merch.shortName for merch in merchantList" ng-model="merchant">
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- /.row -->
+            <!-- Report -->
+            <div class="row">
+              <div class="col-lg-12">
+                <report  results="results" meta="meta" ng-model="results" />
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
             <div  id="merchVisits" class="tab-pane fade" ng-controller="merchVisitsController">
 						{% raw %}
               <!-- Page Heading -->
               <div class="row">
                 <div class="col-lg-12">
                   <h1 class="page-header">
-                      Выполнение нормы визитов
+                      Выполнение норма визитов
                   </h1>
                 </div>
               </div>
@@ -256,14 +284,17 @@
                   <form class="form-inline form-filter">
                     <div class="form-group">
                         <label for="merchant">Мерчендайзер:</label>
-                        <select class="form-control" name="merchant" id="merchant" ng-options="merch.shortName for merch in merchantList" ng-model="merchant">
+                        <select class="form-control" name="merchant" id="merchant" ng-change="change()" ng-options="merch.shortName for merch in merchantList" ng-model="merchant">
                         </select>
                     </div>
                     <div class="form-group">
                       <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-model="month" type="text" />
+                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text">
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -294,14 +325,17 @@
                   <form class="form-inline form-filter">
                     <div class="form-group">
                         <label for="merchant">Мерчендайзер:</label>
-                        <select class="form-control" name="merchant" id="merchant" ng-options="merch.shortName for merch in merchantList" ng-model="merchant">
+                        <select class="form-control" name="merchant" id="merchant" ng-change="change()" ng-options="merch.shortName for merch in merchantList" ng-model="merchant">
                         </select>
                     </div>
                     <div class="form-group">
                       <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-model="month" type="text" />
+                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -321,7 +355,7 @@
               <div class="row">
                 <div class="col-lg-12">
                   <h1 class="page-header">
-                      Нормы визитов по команде
+                      Норма визитов по команде
                   </h1>
                 </div>
               </div>
@@ -332,9 +366,12 @@
                   <form class="form-inline form-filter">
                     <div class="form-group">
                       <label for="week">Неделя:</label>
-                      <input class="form-control datepicker-week" name="week" id="week" ng-model="week" type="text" />
+                      <input class="form-control datepicker-week" name="week" id="week" ng-change="change()" ng-model="week" type="text" />
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -365,19 +402,22 @@
                   <form class="form-inline form-filter">
                     <div class="form-group">
                         <label for="tradenet">Аптечная сеть:</label>
-                        <select class="form-control" name="tradenet" id="tradenet" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
+                        <select class="form-control" name="tradenet" id="tradenet" ng-change="change()" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
                         </select>
                     </div>
                     <div class="form-group">
                       <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-model="month" type="text" />
+                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
                     </div>
                     <div class="form-group">
-                        <label for="drug">Препарат:</label>
-                        <select class="form-control" name="drug" id="drug" ng-options="drug.fullName for drug in drugList" ng-model="drug">
+                      <label for="drug">Препарат:</label>
+                      <select class="form-control" name="drug" id="drug" ng-change="change()" ng-options="drug.fullName for drug in drugList" ng-model="drug">
                         </select>
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -408,19 +448,22 @@
                   <form class="form-inline form-filter">
                     <div class="form-group">
                         <label for="tradenet">Аптечная сеть:</label>
-                        <select class="form-control" name="tradenet" id="tradenet" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
+                        <select class="form-control" name="tradenet" id="tradenet" ng-change="change()" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
                         </select>
                     </div>
                     <div class="form-group">
                       <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-model="month" type="text" />
+                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
                     </div>
                     <div class="form-group">
                         <label for="drug">Препарат:</label>
-                        <select class="form-control" name="drug" id="drug" ng-options="drug.fullName for drug in drugList" ng-model="drug">
+                        <select class="form-control" name="drug" id="drug" ng-change="change()" ng-options="drug.fullName for drug in drugList" ng-model="drug">
                         </select>
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -451,20 +494,23 @@
                   <form class="form-inline form-filter">
                     <div class="form-group">
                         <label for="tradenet">Аптечная сеть:</label>
-                        <select class="form-control" name="tradenet" id="tradenet" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
+                        <select class="form-control" name="tradenet" id="tradenet" ng-change="change()" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
                         </select>
                     </div>
                     <div class="form-group">
                       <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-model="month" type="text" />
+                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
                     </div>
                     <div class="form-group">
                         <label for="drug">Препарат:</label>
-                        <select class="form-control" name="drug" id="drug" ng-options="drug.fullName for drug in drugList" ng-model="drug">
+                        <select class="form-control" name="drug" id="drug" ng-change="change()" ng-options="drug.fullName for drug in drugList" ng-model="drug">
                         </select>
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
-                  </form>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
+                   </form>
                 </div>
               </div>
               <!-- /.row -->
@@ -493,20 +539,23 @@
                 <div class="col-lg-12">
                   <form class="form-inline form-filter">
                     <div class="form-group">
-                        <label for="tradenet">Аптечная сеть:</label>
-                        <select class="form-control" name="tradenet" id="tradenet" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
-                        </select>
+                      <label for="tradenet">Аптечная сеть:</label>
+                      <select class="form-control" name="tradenet" id="tradenet" ng-change="change()" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-model="month" type="text" />
+                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="drug">Препарат:</label>
-                        <select class="form-control" name="drug" id="drug" ng-options="drug.fullName for drug in drugList" ng-model="drug">
-                        </select>
+                      <label for="drug">Препарат:</label>
+                      <select class="form-control" name="drug" id="drug" ng-change="change()" ng-options="drug.fullName for drug in drugList" ng-model="drug">
+                      </select>
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -514,7 +563,7 @@
               <!-- Report -->
               <div class="row">
                 <div class="col-lg-12">
-                  <report  results="results" meta="meta" ng-model="results" />
+                  <report results="results" meta="meta" ng-model="results" />
                 </div>
               </div>
               <!-- /.row -->
@@ -537,19 +586,22 @@
                   <form class="form-inline form-filter">
                     <div class="form-group">
                         <label for="tradenet">Аптечная сеть:</label>
-                        <select class="form-control" name="tradenet" id="tradenet" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
+                        <select class="form-control" name="tradenet" id="tradenet" ng-change="change()" ng-options="tradenet.fullName for tradenet in tradenetList" ng-model="tradenet">
                         </select>
                     </div>
                     <div class="form-group">
                       <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-model="month" type="text" />
+                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
                     </div>
                     <div class="form-group">
                         <label for="drug">Препарат:</label>
-                        <select class="form-control" name="drug" id="drug" ng-options="drug.fullName for drug in drugList" ng-model="drug">
+                        <select class="form-control" name="drug" id="drug" ng-change="change()" ng-options="drug.fullName for drug in drugList" ng-model="drug">
                         </select>
                     </div>
-                    <button class="btn btn-danger" ng-click="admin_query()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Обновить</button>
+                    <div class="form-group">
+                      <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -584,8 +636,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 
 	<!-- jQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<!--     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
 <!--     <script src="/js/bootstrap.min.js"></script> -->
     <!-- Latest compiled and minified JavaScript -->
@@ -623,6 +675,12 @@
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
+
+  <script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
 
 <style>
 #autocomp_map {

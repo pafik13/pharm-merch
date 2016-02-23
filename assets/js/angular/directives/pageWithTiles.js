@@ -5,7 +5,7 @@
     .module('App')
     .directive('pageWithTiles', pageWithTiles);
 
-  function pageWithTiles(_){
+  function pageWithTiles(){
     var directive = {
       restrict:'E',
       scope:{
@@ -120,6 +120,10 @@
         filterPage();
         //$log.info('itemsOnPage: '+JSON.stringify(pwtCntrl.itemsOnPage));
       }
+    });
+
+    $scope.$watch('pwtCntrl.last_user',function(){
+      $('[data-toggle="popover"]').popover();
     });
 
     function clear_last(){

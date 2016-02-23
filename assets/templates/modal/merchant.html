@@ -7,8 +7,9 @@
 <div class="form-group">
   <input class="form-control" ng-model="last.entity.middleName" ng-change="last.change()" type="text" placeholder="Отчество">
 </div>
-<div class="checkbox">
-  <label><input type="checkbox" ng-model="last.entity.sex" ng-change="last.change()" ng-checked="last.entity.sex == 1" ng-true-value="1" ng-false-value="0">Мужчина</label>
+<div class="form-group">
+  <label class="radio-inline"><input type="radio" ng-model="last.entity.sex" ng-change="last.change()" value="1">Мужчина</label>
+  <label class="radio-inline"><input type="radio" ng-model="last.entity.sex" ng-change="last.change()" value="0">Женщина</label>
 </div>
 <div class="form-group">
   <input class="form-control " ng-model="last.entity.phone" ng-change="last.change()" type="text" placeholder="Телефон">
@@ -25,4 +26,9 @@
   <label for="merchantProject">Проект:</label>
   <select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last.refs.projects track by option.id" ng-model="last.entity.project" ng-change="last.change()" ng-disabled="last.refs.projects.length == 0">
   </select>
+</div>
+<div ng-show="!!last.entity.id" class="form-group">
+  <button type="button" class="btn btn-warning" data-container="body" data-toggle="popover" data-placement="right" data-content="Пользователь: {{last.entity.user.username}} <br /> Пароль: {{last.entity.initPwd}}" data-html="true">
+  Учетные данные
+</button>
 </div>

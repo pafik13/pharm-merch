@@ -160,6 +160,25 @@ module.exports = {
         } else {
             return res.negotiate('Model not found.');
         }
+    },
+    router: function(req, res) {
+        var params = req.params.all();
 
+        if ('Model' in params) {
+            var model = params.Model;
+            if (model.toLowerCase() in sails.models) {
+                sails.models[model.toLowerCase()].count(function(error, find) {
+                    if (error) return res.negotiate(error);
+
+                    return res.json(200, {
+                        count: find
+                    });
+                });
+            } else {
+                return res.negotiate('Model not found.');
+            }
+        } else {
+            return res.negotiate('Model not found.');
+        }
     }
 };
