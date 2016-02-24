@@ -694,6 +694,15 @@
 		   	}
 		};
 	  });
+	  
+	  app.directive('popover', function(){
+	  	return {
+	  		templateUrl: '/templates/popover.html',
+	  		controller: function(){
+	  			$('[data-toggle="popover"]').popover();
+	  		}
+	  	}
+	  });
 
       app.directive('modal', function(_){
 	  	return {
@@ -707,8 +716,33 @@
 	  			prefix: '@'
 	  		},
 	  		templateUrl: '/templates/modal.html',
-	  		controller: function($scope){
-//           $('[data-toggle="popover"]').popover();
+	  		controller: function($scope,$element){
+	  		
+	  		// 	var tgl = $scope.$watch(function() { return $($element[0]).is(':visible')}, function(){	
+		  	// 		$($element[0]).on('shown.bs.modal', function (event) {
+					// 	$('[data-toggle="popover"]').popover();
+					// 	console.log('SHOWN.BS.MODAL');
+					// 	tgl();	
+					// });
+					// // $($element[0]).on('hide.bs.modal', function (event) {
+					// // 	$('[data-toggle="popover"]').popover('hide');
+					// // 	tgl();	
+					// // });
+	  		// 	});
+				var pop = $scope.$watch($scope.last, function(){
+					console.log('LAST_CHANGED '+ JSON.stringify($scope.last));
+					if ('entity' in $scope.last > 0){
+							// $($element[0]).on('shown.bs.modal', function (event) {
+							// 	$('[data-toggle="popover"]').popover();
+							// 	pop();	
+							// });
+							// $($element[0]).on('hide.bs.modal', function (event) {
+							// 	$('[data-toggle="popover"]').popover('hide');
+							// 	pop();	
+							// });
+					}
+				});
+
 //           $("#"+$scope.modalId).modal().on('hide.bs.modal', function(){
 //             $('[data-toggle="popover"]').popover('hide');
 //           });
@@ -1194,4 +1228,26 @@
 	$(document).ready(function(){
 	    $("[data-toggle=tooltip]").tooltip();
 	});
+	
+	$('body').on('click', function (e) {
+	    $('[data-toggle="popover"]').each(function () {
+	        //the 'is' for buttons that trigger popups
+	        //the 'has' for icons within a button that triggers a popup
+	        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+	            $(this).popover('hide');
+	            //$(this).removeAttr('aria-describedby');
+	        }
+	    });
+	});
+	
 	var autocomplete;
+	$('.collapse li a').on('click',function(){
+		if ($(this).parent('li').hasClass('active'))
+		{
+			console.log('click');
+			$(this).parent('li').removeClass('active');
+			
+			$(this).click();
+		}
+
+	});

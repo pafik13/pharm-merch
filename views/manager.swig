@@ -84,7 +84,7 @@
             <a data-toggle="pill" data-target="#main" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
           </li>
           <li>
-            <a href="#dictionary" data-toggle="collapse"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
+            <a href="#dictionary" data-toggle="collapse" role="menu"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
             <ul  id="dictionary" class="collapse in active" class="nav nav-pills">
               <li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
               <li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>

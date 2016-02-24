@@ -123,7 +123,7 @@
     });
 
     $scope.$watch('pwtCntrl.last_user',function(){
-      $('[data-toggle="popover"]').popover();
+      //$('[data-toggle="popover"]').popover();
     });
 
     function clear_last(){
