@@ -1241,12 +1241,11 @@
 	});
 	
 	var autocomplete;
+	
 	$('.collapse li a').on('click',function(){
 		if ($(this).parent('li').hasClass('active'))
 		{
-			console.log('click');
 			$(this).parent('li').removeClass('active');
-			
 			$(this).click();
 		}
 
