@@ -111,7 +111,7 @@
             <a data-toggle="pill" data-target="#main" href="#main"><i class="fa fa-fw fa-dashboard"></i> Главная</a>
           </li>
           <li>
-            <a href="#dictionary" data-toggle="collapse"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
+            <a href="#dictionary" data-toggle="collapse" role="menu"><i class="fa fa-fw fa-database"></i> База<i class="fa fa-fw fa-caret-down"></i></a>
             <ul  id="dictionary" class="collapse in active" class="nav nav-pills">
               <li><a data-toggle="pill" href="#merchants" ng-model="menuMerchants" ng-click="update_merchants()">Мерчендайзеры</a></li>
               <li><a data-toggle="pill" href="#territories" ng-model="menuTerritories" ng-click="update_territories()">Территории</a></li>
@@ -651,6 +651,7 @@
   <script src="/js/angular/factories/lodash.js"></script>
   <script src="/js/angular/factories/dataservice.js"></script>
   <script src="/js/angular/directives/pageWithTiles.js"></script>
+  <script src="/js/angular/directives/popover.js"></script>
   <script src="/js/angular/controllers/MerchantController.js"></script>
   <script src="/js/angular/controllers/ManagerController.js"></script>
   <script src="/js/angular/controllers/TradenetController.js"></script>
@@ -675,10 +676,17 @@
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
-
   <script>
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();
+  $('[data-toggle="popover"]').popover();
+
+	$('.collapse li a').on('click',function(){
+		if ($(this).parent('li').hasClass('active'))
+		{
+			$(this).parent('li').removeClass('active');
+			$(this).click();
+		}
+	});
 });
 </script>
 

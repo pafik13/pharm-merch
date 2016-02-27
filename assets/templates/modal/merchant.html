@@ -27,8 +27,5 @@
   <select class="form-control" name="merchantProject" id="merchantProject"  ng-options="option.fullName for option in last.refs.projects track by option.id" ng-model="last.entity.project" ng-change="last.change()" ng-disabled="last.refs.projects.length == 0">
   </select>
 </div>
-<div ng-show="!!last.entity.id" class="form-group">
-  <button type="button" class="btn btn-warning" data-container="body" data-toggle="popover" data-placement="right" data-content="Пользователь: {{last.entity.user.username}} <br /> Пароль: {{last.entity.initPwd}}" data-html="true">
-  Учетные данные
-</button>
-</div>
+<popover ng-if="!!last.entity.id">
+</popover>
