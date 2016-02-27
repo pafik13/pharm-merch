@@ -599,6 +599,7 @@
   <script src="/js/angular/factories/lodash.js"></script>
   <script src="/js/angular/factories/dataservice.js"></script>
   <script src="/js/angular/directives/pageWithTiles.js"></script>
+  <script src="/js/angular/directives/popover.js"></script>
   <script src="/js/angular/controllers/MerchantController.js"></script>
   <script src="/js/angular/controllers/ManagerController.js"></script>
   <script src="/js/angular/controllers/TradenetController.js"></script>
@@ -623,13 +624,20 @@
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
 	-->
-
   <script>
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
+  $('[data-toggle="popover"]').popover();
+
+	$('.collapse li a').on('click',function(){
+		if ($(this).parent('li').hasClass('active'))
+		{
+			$(this).parent('li').removeClass('active');
+			$(this).click();
+		}
+	});
 });
 </script>
-  
+
 <style>
 #autocomp_map {
 	height: 400px;
