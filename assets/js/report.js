@@ -26,7 +26,7 @@ var intervalPicker = [];
      autoclose: true
 });
 
-// weekPicker    
+// weekPicker
 var weekPicker = $('input.datepicker-week').datepicker({
     //format: "yyyy-mm",
     startViewMode: "months",
@@ -160,7 +160,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               }
           }
       });
-      
+
       app.directive('datepicker', function(){
           return {
               scope:{
@@ -175,14 +175,14 @@ var weekPicker = $('input.datepicker-week').datepicker({
                        language: "ru",
                        autoclose: true
                   }).on('changeDate',function(e){
-                      $scope.date = e.date; 
+                      $scope.date = e.date;
                       console.log(JSON.stringify($scope.date));
                       //$scope.date;
                   });
               }
           }
       });
-      
+
       app.directive('datepickerWeek', function(){
           return {
               scope:{
@@ -198,10 +198,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                        autoclose: true,
                        format: {
                             toDisplay: function (date, format, language) {
-                                 var curr = new Date(date); 
-                				 var first = curr.getDate() - curr.getDay(); 
-                				 var last = first + 6; 
-                				 var firstday = new Date(curr.setDate(first)); 
+                                 var curr = new Date(date);
+                				 var first = curr.getDate() - curr.getDay();
+                				 var last = first + 6;
+                				 var firstday = new Date(curr.setDate(first));
                 				 var lastday = new Date(curr.setDate(last));
                 				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
                             },
@@ -210,19 +210,19 @@ var weekPicker = $('input.datepicker-week').datepicker({
                             }
                        }
                   }).on('changeDate',function(e){
-                     var curr = new Date(e.date); 
-    				 var first = curr.getDate() - curr.getDay(); 
-    				 var last = first + 6; 
-    				 var firstday = new Date(curr.setDate(first)); 
+                     var curr = new Date(e.date);
+    				 var first = curr.getDate() - curr.getDay();
+    				 var last = first + 6;
+    				 var firstday = new Date(curr.setDate(first));
     				 var lastday = new Date(curr.setDate(last));
     				 $scope.date = firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
-                      
-                     //$scope.date = e.date; 
+
+                     //$scope.date = e.date;
                       console.log(JSON.stringify($scope.date));
                       //$scope.date;
                   }).on('show', function(){
                         $('.datepicker table tbody tr:has(td.day.active) td.day').css('background','#D2322D');
-                    
+
                         var bg = {};
                         $('.datepicker table tbody tr:has(td.day)').hover(function(){
                                         $(this).children('td.day').each(function(){
@@ -233,12 +233,12 @@ var weekPicker = $('input.datepicker-week').datepicker({
                                             $(this).removeClass('weekHover');
                                         });
                                     });
-                       
-                        
+
+
                     });
               }
           }
-      });      
+      });
 
       app.directive('datepickerMonth', function(){
           return {
@@ -254,14 +254,14 @@ var weekPicker = $('input.datepicker-week').datepicker({
                       language: "ru",
                       autoclose: true
                   }).on('changeDate',function(e){
-                      $scope.date = e.date; 
+                      $scope.date = e.date;
                       console.log(JSON.stringify($scope.date));
                       //$scope.date;
                   });
               }
           }
       });
-      
+
       app.directive('datepickerRange', function(){
           return {
               scope:{
@@ -271,7 +271,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               controller: function($scope, $element, $attrs){
                   console.log('cont');
                   $scope.date = {};
-                  
+
                   $($element).children('.startDate').datepicker({
                        format: "dd.mm.yyyy",
                        minViewMode: 'days',
@@ -279,7 +279,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
                        language: "ru",
                        autoclose: true
                   }).on('changeDate',function(e){
-                      $scope.date.start = e.date; 
+                      $scope.date.start = e.date;
                       console.log(JSON.stringify($scope.date));
                       //$scope.date;
                   });
@@ -290,19 +290,21 @@ var weekPicker = $('input.datepicker-week').datepicker({
                        language: "ru",
                        autoclose: true
                   }).on('changeDate',function(e){
-                      $scope.date.end = e.date; 
+                      $scope.date.end = e.date;
                       console.log(JSON.stringify($scope.date));
                       //$scope.date;
                   });
               }
           }
-      });      
+      });
 
       app.controller('merchBaseController', function($scope, $http, getData) { /*global app*/
           $scope.merchant = '';
           $scope.merchantList = '';
           $scope.results = [];
           $scope.meta = [];
+          $scope.refresh = refresh;
+          $scope.download = download;
 
           getData.getMerchants().then(function(results){
               //SUCCESS
@@ -322,13 +324,32 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          $scope.admin_query = function(){
+          function refresh(){
+            $scope.refreshing = true;
             $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant.id}).success(function(result){
                 $scope.results = result;
+              $scope.refreshing = false;
             }).error(function(error){
                 console.log(JSON.stringify(error));
             });
           };
+
+          function download(){
+              $scope.downloading = true;
+              var link = document.createElement('a');
+              document.body.appendChild(link);
+              //console.log('Downloading file');
+
+              var header = 'data:application/vnd.ms-excel;base64,';
+                          //'<html xmlns:v="urn:schemas-microsoft-com:vml" axmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+              var body =   '<meta  http-equiv="Content-Type"  content="text/html;  charset=UTF-8">' +
+                          '<style>table, table td, table td tr {    border: 1px solid black; }</style>' +
+                          $('table:visible')[0].outerHTML;
+              link.href = header + window.btoa(unescape(encodeURIComponent(body)));
+              $(link).attr('download','База_'+$scope.merchant.shortName+'.xls');
+              link.click();
+            $scope.downloading = false;
+          }
       });
 
       app.controller('merchVisitsController', function($scope, $http, getData, $filter) { /*global app*/
@@ -885,7 +906,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 console.log(JSON.stringify(error));
             });
           };
-      });       
+      });
       app.controller('intervalQueryController', function($scope, $http, getData) { /*global app*/
           $scope.query = '';
           $scope.merchant = '';
@@ -894,34 +915,34 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.endInterval = '';
           $scope.results = '';
           $scope.date = {};
-          
+
           intervalPicker['start'].on('changeDate', function(e) {
-              var curr = new Date(e.date); 
-    		  
+              var curr = new Date(e.date);
+
               $scope.startInterval = curr;
               $scope.$apply();
               //intervalPicker['end'].minDate = curr;
               console.log('Start '+ $scope.startInterval);
           });
-          
+
           intervalPicker['end'].on('changeDate', function(e) {
-              var curr = new Date(e.date); 
-    		  
+              var curr = new Date(e.date);
+
               $scope.endInterval = curr;
               $scope.$apply();
               console.log('end '+ $scope.endInterval);
           });
-          
+
           getData.getMerchants().then(function(results){
               //SUCCESS
               //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
-              
+
           },function(results){
               //ERROR
               console.log(JSON.stringify(results));
           });
-          
+
           $scope.admin_query = function(){
             //console.log($scope.month);
             $http({url:'/admin/query?admin_query=' + $scope.query}).success(function(result){
@@ -930,6 +951,6 @@ var weekPicker = $('input.datepicker-week').datepicker({
             }).error(function(error){
                 //ERROR
                 console.log(JSON.stringify(error));
-            });    
+            });
           };
-      }); 
+      });

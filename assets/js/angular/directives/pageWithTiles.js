@@ -5,7 +5,7 @@
     .module('App')
     .directive('pageWithTiles', pageWithTiles);
 
-  function pageWithTiles(_){
+  function pageWithTiles(){
     var directive = {
       restrict:'E',
       scope:{
