@@ -62,10 +62,10 @@
       <!-- Top Menu Items -->
       <ul class="nav navbar-right top-nav">
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ manager.shortName }} <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ user.username }} <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="/logout?next=login"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                    <a href="/logout?next=login"><i class="fa fa-fw fa-power-off"></i> Выйти</a>
                 </li>
             </ul>
         </li>
@@ -235,7 +235,6 @@
   <script src="/js/angular/controllers/PhotoTypeController.js"></script>
   <script src="/js/angular/controllers/PhotoSubTypeController.js"></script>
 	<script src="/js/app.js"></script>
-	<script src="/js/admin.js"></script>
     <!-- Morris Charts JavaScript -->
 	<!--
     <script src="/js/plugins/morris/raphael.min.js"></script>

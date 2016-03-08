@@ -23,6 +23,7 @@ _.merge(exports, {
      * @param {Object} res
      */
     logout: function(req, res) {
+        console.log('Logout!');
         req.logout();
         req.session.authenticated = false;
         if (!req.isSocket) {
@@ -30,6 +31,7 @@ _.merge(exports, {
         } else {
             delete req.user;
             delete req.session.passport;
+            console.log('Logout!');
             res.ok();
         }
     }
