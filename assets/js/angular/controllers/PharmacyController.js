@@ -19,6 +19,14 @@
                   refModel: 'Tradenet',
                   refAttr: 'tradenets'
                 },
+                { modelAttr: 'layoutType',
+                  refModel: 'PharmacyLayoutType',
+                  refAttr: 'layoutTypes'
+                },
+                { modelAttr: 'validated',
+                  refModel: 'User',
+                  refAttr: 'validated'
+                },
               ],
         searches: ['shortName', 'tradenet.shortName', 'subway', 'address']
       };

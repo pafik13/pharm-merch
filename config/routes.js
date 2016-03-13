@@ -62,4 +62,8 @@ module.exports.routes = {
   '/Report/Pharmacies'      : 'ReportController.pharmacies',
   '/Report/Generate'        : 'ReportController.generate',
   '/:Model/count'           : 'MainController.count',
+  'POST /Pharmacy'          : 'PharmacyController.create',
+  'POST /Pharmacy/create'   : 'PharmacyController.create',
+  'PUT /Pharmacy/:id?'      : 'PharmacyController.update',
+
 };

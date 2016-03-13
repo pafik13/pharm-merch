@@ -1,27 +1,91 @@
-<div class="form-group">
-	<input class="form-control" ng-model="last.entity.fullName" ng-change="last.change()" type="text" placeholder="Полное наименование">
+<div>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#{{prefix}}_pharmacy_main" aria-controls="pharmacy_main" role="tab" data-toggle="tab">Основное</a></li>
+    <li role="presentation"><a href="#{{prefix}}_pharmacy_address" aria-controls="pharmacy_address" role="tab" data-toggle="tab">Адрес</a></li>
+    <li role="presentation"><a href="#{{prefix}}_pharmacy_other" aria-controls="pharmacy_other" role="tab" data-toggle="tab">Остальное</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content" style="margin-top: 20px;">
+    <!-- TAB main  -->
+    <div role="tabpanel" class="tab-pane fade in active" id="{{prefix}}_pharmacy_main">
+      <form>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.fullName" ng-change="last.change()" type="text" placeholder="Полное наименование">
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.shortName" ng-change="last.change()" type="text" placeholder="Краткое наименование">
+        </div>
+        <div class="form-group">
+          <textarea class="form-control " ng-model="last.entity.officialName" ng-change="last.change()" rows="2" placeholder="Оффициальное название"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="pharmacyTradenet">Сеть:</label>
+          <select class="form-control" name="pharmacyTradenet" id="pharmacyTradenet"  ng-options="option.shortName for option in last.refs.tradenets track by option.id" ng-model="last.entity.tradenet" ng-change="last.change()" ng-disabled="last.refs.tradenets.length == 0">
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="checkbox-inline">
+            <label><input ng-model="last.entity.valid" ng-change="last.change()" type="checkbox" ng-checked="last.valid == true" ng-true-value="true" ng-false-value="false">Проверено </label>
+          </div>
+          <popover ng-if="last.entity.valid && !!last.entity.id && last.entity.validatedAt" po-content="Пользователь: {{last.entity.validated.username}} <br /> Дата: {{last.entity.validatedAt | date:'yyyy-MM-dd HH:mm:ss Z'}}" is-html="true" btn-class="btn-xs btn-info" btn-icon="fa-info-circle fa-lg"></popover>
+        </div>
+      </form>
+    </div>
+    <!-- ./TAB main  -->
+    <!-- TAB address  -->
+    <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_pharmacy_address">
+      <form>
+        <div class="form-group">
+          <map data="last.entity.address" change="last.change()" show="show"></map>
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.subway" ng-change="last.change()" type="text" placeholder="Метро">
+        </div>
+        <div class="form-group">
+          <label for="pharmacyTerritory">Территория:</label>
+          <select class="form-control" name="pharmacyTerritory" id="pharmacyTerritory"  ng-options="option.name for option in last.refs.territories track by option.id" ng-model="last.entity.territory" ng-change="last.change()" ng-disabled="last.refs.territories.length == 0">
+          </select>
+        </div>
+      </form>
+    </div>
+    <!-- ./TAB address  -->
+    <!-- TAB other  -->
+    <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_pharmacy_other">
+      <form>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.phone" ng-change="last.change()" type="text" placeholder="Телефон">
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.email" ng-change="last.change()" type="text" placeholder="Эл. почта">
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.categorySBL" ng-change="last.change()" type="text" placeholder="Категория SBL">
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.categoryOTC" ng-change="last.change()" type="text" placeholder="Категория OTC">
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.codeSBL" ng-change="last.change()" type="text" placeholder="Код SBL">
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.avgTicket" ng-change="last.change()" type="text" placeholder="Средний чек">
+        </div>
+        <div class="form-group">
+          <input class="form-control" ng-model="last.entity.traffic" ng-change="last.change()" type="text" placeholder="Трафик">
+        </div>
+        <div class="form-group">
+          <label for="pharmacyLayoutType">Выкладка:</label>
+          <select class="form-control" name="pharmacyLayoutType" id="pharmacyLayoutType"  ng-options="option.name for option in last.refs.layoutTypes track by option.id" ng-model="last.entity.layoutType" ng-change="last.change()" ng-disabled="last.refs.layoutTypes.length == 0">
+          </select>
+        </div>
+      </form>
+    </div>
+    <!-- ./TAB other  -->
+  </div>
 </div>
-<div class="form-group">
-	<input class="form-control" ng-model="last.entity.phone" ng-change="last.change()" type="text" placeholder="Телефон">
-</div>
-<div class="form-group">
-	<map data="last.entity.address" change="last.change()" show="show"></map>
-</div>
-<div class="form-group">
-	<input class="form-control" ng-model="last.entity.email" ng-change="last.change()" type="text" placeholder="Эл. почта">
-</div>
-<div class="form-group">
-    <div class="checkbox">
-		<label><input ng-model="last.entity.validated" ng-change="last.change()" type="checkbox" ng-checked="last.validated == true" ng-true-value="true" ng-false-value="false">Проверено</label>
-	</div>
-</div>
-<div class="form-group">
-  <label for="pharmacyTradenet">Сеть:</label>
-  <select class="form-control" name="pharmacyTradenet" id="pharmacyTradenet"  ng-options="option.shortName for option in last.refs.tradenets track by option.id" ng-model="last.entity.tradenet" ng-change="last.change()" ng-disabled="last.refs.tradenets.length == 0">
-  </select>
-</div>
-<div class="form-group">
-  <label for="pharmacyTerritory">Территория:</label>
-  <select class="form-control" name="pharmacyTerritory" id="pharmacyTerritory"  ng-options="option.name for option in last.refs.territories track by option.id" ng-model="last.entity.territory" ng-change="last.change()" ng-disabled="last.refs.territories.length == 0">
-  </select>
-</div>
+
+
+
+

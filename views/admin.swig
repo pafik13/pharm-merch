@@ -223,6 +223,8 @@
   <script src="/js/angular/factories/lodash.js"></script>
   <script src="/js/angular/factories/dataservice.js"></script>
   <script src="/js/angular/directives/pageWithTiles.js"></script>
+  <script src="/js/angular/directives/modal.js"></script>
+  <script src="/js/angular/directives/map.js"></script>
   <script src="/js/angular/controllers/MerchantController.js"></script>
   <script src="/js/angular/controllers/ManagerController.js"></script>
   <script src="/js/angular/controllers/TradenetController.js"></script>

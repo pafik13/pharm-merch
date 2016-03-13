@@ -1,5 +1,4 @@
-<div class="form-group">
-    <button type="button" class="btn btn-warning" data-toggle="popover" data-content="Пользователь: {{last.entity.user.username}} <br /> Пароль: {{last.entity.initPwd}}" data-html="true">
-    Учетные данные
-    </button>
-</div>
+<button type="button" class="btn {{poCntrl.btnClass}}" data-toggle="popover" title="{{poCntrl.poTitle}}" data-original-title="{{poCntrl.poTitle}}" data-content="{{poCntrl.poContent}}" data-html="{{poCntrl.isHtml}}">
+  <i ng-if="!!poCntrl.btnIcon" class="fa {{poCntrl.btnIcon}}"></i>
+  {{poCntrl.btnContent}}
+</button>
