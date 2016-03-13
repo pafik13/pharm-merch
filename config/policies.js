@@ -53,11 +53,11 @@ module.exports.policies = {
 	AuthController: {
 		'*': [ 'passport' ]
 	},
-	
+
 	UserController: {
 		'*': true
 	},
-	
+
 	PharmaciesController: {
 		'*': true
 	},
@@ -71,5 +71,5 @@ module.exports.policies = {
 	AttendancePhotoController: {
 		'*': true
 	}
-	
+
 };

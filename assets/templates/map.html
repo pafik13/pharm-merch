@@ -1,9 +1,9 @@
 <div>
-    <div class="input-group">
-    	<input id="autocomp" class="form-control" type="text" placeholder="Адрес" ng-model="data">
-    	<span class="input-group-btn">
-            <button class="btn btn-default" type="button" model="show_map" ng-click="show_map = !show_map">{{show_map? 'Скрыть':'На карте'}}</button>
-       </span>
-    </div>
-    <div ng-show="show_map" id="autocomp_map"></div>
-</div>    
+  <div class="input-group">
+    <input id="autocomp" class="form-control" type="text" ng-model="data" ng-change="change()" placeholder="Адрес">
+    <span class="input-group-btn">
+    <button class="btn btn-default" type="button" model="show_map" ng-click="show_map = !show_map">{{show_map? 'Скрыть':'На карте'}}</button>
+    </span>
+  </div>
+  <div ng-show="show_map" id="autocomp_map"></div>
+</div>

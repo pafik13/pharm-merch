@@ -9,29 +9,55 @@ module.exports = {
     attributes: {
         fullName: {
             type: 'string',
+            size: 255
         },
         shortName: {
             type: 'string',
+            size: 64,
+            required: true,
         },
         officialName: {
             type: 'string',
+            size: 255,
         },
         address: {
             type: 'string',
-            required: true
+            size: 510,
+            required: true,
+        },
+        longitude: 'float',
+        latitude: 'float',
+        subway: {
+            type: 'string',
+            size: 64,
         },
         territory: {
             model: 'Territory'
         },
-        longitude: 'float',
-        latitude: 'float',
-        subway: 'string',
-        phone: 'string',
-        email: 'string',
-        category_otc: 'string',
-        category_sbl: 'string',
-        code_sbl: 'string',
-        avg_purchase: 'integer',
+        phone: {
+            type: 'string',
+            size: 20,
+        },
+        email: {
+            type: 'string',
+            size: 64,
+        },
+        categorySBL: {
+            type: 'string',
+            size: 64,
+        },
+        categoryOTC: {
+            type: 'string',
+            size: 64,
+        },
+        codeSBL: {
+            type: 'string',
+            size: 32,
+        },
+        layoutType: {
+            model: 'PharmacyLayoutType'
+        },
+        avgTicket: 'float',
         traffic: 'integer',
         tradenet: {
             model: 'Tradenet'
@@ -39,22 +65,11 @@ module.exports = {
         hospitals: {
             collection: 'Hospital'
         },
-        merchant: {
-            model: 'Merchant'
-        },
-        validated: 'boolean',
-        validator: {
+        valid: 'boolean',
+        validated: {
             model: 'User'
         },
         validatedAt: 'datetime',
+    },
 
-        // Lifecycle Callbacks
-        afterUpdate: function(values, cb) {
-            if (values.validated) {
-                values.validatedAt = new Date();
-                cb();
-            }
-        }
-
-    }
 };

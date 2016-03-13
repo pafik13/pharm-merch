@@ -13,6 +13,9 @@
         <div ng-include="contentUrl"></div>
 			</div>
 			<div class="modal-footer">
+        <div ng-show="last.error !== undefined" class="alert alert-danger" style="text-align:left;">
+          <pre>{{ last.error | json }}</pre>
+        </div>
         <div ng-hide="last.entity.id !== undefined">
 				  <button ng-click="action()" type="button" class="btn btn-warning btn-md" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Добавить</button>
         </div>

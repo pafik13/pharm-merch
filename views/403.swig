@@ -35,7 +35,7 @@
 -->
 <html>
   <head>
-    <title>Forbidden</title>
+    <title>Отказано</title>
     <link href='http://sailsjs.org/styles/fonts.css' rel='stylesheet'/>
     <style>
       /* Styles included inline since you'll probably be deleting or replacing this page anyway */
@@ -51,18 +51,18 @@
 
       <div class="main">
         <h1>
-          Forbidden
+          Отказано в доступе
         </h1>
         <h2>
-			{% if error %}
-				{{ error }}
+			{% if data.msg %}
+				{{ data.msg }}
 			{% else %}
-				You don't have permission to see the page you're trying to reach.
-				<a href="/login">Здесь можно залогиниться</a>
+				У Вас нет доступа к содержимому сайта. </br>
+				<a href="/login">Необходимо произвести авторизацию</a>
 			{% endif %}
         </h2>
         <p class="help">
-          <a href="http://en.wikipedia.org/wiki/HTTP_403">Why</a> might this be happening?
+          <a href="http://en.wikipedia.org/wiki/HTTP_403">Почему</a> это могло произойти?
         </p>
       </div>
 

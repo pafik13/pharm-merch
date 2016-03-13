@@ -54,13 +54,16 @@ module.exports.routes = {
   '/Merchant/:action'       : 'MerchantController.main',
   '/AttendancePhoto/:action': 'AttendancePhotoController.main',
   '/admin/query'            : 'AdminController.main',
-  '/reports'                : 'MainController.reports',
   '/Report/Merchants'       : 'ReportController.merchants',
   '/Report/Daily'           : 'ReportController.daily',
   '/Report/Weekly'          : 'ReportController.weekly',
   '/Report/Daily/:id'       : 'ReportController.daily',
   '/Report/Monthly'         : 'ReportController.monthly',
   '/Report/Pharmacies'      : 'ReportController.pharmacies',
-  '/Report/Generate'        : 'ReportController.generate',  
+  '/Report/Generate'        : 'ReportController.generate',
   '/:Model/count'           : 'MainController.count',
+  'POST /Pharmacy'          : 'PharmacyController.create',
+  'POST /Pharmacy/create'   : 'PharmacyController.create',
+  'PUT /Pharmacy/:id?'      : 'PharmacyController.update',
+
 };

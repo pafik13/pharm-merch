@@ -222,7 +222,11 @@
           filterPage();
           $("#"+pwtCntrl.updateId).modal('hide');
           return data;
-        });
+        })
+      .catch(function(error) {
+        $log.error("pwtCntrl.update. Error:" + JSON.stringify(error));
+        pwtCntrl.last_user.error = error.data;
+      });;
 //       var cu = updateUser($scope.last_user.entity, id);
 //       console.log('updated:', JSON.stringify(cu));
 //       var index = _.indexOf($scope.users, _.find($scope.users, {id: cu.id}));
@@ -239,6 +243,7 @@
     }
 
     function create(){
+      console.log('create:', JSON.stringify(pwtCntrl.last_user.entity));
       var config = {};
       dataService.postOne(pwtCntrl.modelMeta.model, pwtCntrl.last_user.entity, config)
         .then(function(data) {
@@ -260,7 +265,11 @@
           changePage(data.page);
           $("#"+pwtCntrl.createId).modal('hide');
           return data;
-        });
+        })
+        .catch(function(error) {
+        $log.error("pwtCntrl.create. Error:" + JSON.stringify(error));
+        pwtCntrl.last_user.error = error.data;
+      });
 //         var cu = createUser($scope.last_user.entity);
 //         console.log('updated:', JSON.stringify(cu));
 //         // it needed because after 'create' not populate references

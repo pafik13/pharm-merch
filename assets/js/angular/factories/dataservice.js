@@ -5,9 +5,9 @@
     .module('App')
     .factory('dataService', dataService);
 
-  dataService.$inject = ['$http', '$log'];
+  dataService.$inject = ['$http', '$q', '$log'];
 
-  function dataService($http, $log) {
+  function dataService($http, $q, $log) {
     return {
       getOne: getOne,
       getList: getList,
@@ -26,7 +26,7 @@
       }
 
       function getOneFailed(error){
-        $log.error('Error: XHR Failed for getAvengers.' + error.data);
+        $log.error('Error: XHR Failed for getOne.' + error.data);
       }
     }
 
@@ -56,7 +56,8 @@
       }
 
       function putOneFailed(error){
-        $log.error('Error: XHR Failed.' + error.data);
+        $log.error('Error: XHR Failed.' + JSON.stringify(error));
+        return $q.reject(error);
       }
     }
 
@@ -72,6 +73,7 @@
 
       function postOneFailed(error){
         $log.error('Error: XHR Failed.' + JSON.stringify(error));
+        return $q.reject(error);
       }
     }
   }

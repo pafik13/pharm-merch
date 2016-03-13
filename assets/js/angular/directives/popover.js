@@ -8,8 +8,18 @@
   function popover(){
     var directive = {
       restrict:'E',
+      scope:{
+        poTitle:    '@',
+        poContent:  '@',
+        isHtml:     '@',
+        btnClass:   '@',
+        btnIcon:    '@',
+        btnContent: '@',
+      },
       templateUrl: '/templates/popover.html',
       controller: PopOverController,
+      controllerAs: 'poCntrl',
+      bindToController: true // because the scope is isolated
     };
 
     return directive;
