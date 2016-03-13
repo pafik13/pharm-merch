@@ -129,22 +129,11 @@
             <page-with-tiles page-header="Аптечные сети" add-button-caption="Добавить новую аптечную сеть" model-meta="netCntrl.meta" items="netCntrl.tradenets" loaded="netCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-hospital-o fa-5x" field-for-tile-caption="fullName" field-for-tile-r-row-1="description" create-id="net_add" create-caption="Новая аптечная сеть" modal-create-template="/templates/modal/tradenet.html" update-id="net_update" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/tradenet.html"></page-with-tiles>
 					</div>
           <!-- ./Tradenet -->
-					<div id="pharmacies" class="tab-pane fade" ng-controller="pharmaciesList">
-					  <dataview caption="Аптеки"
-					        update="init_update(id)"
-					        create="init_create()"
-					        create-id="pharmacy_add"
-					        update-id="pharmacy_upd"
-					        items="pharmacies"
-					        meta="meta"
-					        show-grid='true'
-					        tile-class="panel-yellow"
-					        pagination-mode="client"
-					        content-url="/templates/tile/pharmacy.html"></dataview>
-
-	  				<modal caption="Новая аптека" modal-id='pharmacy_add' action="create()" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
-					  <modal caption="Обновление:" modal-id='pharmacy_upd' action="update(id)" content-url='/templates/modal/pharmacy.html' last="last_pharmacy"></modal>
-					</div>
+          <!-- Pharmacy -->
+					<div id="pharmacies" class="tab-pane fade" ng-controller="PharmacyController as pharmCntrl">
+             <page-with-tiles page-header="Аптеки" add-button-caption="Добавить новую аптеку" model-meta="pharmCntrl.meta" items="pharmCntrl.pharmacies" loaded="pharmCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-hospital-o fa-5x" field-for-tile-caption="shortName" field-for-tile-r-row-1="tradenet.shortName" field-for-tile-r-row-2="address" field-for-tile-l-row-1="subway" create-id="pharmacy_add" create-caption="Новая аптека" modal-create-template="/templates/modal/pharmacy.html" update-id="pharmacy_upd" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/pharmacy.html"></page-with-tiles>
+          </div>
+          <!-- ./Pharmacy -->
           <!-- CategoryInNet -->
 					<div  id="categories" class="tab-pane fade" ng-controller="CategoryInNetController as catCntrl">
             <page-with-tiles page-header="Категории в сети" add-button-caption="Добавить категорию в сети" model-meta="catCntrl.meta" items="catCntrl.categories" loaded="catCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-hospital-o fa-5x" field-for-tile-caption="name" field-for-tile-r-row-1="key" create-id="cat_add" create-caption="Новая категория в сети" modal-create-template="/templates/modal/categoryInNet.html" update-id="cat_update" update-caption="Обновление:" field-for-update-caption="key" modal-update-template="/templates/modal/categoryInNet.html"></page-with-tiles>
@@ -223,10 +212,12 @@
   <script src="/js/angular/factories/lodash.js"></script>
   <script src="/js/angular/factories/dataservice.js"></script>
   <script src="/js/angular/directives/pageWithTiles.js"></script>
+  <script src="/js/angular/directives/popover.js"></script>
   <script src="/js/angular/directives/modal.js"></script>
   <script src="/js/angular/directives/map.js"></script>
   <script src="/js/angular/controllers/MerchantController.js"></script>
   <script src="/js/angular/controllers/ManagerController.js"></script>
+  <script src="/js/angular/controllers/PharmacyController.js"></script>
   <script src="/js/angular/controllers/TradenetController.js"></script>
   <script src="/js/angular/controllers/CategoryInNetController.js"></script>
   <script src="/js/angular/controllers/DrugController.js"></script>
