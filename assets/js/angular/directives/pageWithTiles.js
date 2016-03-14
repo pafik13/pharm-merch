@@ -12,6 +12,7 @@
         pageHeader:           '@',
         loaded:               '=',
         items:                '=',
+        itemsPerPage:         '@',
         modelMeta:            '=',
         tileClass:            '@',
         tileIcon:             '@',
@@ -47,6 +48,7 @@
     pwtCntrl.search = "";
     pwtCntrl.pages = [];
     pwtCntrl.currentPage = 1;
+    pwtCntrl.itemsPerPage = pwtCntrl.itemsPerPage || 10;
     pwtCntrl.searchChange = searchChange;
     pwtCntrl.changePage = changePage;
     pwtCntrl.filterPage = filterPage;
@@ -113,8 +115,8 @@
       pwtCntrl.pages = [];
       if (!!pwtCntrl.items){
         for(var i = 0; i < pwtCntrl.items.length;i++){
-          pwtCntrl.items[i].page = (i / 6 |0) + 1;
-          pwtCntrl.pages.push((i / 6 |0) + 1);
+          pwtCntrl.items[i].page = (i / pwtCntrl.itemsPerPage |0) + 1;
+          pwtCntrl.pages.push((i / pwtCntrl.itemsPerPage |0) + 1);
         }
         pwtCntrl.pages = _.uniq(pwtCntrl.pages);
         filterPage();
@@ -257,7 +259,7 @@
           });
           console.log('afterPopulate:', JSON.stringify(data));
 
-          data.page = (pwtCntrl.items.length / 6 |0) + 1;
+          data.page = (pwtCntrl.items.length / pwtCntrl.itemsPerPage |0) + 1;
           if (!_.includes(pwtCntrl.pages, data.page)) {
             pwtCntrl.pages.push(data.page);
           }

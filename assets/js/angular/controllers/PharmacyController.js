@@ -28,7 +28,7 @@
                   refAttr: 'validated'
                 },
               ],
-        searches: ['shortName', 'tradenet.shortName', 'subway', 'address']
+        searches: ['shortName', 'tradenet.shortName', 'territory.name', 'address']
       };
 
       pharmCntrl.merchants = [];
@@ -36,14 +36,15 @@
 
       $scope.$watch('menuPharmacies', function(oldValue, newValue) {
         var config = {
-          'params': {
-            'populate': [],
+          params: {
+            limit: 300,
           },
-        }
+        };
 
         dataService.getList(pharmCntrl.meta.model, config)
           .then(function(data) {
             pharmCntrl.pharmacies = data;
+            pharmCntrl.itemsPerPage = 20;
             pharmCntrl.loaded = true;
             return pharmCntrl.pharmacies;
           });
