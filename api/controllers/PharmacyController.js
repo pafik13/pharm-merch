@@ -54,8 +54,10 @@ module.exports = {
     },
 
     update: function(req, res, next) {
-        var id = req.param('id');
-        var valuesNew = req.params.all();
+        var id = req.param('id'),
+            populate = req.param('populate'),
+            valuesNew = req.params.all(),
+            query = Pharmacy.findOne(id);
         delete valuesNew.id;
         delete valuesNew.populate;
 
@@ -72,15 +74,22 @@ module.exports = {
                 valuesNew.validated = null;
                 valuesNew.validatedAt = null;
             };
-            Pharmacy.update(id, valuesNew).exec(function(err, updated) {
-                if (err) return res.negotiate(err);;
+            Pharmacy.update(id, valuesNew).exec(function(err, updatedRows) {
+                if (err) return res.negotiate(err);
 
-                if (updated.length === 1) {
-                    return res.ok(updated[0]);
+                if (updatedRows.length === 1) {
+                    populate.forEach(function(item) {
+                        query.populate(item);
+                    });
+                    query.exec(function(err, updated) {
+                        if (err) return res.negotiate(err);
+                        return res.ok(updated);
+                    });
+
                 } else {
                     return res.serverError({
                         msg: "Updated more then 1 row.",
-                        updated_rows: updated
+                        updated_rows: updatedRows
                     });
                 }
             });

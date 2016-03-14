@@ -175,7 +175,7 @@
           <!-- ./Tradenet -->
           <!-- Pharmacy -->
 					<div id="pharmacies" class="tab-pane fade" ng-controller="PharmacyController as pharmCntrl">
-             <page-with-tiles page-header="Аптеки" add-button-caption="Добавить новую аптеку" model-meta="pharmCntrl.meta" items="pharmCntrl.pharmacies" loaded="pharmCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-hospital-o fa-5x" field-for-tile-caption="shortName" field-for-tile-r-row-1="tradenet.shortName" field-for-tile-r-row-2="address" field-for-tile-l-row-1="subway" create-id="pharmacy_add" create-caption="Новая аптека" modal-create-template="/templates/modal/pharmacy.html" update-id="pharmacy_upd" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/pharmacy.html"></page-with-tiles>
+             <page-with-tiles page-header="Аптеки" add-button-caption="Добавить новую аптеку" model-meta="pharmCntrl.meta" items="pharmCntrl.pharmacies" items-per-page="20" loaded="pharmCntrl.loaded" tile-class="panel-yellow" tile-icon="fa fa-hospital-o fa-5x" field-for-tile-caption="shortName" field-for-tile-r-row-1="tradenet.shortName" field-for-tile-r-row-2="address" field-for-tile-l-row-1="subway" create-id="pharmacy_add" create-caption="Новая аптека" modal-create-template="/templates/modal/pharmacy.html" update-id="pharmacy_upd" update-caption="Обновление:" field-for-update-caption="shortName" modal-update-template="/templates/modal/pharmacy.html"></page-with-tiles>
           </div>
           <!-- ./Pharmacy -->
           <!-- CategoryInNet -->
