@@ -1,7 +1,7 @@
 /**
- * AttendanceCoordinatesController
+ * AttendanceGPSPointController
  *
- * @description :: Server-side logic for managing Attendancecoordinates
+ * @description :: Server-side logic for managing AttendanceGPSPoints
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
