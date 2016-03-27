@@ -3,8 +3,8 @@
  *
  * @description :: Фотографии с посещения
  * @docs        :: http://sailsjs.org/#!documentation/models
- * @example     :: curl -X POST -d "identifier=aksenov&password=q1234567" -c test.txt localhost:8080/auth/local
- *                 curl -b test.txt --form "drugImage=@mars.jpg" localhost:8080/Attendance_image/create
+ * @example     :: curl -i -X POST -H "Content-Type: multipart/form-data" -F "photo=@Desert.jpg" 0.0.0.0:3000/AttendancePhoto/create?attendance=1
+ *
  */
 
 module.exports = {
@@ -22,6 +22,7 @@ module.exports = {
         },
         longitude: 'float',
         latitude: 'float',
+        fileName: 'string',
         photoPath: 'string',
         storagePath: 'string',
         stamp: 'datetime'

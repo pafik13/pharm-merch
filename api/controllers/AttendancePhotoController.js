@@ -19,8 +19,9 @@ module.exports = {
                 function(err, uploadedFiles) {
                     if (err) return res.negotiate(err);
                     /*[{"fd":"/home/ubuntu/workspace/upload/images/06484f34-fe49-41a8-832a-b7112d5df9f3.jpg","size":45370,"type":"image/jpeg","filename":"mars.jpg","status":"bufferingOrWriting","field":"drugImage"}]*/
-                    sails.log.info(" uploadedFiles : " + JSON.stringify(uploadedFiles));
+                    //sails.log.info(" uploadedFiles : " + JSON.stringify(uploadedFiles));
                     params.photoPath = uploadedFiles[0].fd;
+                    params.filename = uploadedFiles[0].filename;
                     AttendancePhoto.create(params).exec(function(err, created) {
                         if (err) return res.negotiate(err);
 
@@ -37,17 +38,15 @@ module.exports = {
                                     //sails.log.info(" AttendancePhoto : " + JSON.stringify(found));
                                     var k = found.photoPath.replace(/^.*[\\\/]/, '');
 
-                                    var keyid = process.env.AWS_KEYID;
-                                    var secr = process.env.AWS_SECRET;
-
                                     // AMAZON AWS S3
+                                    //sails.log.info("AMAZON AWS S3");
                                     var aws = require('aws-sdk');
                                     aws.config.update({
-                                        accessKeyId: keyid,
-                                        secretAccessKey: secr,
+                                        accessKeyId: sails.config.aws.apiKey,
+                                        secretAccessKey: sails.config.aws.apiSecret,
                                         signatureVersion: 'v4'
                                     });
-                                    var ep = new aws.Endpoint('http://pharm-merch.s3-website.eu-central-1.amazonaws.com');
+                                    var ep = new aws.Endpoint(sails.config.aws.endPoint);
                                     var s3 = new aws.S3(ep);
                                     require('fs').readFile(found.photoPath, function(err, data) {
                                         if (err) {
@@ -55,7 +54,7 @@ module.exports = {
                                         }
 
                                         var params = {
-                                            Bucket: 'pharm-merch',
+                                            Bucket: sails.config.aws.bucket,
                                             Key: k,
                                             Body: data,
                                             ACL: 'public-read'
@@ -63,7 +62,7 @@ module.exports = {
                                         var r = s3.upload(params);
                                         r.send();
                                     });
-                                    found.storagePath = 'http://pharm-merch.s3-website.eu-central-1.amazonaws.com/' + k;
+                                    found.storagePath = sails.config.aws.endPoint + k;
                                     AttendancePhoto.update({
                                         id: found.id
                                     }, {
