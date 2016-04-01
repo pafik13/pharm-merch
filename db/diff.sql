@@ -7,40 +7,17 @@ DROP VIEW vw_last_attendances;
 
 DROP VIEW vw_merchant_pharmacies;
 
-DROP TABLE attendancecoordinates;
-
-DROP TABLE valuetype;
-
-DROP SEQUENCE attendancecoordinates_id_seq;
-
-DROP SEQUENCE valuetype_id_seq;
-
-CREATE SEQUENCE attendancegpspoint_id_seq
-	START WITH 1
-	INCREMENT BY 1
-	NO MAXVALUE
-	NO MINVALUE
-	CACHE 1;
-
-CREATE TABLE attendancegpspoint (
-	attendance integer,
-	longitude real,
-	latitude real,
-	provider text,
-	stamp timestamp with time zone,
-	id integer DEFAULT nextval('attendancegpspoint_id_seq'::regclass) NOT NULL,
-	"createdAt" timestamp with time zone,
-	"updatedAt" timestamp with time zone
-);
-
-ALTER TABLE attendancephoto
-	ADD COLUMN "fileName" text;
-
-ALTER SEQUENCE attendancegpspoint_id_seq
-	OWNED BY attendancegpspoint.id;
+ALTER TABLE attendance
+	ADD COLUMN "localID" integer;
 
 ALTER TABLE attendancegpspoint
-	ADD CONSTRAINT attendancegpspoint_pkey PRIMARY KEY (id);
+	ADD COLUMN "localID" integer;
+
+ALTER TABLE attendancephoto
+	ADD COLUMN "localID" integer;
+
+ALTER TABLE attendanceresult
+	ADD COLUMN "localID" integer;
 
 CREATE VIEW vw_attendance_min_dist AS
 	SELECT a.id AS attendance,

@@ -59,6 +59,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE attendance (
+    "localID" integer,
     merchant integer,
     pharmacy integer,
     date timestamp with time zone,
@@ -135,6 +136,7 @@ ALTER SEQUENCE attendance_promos__promo_promos_promo_id_seq OWNED BY attendance_
 --
 
 CREATE TABLE attendancegpspoint (
+    "localID" integer,
     attendance integer,
     longitude real,
     latitude real,
@@ -174,6 +176,7 @@ ALTER SEQUENCE attendancegpspoint_id_seq OWNED BY attendancegpspoint.id;
 --
 
 CREATE TABLE attendancephoto (
+    "localID" integer,
     attendance integer,
     drug integer,
     "subType" integer,
@@ -217,6 +220,7 @@ ALTER SEQUENCE attendancephoto_id_seq OWNED BY attendancephoto.id;
 --
 
 CREATE TABLE attendanceresult (
+    "localID" integer,
     attendance integer,
     drug integer,
     info integer,

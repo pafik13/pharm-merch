@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
     attributes: {
         fullName: 'string',
         description: 'text',
