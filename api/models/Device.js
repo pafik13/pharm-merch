@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
     attributes: {
         iemi: 'string',
         info: 'text'

@@ -7,6 +7,10 @@
 
 module.exports = {
     attributes: {
+        localID: {
+            type: 'integer',
+            required: true
+        },
         merchant: {
             model: 'Merchant'
         },
@@ -30,6 +34,10 @@ module.exports = {
         },
         photos: {
             collection: 'AttendancePhoto',
+            via: 'attendance'
+        },
+        points: {
+            collection: 'AttendanceGPSPoint',
             via: 'attendance'
         }
     }

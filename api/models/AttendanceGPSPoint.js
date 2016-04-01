@@ -6,8 +6,11 @@
  */
 
 module.exports = {
-
     attributes: {
+        localID: {
+            type: 'integer',
+            required: true
+        },
         attendance: {
             model: 'Attendance',
             required: true

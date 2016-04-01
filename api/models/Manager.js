@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
     attributes: {
         firstName: 'string',
         middleName: 'string',

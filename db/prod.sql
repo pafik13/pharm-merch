@@ -145,13 +145,14 @@ ALTER SEQUENCE attendance_promos__promo_promos_promo_id_seq OWNED BY attendance_
 
 
 --
--- Name: attendancecoordinates; Type: TABLE; Schema: public; Owner: adminaqvlyey; Tablespace: 
+-- Name: attendancegpspoint; Type: TABLE; Schema: public; Owner: adminaqvlyey; Tablespace: 
 --
 
-CREATE TABLE attendancecoordinates (
+CREATE TABLE attendancegpspoint (
     attendance integer,
     longitude real,
     latitude real,
+    provider text,
     stamp timestamp with time zone,
     id integer NOT NULL,
     "createdAt" timestamp with time zone,
@@ -159,13 +160,13 @@ CREATE TABLE attendancecoordinates (
 );
 
 
-ALTER TABLE public.attendancecoordinates OWNER TO adminaqvlyey;
+ALTER TABLE public.attendancegpspoint OWNER TO adminaqvlyey;
 
 --
--- Name: attendancecoordinates_id_seq; Type: SEQUENCE; Schema: public; Owner: adminaqvlyey
+-- Name: attendancegpspoint_id_seq; Type: SEQUENCE; Schema: public; Owner: adminaqvlyey
 --
 
-CREATE SEQUENCE attendancecoordinates_id_seq
+CREATE SEQUENCE attendancegpspoint_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -173,13 +174,13 @@ CREATE SEQUENCE attendancecoordinates_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.attendancecoordinates_id_seq OWNER TO adminaqvlyey;
+ALTER TABLE public.attendancegpspoint_id_seq OWNER TO adminaqvlyey;
 
 --
--- Name: attendancecoordinates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: adminaqvlyey
+-- Name: attendancegpspoint_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: adminaqvlyey
 --
 
-ALTER SEQUENCE attendancecoordinates_id_seq OWNED BY attendancecoordinates.id;
+ALTER SEQUENCE attendancegpspoint_id_seq OWNED BY attendancegpspoint.id;
 
 
 --
@@ -197,7 +198,8 @@ CREATE TABLE attendancephoto (
     stamp timestamp with time zone,
     id integer NOT NULL,
     "createdAt" timestamp with time zone,
-    "updatedAt" timestamp with time zone
+    "updatedAt" timestamp with time zone,
+    "fileName" text
 );
 
 
@@ -1417,41 +1419,6 @@ ALTER SEQUENCE user_id_seq OWNED BY "user".id;
 
 
 --
--- Name: valuetype; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE valuetype (
-    name text,
-    id integer NOT NULL,
-    "createdAt" timestamp with time zone,
-    "updatedAt" timestamp with time zone
-);
-
-
-ALTER TABLE public.valuetype OWNER TO postgres;
-
---
--- Name: valuetype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE valuetype_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.valuetype_id_seq OWNER TO postgres;
-
---
--- Name: valuetype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE valuetype_id_seq OWNED BY valuetype.id;
-
-
---
 -- Name: vw_attendance_min_dist; Type: VIEW; Schema: public; Owner: adminaqvlyey
 --
 
@@ -1509,7 +1476,7 @@ ALTER TABLE ONLY attendance_promos__promo_promos_promo ALTER COLUMN id SET DEFAU
 -- Name: id; Type: DEFAULT; Schema: public; Owner: adminaqvlyey
 --
 
-ALTER TABLE ONLY attendancecoordinates ALTER COLUMN id SET DEFAULT nextval('attendancecoordinates_id_seq'::regclass);
+ALTER TABLE ONLY attendancegpspoint ALTER COLUMN id SET DEFAULT nextval('attendancegpspoint_id_seq'::regclass);
 
 
 --
@@ -1744,13 +1711,6 @@ ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regcl
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY valuetype ALTER COLUMN id SET DEFAULT nextval('valuetype_id_seq'::regclass);
-
-
---
 -- Name: attendance_pkey; Type: CONSTRAINT; Schema: public; Owner: adminaqvlyey; Tablespace: 
 --
 
@@ -1767,11 +1727,11 @@ ALTER TABLE ONLY attendance_promos__promo_promos_promo
 
 
 --
--- Name: attendancecoordinates_pkey; Type: CONSTRAINT; Schema: public; Owner: adminaqvlyey; Tablespace: 
+-- Name: attendancegpspoint_pkey; Type: CONSTRAINT; Schema: public; Owner: adminaqvlyey; Tablespace: 
 --
 
-ALTER TABLE ONLY attendancecoordinates
-    ADD CONSTRAINT attendancecoordinates_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY attendancegpspoint
+    ADD CONSTRAINT attendancegpspoint_pkey PRIMARY KEY (id);
 
 
 --
@@ -2116,14 +2076,6 @@ ALTER TABLE ONLY "user"
 
 ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_username_key UNIQUE (username);
-
-
---
--- Name: valuetype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY valuetype
-    ADD CONSTRAINT valuetype_pkey PRIMARY KEY (id);
 
 
 --
