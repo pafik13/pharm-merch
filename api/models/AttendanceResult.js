@@ -16,11 +16,14 @@ module.exports = {
             required: true
         },
         drug: {
-            model: 'Drug'
+            model: 'Drug',
+            required: true
         },
         info: {
-            model: 'DrugInfoType'
+            model: 'DrugInfoType',
+            required: true
         },
-        value: 'string'
+        value: 'string',
+            required: true
     }
 };
