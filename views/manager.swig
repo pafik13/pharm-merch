@@ -37,9 +37,12 @@
     <![endif]-->
 
     <!-- CUSTOM STYLES  -->
+
+	<style id="style-datepicker-week">
+		.datepicker table tbody tr:hover > td.day{background: #3071a9}
+	</style>
+
     <style>
-/*       .datepicker table tbody tr:hover > td.day{background: #04c} */
-      .datepicker table tbody tr:hover > td.day{background: #3071a9}
 
 /*       .weekHover {background: #428BCA} */
 
@@ -274,7 +277,7 @@
                               {{res[field.name]}}
                            </div>
                            <div ng-if="field.name == 'att_id'" style="text-align:center;">
-                             <a ng-click="show(res[field.name])" class="btn btn-sm btn-primary" href="#show_attendance" data-toggle="modal" title="Просмотр дополнительных сведений">Подробнее {{res[field.name]}}</a>
+                             <a ng-click="show(res[field.name])" class="btn btn-sm btn-primary" href="#show_attendance" data-toggle="modal" title="Просмотр дополнительных сведений">Подробнее</a>
                            </div>
                         </td>
                       </tr>

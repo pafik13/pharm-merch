@@ -1,4 +1,7 @@
 /*-------------------------------- JQUERY Controls ------------------------------------*/
+// style-datepicker-week
+var styleDatePickerWeek = $('#style-datepicker-week');
+
 // dayPicker
 var dayPicker = $('input.datepicker').datepicker({
                        format: "dd.mm.yyyy",
@@ -6,6 +9,8 @@ var dayPicker = $('input.datepicker').datepicker({
                        maxViewMode: 'years',
                        language: "ru",
                        autoclose: true
+                  }).on('show',function(e){
+                     styleDatePickerWeek.html("");
                   });
 
 // monthPicker
@@ -56,7 +61,9 @@ var weekPicker = $('input.datepicker-week').datepicker({
                //
             }
         }
-});
+	}).on('show',function(e){
+		styleDatePickerWeek.html(".datepicker table tbody tr:hover > td.day{background: #3071a9}");
+    });
 
 
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
@@ -425,7 +432,6 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function close(){
             $scope.attendance = {};
-            $scope.$apply();
           };
 
           function getvalue (drugID, infoID){
@@ -663,9 +669,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
               //$scope.month = (selectedDate.getMonth() + 1) + '.' + selectedDate.getFullYear();
-              $scope.$apply();
+              $scope.week = $filter('date')(firstDay, 'dd.mm.yyyy') + '-' + $filter('date')(lastDay, 'dd.mm.yyyy');
+			  $scope.$apply();
               $scope.change();
-              //console.log('MONTH '+$scope.month);
+              console.log('WEEK '+$scope.week);
           });
 
           function change(){
