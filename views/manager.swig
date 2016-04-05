@@ -243,7 +243,7 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="date">День:</label>
+                    <label for="day">День:</label>
                     <input class="form-control datepicker" name="day" id="day" ng-change="change()" ng-model="day" type="text">
                   </div>
                   <div class="form-group">
@@ -257,7 +257,6 @@
             <!-- Report -->
             <div class="row">
               <div class="col-lg-12">
-                <!-- <div class="btn btn-success btn-xs" ng-click="download_file()"><i class="fa fa-file-excel-o"></i></div> -->
                 {% raw %}
                 <div class="table-responsive">
                   <table id="table" class="table table-bordered table-striped report">
@@ -292,7 +291,7 @@
                         <h4 class="modal-title custom_align" id="Heading">
                           Информация о визите
                           <!-- Spinner -->
-                          <i ng-hide="last.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
+                          <i ng-hide="attendance.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
                         </h4>
                       </div>
                       <div class="modal-body">

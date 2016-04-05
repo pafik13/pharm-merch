@@ -341,7 +341,6 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
-              //console.log(JSON.stringify(results));
               $scope.merchantList = results.data;
           },function(results){
               //ERROR
@@ -350,7 +349,6 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           getDataRpt.getMeta(11).then(function(results){
               //SUCCESS
-              //console.log(JSON.stringify(results));
               $scope.meta = results.data.fields;
           },function(results){
               //ERROR
@@ -374,7 +372,6 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function refresh(){
             $scope.refreshing = true;
-            //alert($scope.day);
             $http({url:'/Report/Generate?report=11&merchant=' + $scope.merchant.id +'&date=' + $scope.selectedDate})
               .success(function(result){
                 $scope.results = result;
@@ -393,9 +390,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
           function show(att_id){
             $http({url:'/PhotoSubType/'})
               .success(function(result){
-                //console.log(JSON.stringify(result));
                 _(result).forEach(function(photoSubType) {
-                  //console.log(photoSubType.id, photoSubType.name);
                   $scope.subTypes[photoSubType.id] = {
                     pstName : photoSubType.name,
                     ptName : photoSubType.type.name
@@ -406,58 +401,37 @@ var weekPicker = $('input.datepicker-week').datepicker({
             });
             $http({url:'/Attendance/' + att_id})
               .success(function(attendance){
-                $scope.drugs = [];
-                //console.log(_.uniq(_.map(attendance.results, 'drug')));
                 $http({url:'/Drug?where={"id":['+ _.uniq(_.map(attendance.results, 'drug')).join(',') +']}&populate=false'})
                   .success(function(drugs){
                   $scope.drugs = drugs;
-                    //console.log(JSON.stringify(result));
-//                     _(drugs).forEach(function(drug) {
-//                       //console.log(photoSubType.id, photoSubType.name);
-//                       $scope.drugs[drug.id] = {
-//                         name : drug.fullName
-//                       };
-//                     });
-                    //console.log("Drugs", JSON.stringify(drugs));
                 }).error(function(error){
                     console.log(JSON.stringify(error));
                 });
 
-                $scope.infos = [];
                 $http({url:'/DrugInfoType?where={"id":['+ _.uniq(_.map(attendance.results, 'info')).join(',') +']}&populate=false'})
                   .success(function(infos){
                   $scope.infos = infos;
-                    //console.log(JSON.stringify(result));
-//                     _(infos).forEach(function(info) {
-//                       //console.log(photoSubType.id, photoSubType.name);
-//                       $scope.infos[info.id] = {
-//                         name : info.name
-//                       };
-//                     });
-                   //console.log("Infos", JSON.stringify(infos));
                 }).error(function(error){
                     console.log(JSON.stringify(error));
                 });
 
-                //console.log(JSON.stringify(result));
-                $scope.last = {
-                  loaded: true,
-                  attendance : attendance
-                };
-                $scope.last.attendance.promos_join = _.map($scope.last.attendance.promos, 'key').join(',');
+                $scope.attendance = attendance;
+                $scope.attendance.loaded = true;
+                $scope.attendance.promos_join = _.map($scope.attendance.promos, 'key').join(',');
             }).error(function(error){
                 console.log(JSON.stringify(error));
             });
           };
 
           function close(){
-            $scope.last = {};
+            $scope.attendance = {};
+            $scope.$apply();
           };
 
           function getvalue (drugID, infoID){
              //console.log("getvalue:", drugID, infoID);
-            if (!!$scope.last.attendance.results){
-              return _.result(_.find($scope.last.attendance.results, {'drug':drugID, 'info':infoID}), 'value', '&nbsp');
+            if (!!$scope.attendance.results){
+              return _.result(_.find($scope.attendance.results, {'drug':drugID, 'info':infoID}), 'value', null);
             } else {
               return null;
             }

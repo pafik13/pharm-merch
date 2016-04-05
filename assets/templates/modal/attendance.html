@@ -1,9 +1,9 @@
 <div>
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-  <li role="presentation" class="active"><a href="#{{prefix}}_attendance_main" aria-controls="project_main" role="tab" data-toggle="tab">Основное</a></li>
-  <li role="presentation"><a href="#{{prefix}}_attendance_results" aria-controls="project_drugs" role="tab" data-toggle="tab">Результаты</a></li>
-  <li role="presentation"><a href="#{{prefix}}_attendance_photos" aria-controls="project_dits" role="tab" data-toggle="tab">Фотографии</a></li>
+  <li role="presentation" class="active"><a href="#{{prefix}}_attendance_main" aria-controls="attendance_main" role="tab" data-toggle="tab">Основное</a></li>
+  <li role="presentation"><a href="#{{prefix}}_attendance_results" aria-controls="attendance_results" role="tab" data-toggle="tab">Результаты</a></li>
+  <li role="presentation"><a href="#{{prefix}}_attendance_photos" aria-controls="attendance_photos" role="tab" data-toggle="tab">Фотографии</a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -12,24 +12,36 @@
   <div role="tabpanel" class="tab-pane fade in active" id="{{prefix}}_attendance_main">
     <form>
       <div class="form-group">
+        <label for="merchant">Мерчендайзер:</label>
+        <input class="form-control" name="merchant" id="merchant" ng-model="attendance.merchant.fullName" type="text" readonly/>
+      </div>
+      <div class="form-group">
+        <label for="pharmacy">Аптека:</label>
+        <input class="form-control" name="pharmacy" id="pharmacy" ng-model="attendance.pharmacy.shortName" type="text" readonly/>
+      </div>
+      <div class="form-group">
+        <label for="pharmacy_address">Адрес:</label>
+        <input class="form-control" name="pharmacy_address" id="pharmacy_address" ng-model="attendance.pharmacy.address" type="text" readonly/>
+      </div>
+      <div class="form-group">
         <label for="category_net">Категория в сети:</label>
-        <input class="form-control" name="category_net" id="category_net" ng-model="last.attendance.category_net.name" type="text" readonly/>
+        <input class="form-control" name="category_net" id="category_net" ng-model="attendance.category_net.name" type="text" readonly/>
       </div>
       <div class="form-group">
         <label for="purchaserFIO">Закупщик:</label>
-        <input class="form-control" name="purchaserFIO" id="purchaserFIO" ng-model="last.attendance.purchaserFIO" type="text" readonly/>
+        <input class="form-control" name="purchaserFIO" id="purchaserFIO" ng-model="attendance.purchaserFIO" type="text" readonly/>
       </div>
       <div class="form-group">
         <label for="telephone">Телефон:</label>
-        <input class="form-control" name="telephone" id="telephone" ng-model="last.attendance.telephone" type="text" readonly/>
+        <input class="form-control" name="telephone" id="telephone" ng-model="attendance.telephone" type="text" readonly/>
       </div>
       <div class="form-group">
         <label for="pharmacistCount">Кол-во первостольников:</label>
-        <input class="form-control" name="pharmacistCount" id="pharmacistCount" ng-model="last.attendance.pharmacistCount" type="text" readonly/>
+        <input class="form-control" name="pharmacistCount" id="pharmacistCount" ng-model="attendance.pharmacistCount" type="text" readonly/>
       </div>
       <div class="form-group">
         <label for="promos_join">Промо-материалы:</label>
-        <input class="form-control" name="promos_join" id="promos_join" ng-model="last.attendance.promos_join"  type="text" readonly/>
+        <input class="form-control" name="promos_join" id="promos_join" ng-model="attendance.promos_join"  type="text" readonly/>
       </div>
     </form>
   </div>
@@ -74,12 +86,12 @@
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-          <li ng-repeat="photo in last.attendance.photos track by $index" data-target="#carousel-example-generic" data-slide-to="{{$index}}" ng-class="{active: $index == 0}"></li>
+          <li ng-repeat="photo in attendance.photos track by $index" data-target="#carousel-example-generic" data-slide-to="{{$index}}" ng-class="{active: $first}"></li>
         </ol>
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-          <div class="item" ng-repeat="photo in last.attendance.photos track by $index" ng-class="{active: $index == 0}">
+          <div class="item" ng-repeat="photo in attendance.photos track by $index" ng-class="{active: $first}">
             <img ng-src="{{photo.storagePath}}">
             <div class="carousel-caption">
               <h3>{{subTypes[photo.subType].ptName}}</h3>

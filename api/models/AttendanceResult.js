@@ -23,9 +23,6 @@ module.exports = {
             model: 'DrugInfoType',
             required: true
         },
-        value: {
-            type: 'string',
-            required: true
-        }
+        value: 'string'
     }
 };
