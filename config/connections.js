@@ -82,6 +82,15 @@ module.exports.connections = {
     database: 'YOUR_POSTGRES_DB'
   },
 
+  nitrousPostgresqlServer: {
+    adapter: 'sails-postgresql',
+    host: "localhost",
+    port: 5432,
+    user: "nitrous",
+    password: "q12345",
+    database: 'sbl'
+  },
+
   localPostgresqlServer: {
     adapter: 'sails-postgresql',
     host: "localhost",

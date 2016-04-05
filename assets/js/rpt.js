@@ -1,4 +1,13 @@
 /*-------------------------------- JQUERY Controls ------------------------------------*/
+// dayPicker
+var dayPicker = $('input.datepicker').datepicker({
+                       format: "dd.mm.yyyy",
+                       minViewMode: 'days',
+                       maxViewMode: 'years',
+                       language: "ru",
+                       autoclose: true
+                  });
+
 // monthPicker
 var monthPicker = $('input.datepicker-month').datepicker({
      format: "MM yyyy",
@@ -313,6 +322,120 @@ var weekPicker = $('input.datepicker-week').datepicker({
                   });
               }
           }
+      });
+
+      app.controller('visitsController', function($scope, $http, getDataRpt, $filter, _) { /*global app*/
+          $scope.contentUrl = '/templates/modal/attendance.html';
+          $scope.merchant = '';
+          $scope.merchantList = '';
+          $scope.results = [];
+          $scope.meta = [];
+          $scope.change = change;
+          $scope.refresh = refresh;
+          $scope.download = download;
+          $scope.show = show;
+          $scope.close = close;
+          $scope.getvalue = getvalue;
+          $scope.prefix = 'show';
+          $scope.subTypes = [];
+
+          getDataRpt.getMerchants().then(function(results){
+              //SUCCESS
+              $scope.merchantList = results.data;
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
+
+          getDataRpt.getMeta(11).then(function(results){
+              //SUCCESS
+              $scope.meta = results.data.fields;
+          },function(results){
+              //ERROR
+              console.log(JSON.stringify(results));
+          });
+
+          dayPicker.on('changeDate', function(e) {
+              var selectedDate = new Date(e.date);
+              $scope.selectedDate = $filter('date')(selectedDate, 'yyyy-MM-dd');
+              console.log('selectedDate : %s', selectedDate);
+              console.log('selectedDate : %s', $scope.selectedDate);
+              $scope.day = $filter('date')(selectedDate, 'dd.mm.yyyy');
+              $scope.$apply();
+              $scope.change();
+              console.log('DAY '+$scope.day);
+          });
+
+          function change(){
+            $scope.canRefresh = !!$scope.merchant && !!$scope.day;
+          };
+
+          function refresh(){
+            $scope.refreshing = true;
+            $http({url:'/Report/Generate?report=11&merchant=' + $scope.merchant.id +'&date=' + $scope.selectedDate})
+              .success(function(result){
+                $scope.results = result;
+                $scope.refreshing = false;
+            }).error(function(error){
+                console.log(JSON.stringify(error));
+            });
+          };
+
+          function download(){
+            $scope.downloading = true;
+            getDataRpt.download('Визиты_' + $scope.merchant.shortName + '.xls');
+            $scope.downloading = false;
+          };
+
+          function show(att_id){
+            $http({url:'/PhotoSubType/'})
+              .success(function(result){
+                _(result).forEach(function(photoSubType) {
+                  $scope.subTypes[photoSubType.id] = {
+                    pstName : photoSubType.name,
+                    ptName : photoSubType.type.name
+                  };
+                });
+            }).error(function(error){
+                console.log(JSON.stringify(error));
+            });
+            $http({url:'/Attendance/' + att_id})
+              .success(function(attendance){
+                $http({url:'/Drug?where={"id":['+ _.uniq(_.map(attendance.results, 'drug')).join(',') +']}&populate=false'})
+                  .success(function(drugs){
+                  $scope.drugs = drugs;
+                }).error(function(error){
+                    console.log(JSON.stringify(error));
+                });
+
+                $http({url:'/DrugInfoType?where={"id":['+ _.uniq(_.map(attendance.results, 'info')).join(',') +']}&populate=false'})
+                  .success(function(infos){
+                  $scope.infos = infos;
+                }).error(function(error){
+                    console.log(JSON.stringify(error));
+                });
+
+                $scope.attendance = attendance;
+                $scope.attendance.loaded = true;
+                $scope.attendance.promos_join = _.map($scope.attendance.promos, 'key').join(',');
+            }).error(function(error){
+                console.log(JSON.stringify(error));
+            });
+          };
+
+          function close(){
+            $scope.attendance = {};
+            $scope.$apply();
+          };
+
+          function getvalue (drugID, infoID){
+             //console.log("getvalue:", drugID, infoID);
+            if (!!$scope.attendance.results){
+              return _.result(_.find($scope.attendance.results, {'drug':drugID, 'info':infoID}), 'value', null);
+            } else {
+              return null;
+            }
+          };
       });
 
       app.controller('merchBaseController', function($scope, $http, getDataRpt) { /*global app*/

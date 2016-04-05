@@ -12,12 +12,17 @@ module.exports = {
             required: true
         },
         merchant: {
-            model: 'Merchant'
+            model: 'Merchant',
+            required: true
         },
         pharmacy: {
-            model: 'Pharmacy'
+            model: 'Pharmacy',
+            required: true
         },
-        date: 'datetime',
+        date: {
+            type: 'datetime',
+            required: true
+        },
         distance: 'float',
         category_net: {
             model: 'CategoryInNet'

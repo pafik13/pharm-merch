@@ -38,7 +38,8 @@
 
     <!-- CUSTOM STYLES  -->
     <style>
-      .datepicker table tbody tr:hover > td.day{background: #04c}
+/*       .datepicker table tbody tr:hover > td.day{background: #04c} */
+      .datepicker table tbody tr:hover > td.day{background: #3071a9}
 
 /*       .weekHover {background: #428BCA} */
 
@@ -124,6 +125,7 @@
           <li>
             <a href="#reports" data-toggle="collapse"><i class="fa fa-fw fa-file-text"></i> Отчеты<i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="reports" class="collapse in active" class="nav nav-pills">
+              <li><a data-toggle="pill" href="#visits">Визиты</a></li>
               <li><a data-toggle="pill" href="#merchBase">База аптек</a></li>
               <li><a data-toggle="pill" href="#merchVisits">Норма визитов</a></li>
               <li><a data-toggle="pill" href="#merchVisitsFreq">Частота визитов</a></li>
@@ -221,6 +223,93 @@
           <!-- ./PhotoSubType -->
 
           <!--  REPORTS -->
+          <div  id="visits" class="tab-pane fade" ng-controller="visitsController">
+            <!-- Page Heading -->
+            <div class="row">
+              <div class="col-lg-12">
+                <h1 class="page-header">
+                    Визиты
+                </h1>
+              </div>
+            </div>
+            <!-- /.row -->
+            <!--Filters-->
+            <div class="row">
+              <div class="col-lg-12">
+                <form class="form-inline form-filter">
+                  <div class="form-group">
+                    <label for="merchant">Мерчендайзер:</label>
+                    <select class="form-control" name="merchant" id="merchant" ng-change="change()" ng-options="merch.shortName for merch in merchantList" ng-model="merchant">
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="day">День:</label>
+                    <input class="form-control datepicker" name="day" id="day" ng-change="change()" ng-model="day" type="text">
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
+                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- /.row -->
+            <!-- Report -->
+            <div class="row">
+              <div class="col-lg-12">
+                {% raw %}
+                <div class="table-responsive">
+                  <table id="table" class="table table-bordered table-striped report">
+                    <thead>
+                      <tr>
+                        <th ng-model="meta" ng-repeat="field in meta track by $index">
+                          {{field.caption}}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-model="results" ng-repeat="res in results">
+                        <td ng-repeat="field in meta track by $index">
+                           <div ng-if="field.name !== 'att_id'">
+                              {{res[field.name]}}
+                           </div>
+                           <div ng-if="field.name == 'att_id'" style="text-align:center;">
+                             <a ng-click="show(res[field.name])" class="btn btn-sm btn-primary" href="#show_attendance" data-toggle="modal" title="Просмотр дополнительных сведений">Подробнее {{res[field.name]}}</a>
+                           </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="show_attendance" tabindex="-1" role="dialog" aria-labelledby="show_attendance" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button ng-click="close()" type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        <h4 class="modal-title custom_align" id="Heading">
+                          Информация о визите
+                          <!-- Spinner -->
+                          <i ng-hide="attendance.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        <div ng-include="contentUrl"></div>
+                      </div>
+                      <div class="modal-footer">
+                        <button ng-click="close()" type="button" data-dismiss="modal" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+<!--                 <modal modal-id="show_attendance" prefix="show" action="" content-url="" last="attendance"></modal> -->
+                {% endraw %}
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
           <div  id="merchBase" class="tab-pane fade" ng-controller="merchBaseController">
             <!-- Page Heading -->
             <div class="row">
