@@ -346,6 +346,15 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.prefix = 'show';
           $scope.subTypes = [];
 
+          activate();
+
+          function activate(){
+            //console.log('Activate2');
+            $('#show_attendance').on('hidden.bs.modal', function (e) {
+              $scope.close();
+            });
+          };
+
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
               $scope.merchantList = results.data;
@@ -431,6 +440,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
           };
 
           function close(){
+            //console.log('Close');
             $scope.attendance = {};
           };
 

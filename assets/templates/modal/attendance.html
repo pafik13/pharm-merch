@@ -83,7 +83,7 @@
     </form>
   </div>
   <div role="tabpanel" class="tab-pane fade" id="{{prefix}}_attendance_photos">
-      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="0">
         <!-- Indicators -->
         <ol class="carousel-indicators">
           <li ng-repeat="photo in attendance.photos track by $index" data-target="#carousel-example-generic" data-slide-to="{{$index}}" ng-class="{active: $first}"></li>

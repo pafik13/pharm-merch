@@ -290,7 +290,7 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <button ng-click="close()" type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                         <h4 class="modal-title custom_align" id="Heading">
                           Информация о визите
                           <!-- Spinner -->
@@ -301,7 +301,7 @@
                         <div ng-include="contentUrl"></div>
                       </div>
                       <div class="modal-footer">
-                        <button ng-click="close()" type="button" data-dismiss="modal" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
                       </div>
                     </div>
                   </div>
