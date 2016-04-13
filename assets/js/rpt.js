@@ -1,6 +1,6 @@
 /*-------------------------------- JQUERY Controls ------------------------------------*/
 // dayPicker
-var dayPicker = $('input.datepicker').datepicker({
+var visitsDayPicker = $('#visitsDay').datepicker({
                        format: "dd.mm.yyyy",
                        minViewMode: 'days',
                        maxViewMode: 'years',
@@ -8,14 +8,70 @@ var dayPicker = $('input.datepicker').datepicker({
                        autoclose: true
                   });
 
-// monthPicker
-var monthPicker = $('input.datepicker-month').datepicker({
+var merchVisitsMonth = $('#merchVisitsMonth').datepicker({
      format: "MM yyyy",
      minViewMode: 'months',
      maxViewMode: 'years',
      language: "ru",
      autoclose: true
 });
+
+var merchVisitsFreqMonth = $('#merchVisitsFreqMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var defectMonth = $('#defectMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var displayMonth = $('#displayMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var posMonth = $('#posMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var claimMonth = $('#claimMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var defect_claimMonth = $('#defect_claimMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+// monthPicker
+// var monthPicker = $('input.datepicker-month').datepicker({
+//      format: "MM yyyy",
+//      minViewMode: 'months',
+//      maxViewMode: 'years',
+//      language: "ru",
+//      autoclose: true
+// });
 
 //array of datePicker components
 var intervalPicker = [];
@@ -36,7 +92,7 @@ var intervalPicker = [];
 });
 
 // weekPicker
-var weekPicker = $('input.datepicker-week').datepicker({
+var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
     //format: "yyyy-mm",
     startViewMode: "months",
     minView: 'dates',
@@ -57,6 +113,28 @@ var weekPicker = $('input.datepicker-week').datepicker({
             }
         }
 });
+
+// var weekPicker = $('input.datepicker-week').datepicker({
+//     //format: "yyyy-mm",
+//     startViewMode: "months",
+//     minView: 'dates',
+//     language: "ru",
+//     autoclose: true,
+//     calendarWeeks: true,
+//     format: {
+//             toDisplay: function (date, format, language) {
+//                  var curr = new Date(date);
+// 				 var first = curr.getDate() - curr.getDay();
+// 				 var last = first + 6;
+// 				 var firstday = new Date(curr.setDate(first));
+// 				 var lastday = new Date(curr.setDate(last));
+// 				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+//             },
+//             toValue: function (date, format, language) {
+//                //
+//             }
+//         }
+// });
 
 
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
@@ -355,19 +433,17 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          dayPicker.on('changeDate', function(e) {
+          visitsDayPicker.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               $scope.selectedDate = $filter('date')(selectedDate, 'yyyy-MM-dd');
               console.log('selectedDate : %s', selectedDate);
               console.log('selectedDate : %s', $scope.selectedDate);
-              $scope.day = $filter('date')(selectedDate, 'dd.mm.yyyy');
-              $scope.$apply();
               $scope.change();
-              console.log('DAY '+$scope.day);
+              $scope.$apply();
           });
 
           function change(){
-            $scope.canRefresh = !!$scope.merchant && !!$scope.day;
+            $scope.canRefresh = !!$scope.merchant && !!$scope.selectedDate;
           };
 
           function refresh(){
@@ -513,7 +589,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          merchVisitsMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -523,10 +599,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.month = (selectedDate.getMonth() + 1) + '.' + selectedDate.getFullYear();
-              $scope.$apply();
               $scope.change();
-              console.log('MONTH '+$scope.month);
+              $scope.$apply();
           });
 
           function change(){
@@ -582,7 +656,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          merchVisitsFreqMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -592,10 +666,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.month = (selectedDate.getMonth() + 1) + '.' + selectedDate.getFullYear();
-              $scope.$apply();
               $scope.change();
-              console.log('MONTH '+$scope.month);
+              $scope.$apply();
           });
 
           function change(){
@@ -652,7 +724,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          weekPicker.on('changeDate', function(e) {
+          teamVisitsWeek.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
     		      var firstDay = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay()));
     		      var lastDay  = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay() + 6));
@@ -662,10 +734,9 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              //$scope.month = (selectedDate.getMonth() + 1) + '.' + selectedDate.getFullYear();
-              $scope.$apply();
               $scope.change();
-              //console.log('MONTH '+$scope.month);
+              $scope.$apply();
+              $scope.$apply();
           });
 
           function change(){
@@ -732,7 +803,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          defectMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -742,8 +813,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change(){
@@ -810,7 +881,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          displayMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -820,8 +891,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change(){
@@ -888,7 +959,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          posMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -898,8 +969,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change(){
@@ -966,7 +1037,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          claimMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -976,6 +1047,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
+              $scope.change();
               $scope.$apply();
           });
 
@@ -1043,7 +1115,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          defect_claimMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -1053,8 +1125,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change() {
