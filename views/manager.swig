@@ -248,7 +248,7 @@
                   </div>
                   <div class="form-group">
                     <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                   </div>
                 </form>
               </div>
@@ -331,7 +331,7 @@
                   </div>
                   <div class="form-group">
                     <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                   </div>
                 </form>
               </div>
@@ -371,7 +371,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -412,7 +412,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -448,7 +448,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -494,7 +494,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -540,7 +540,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -586,7 +586,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                    </form>
                 </div>
@@ -632,7 +632,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -678,7 +678,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>

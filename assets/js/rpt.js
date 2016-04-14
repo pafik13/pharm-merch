@@ -416,6 +416,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.getvalue = getvalue;
           $scope.prefix = 'show';
           $scope.subTypes = [];
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -444,6 +446,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.merchant && !!$scope.selectedDate;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -452,6 +455,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
               .success(function(result){
                 $scope.results = result;
                 $scope.refreshing = false;
+                $scope.canDownload = true;
             }).error(function(error){
                 console.log(JSON.stringify(error));
             });
@@ -459,7 +463,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Визиты_' + $scope.merchant.shortName + '.xls');
+            getDataRpt.download('Визиты_' + $scope.merchant.shortName + ' за ' + visitsDayPicker.val() + '.xls');
             $scope.downloading = false;
           };
 
@@ -522,6 +526,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -543,6 +549,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.merchant;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -550,6 +557,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
             $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant.id}).success(function(result){
                 $scope.results = result;
                 $scope.refreshing = false;
+                $scope.canDownload = true;
             }).error(function(error){
                 console.log(JSON.stringify(error));
             });
@@ -570,6 +578,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -605,6 +615,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.merchant && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -613,9 +624,10 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                 $http({
                   url:'/Report/Generate?report=3&merchant=' + $scope.merchant.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                  //SUCCESS
+                  $scope.results = result;
                   $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -624,7 +636,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Норма визитов_' + $scope.merchant.shortName + ' за ' + $scope.month  + '.xls');
+            getDataRpt.download('Норма визитов ' + $scope.merchant.shortName + ' за ' + merchVisitsMonth.val()  + '.xls');
             $scope.downloading = false;
           };
       });
@@ -637,6 +649,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -672,6 +686,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.merchant && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -680,9 +695,10 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                 $http({
                   url:'/Report/Generate?report=4&merchant=' + $scope.merchant.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                  //SUCCESS
+                  $scope.results = result;
                   $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -691,7 +707,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Частота визитов_' + $scope.merchant.shortName + ' за ' + $scope.month  + '.xls');
+            getDataRpt.download('Частота визитов ' + $scope.merchant.shortName + ' за ' + merchVisitsFreqMonth.val()  + '.xls');
             $scope.downloading = false;
           };
       });
@@ -705,6 +721,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -736,11 +754,11 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
               console.log('lastDayF : %s', $scope.lastDay);
               $scope.change();
               $scope.$apply();
-              $scope.$apply();
           });
 
           function change(){
             $scope.canRefresh = !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -749,9 +767,10 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                 $http({
                   url:'/Report/Generate?report=5&manager=' + manager.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay + '&plan_count=' + $scope.plan_count
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                   //SUCCESS
+                   $scope.results = result;
                    $scope.refreshing = false;
+                   $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -775,6 +794,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -819,6 +840,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -827,9 +849,10 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                 $http({
                   url:'/Report/Generate?report=6&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
-                   $scope.refreshing = false;
+                  //SUCCESS
+                  $scope.results = result;
+                  $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -838,7 +861,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Дефектура.xls');
+            getDataRpt.download('Дефектура в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + defectMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -853,6 +876,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -897,6 +922,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -905,9 +931,10 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                 $http({
                   url:'/Report/Generate?report=7&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
-                   $scope.refreshing = false;
+                  //SUCCESS
+                  $scope.results = result;
+                  $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -916,7 +943,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Выкладка.xls');
+            getDataRpt.download('Выкладка в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + displayMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -931,6 +958,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -975,6 +1004,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -983,9 +1013,10 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                 $http({
                   url:'/Report/Generate?report=8&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                   //SUCCESS
+                   $scope.results = result;
                    $scope.refreshing = false;
+                   $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -994,7 +1025,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('POS.xls');
+            getDataRpt.download('POS-материалы в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + posMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -1009,6 +1040,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -1053,6 +1086,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change() {
             $scope.canRefresh = !!$scope.tradenet && !!$scope.firstDay && !!$scope.lastDay && !!$scope.drug;
+            $scope.canDownload = false;
           }
 
           function refresh(){
@@ -1064,6 +1098,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                   //SUCCESS
                   $scope.results = result;
                   $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -1072,7 +1107,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Претензионные акты.xls');
+            getDataRpt.download('Претензионные акты в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + claimMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -1087,6 +1122,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -1131,6 +1168,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function change() {
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -1139,9 +1177,10 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                 $http({
                   url:'/Report/Generate?report=10&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
-                   $scope.refreshing = false;
+                  //SUCCESS
+                  $scope.results = result;
+                  $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -1150,7 +1189,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Деф. журнал и прет. акты по сети.xls');
+            getDataRpt.download('Деф. журнал и прет. акты в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + defect_claimMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
