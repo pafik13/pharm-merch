@@ -246,12 +246,12 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="day">День:</label>
-                    <input class="form-control datepicker" name="day" id="day" ng-change="change()" ng-model="day" type="text">
+                    <label for="visitsDay">День:</label>
+                    <input class="form-control datepicker" name="visitsDay" id="visitsDay" type="text">
                   </div>
                   <div class="form-group">
                     <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                   </div>
                 </form>
               </div>
@@ -334,7 +334,7 @@
                   </div>
                   <div class="form-group">
                     <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                    <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                   </div>
                 </form>
               </div>
@@ -369,12 +369,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                      <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text">
+                      <label for="merchVisitsMonth">Месяц:</label>
+                      <input class="form-control datepicker-month" name="merchVisitsMonth" id="merchVisitsMonth" type="text">
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -410,12 +410,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                      <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
+                      <label for="merchVisitsFreqMonth">Месяц:</label>
+                      <input class="form-control datepicker-month" name="merchVisitsFreqMonth" id="merchVisitsFreqMonth" type="text" />
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -446,12 +446,12 @@
                 <div class="col-lg-12">
                   <form class="form-inline form-filter">
                     <div class="form-group">
-                      <label for="week">Неделя:</label>
-                      <input class="form-control datepicker-week" name="week" id="week" ng-change="change()" ng-model="week" type="text" />
+                      <label for="teamVisitsWeek">Неделя:</label>
+                      <input class="form-control datepicker-week" name="teamVisitsWeek" id="teamVisitsWeek" type="text" />
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -487,8 +487,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                      <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
+                      <label for="defectMonth">Месяц:</label>
+                      <input class="form-control datepicker-month" name="defectMonth" id="defectMonth" type="text" />
                     </div>
                     <div class="form-group">
                       <label for="drug">Препарат:</label>
@@ -497,7 +497,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -533,8 +533,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                      <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
+                      <label for="displayMonth">Месяц:</label>
+                      <input class="form-control datepicker-month" name="displayMonth" id="displayMonth" type="text" />
                     </div>
                     <div class="form-group">
                         <label for="drug">Препарат:</label>
@@ -543,7 +543,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -564,7 +564,7 @@
               <div class="row">
                 <div class="col-lg-12">
                   <h1 class="page-header">
-                      Выкладка по сети
+                      POS-материалы по сети
                   </h1>
                 </div>
               </div>
@@ -579,8 +579,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                      <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
+                      <label for="posMonth">Месяц:</label>
+                      <input class="form-control datepicker-month" name="posMonth" id="posMonth" type="text" />
                     </div>
                     <div class="form-group">
                         <label for="drug">Препарат:</label>
@@ -589,7 +589,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                    </form>
                 </div>
@@ -625,8 +625,8 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text">
+                      <label for="claimMonth">Месяц:</label>
+                      <input class="form-control datepicker-month" name="claimMonth" id="claimMonth" type="text">
                     </div>
                     <div class="form-group">
                       <label for="drug">Препарат:</label>
@@ -635,7 +635,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -671,8 +671,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                      <label for="month">Месяц:</label>
-                      <input class="form-control datepicker-month" name="month" id="month" ng-change="change()" ng-model="month" type="text" />
+                      <label for="defect_claimMonth">Месяц:</label>
+                      <input class="form-control datepicker-month" name="defect_claimMonth" id="defect_claimMonth" type="text" />
                     </div>
                     <div class="form-group">
                         <label for="drug">Препарат:</label>
@@ -681,7 +681,7 @@
                     </div>
                     <div class="form-group">
                       <button class="btn btn-danger" ng-click="refresh()" ng-disabled="refreshing || !canRefresh"><i ng-class="{'fa fa-refresh': !refreshing, 'fa fa-refresh fa-spin': refreshing}"></i> Обновить</button>
-                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
+                      <button class="btn btn-success" ng-click="download()" ng-disabled="results.length == 0 || !canDownload"><i ng-class="{'fa fa-file-excel-o': !downloading, 'fa fa-file-excel-o fa-spin': downloading}"></i> Выгрузить</button>
                     </div>
                   </form>
                 </div>
@@ -751,7 +751,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
-
+	<script src="/js/sbl.js"></script>
 	<script src="/js/rpt.js"></script>
     <!-- Morris Charts JavaScript -->
 	<!--

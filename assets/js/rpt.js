@@ -3,7 +3,7 @@
 var styleDatePickerWeek = $('#style-datepicker-week');
 
 // dayPicker
-var dayPicker = $('input.datepicker').datepicker({
+var visitsDayPicker = $('#visitsDay').datepicker({
                        format: "dd.mm.yyyy",
                        minViewMode: 'days',
                        maxViewMode: 'years',
@@ -13,14 +13,70 @@ var dayPicker = $('input.datepicker').datepicker({
                      styleDatePickerWeek.html("");
                   });
 
-// monthPicker
-var monthPicker = $('input.datepicker-month').datepicker({
+var merchVisitsMonth = $('#merchVisitsMonth').datepicker({
      format: "MM yyyy",
      minViewMode: 'months',
      maxViewMode: 'years',
      language: "ru",
      autoclose: true
 });
+
+var merchVisitsFreqMonth = $('#merchVisitsFreqMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var defectMonth = $('#defectMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var displayMonth = $('#displayMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var posMonth = $('#posMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var claimMonth = $('#claimMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+var defect_claimMonth = $('#defect_claimMonth').datepicker({
+     format: "MM yyyy",
+     minViewMode: 'months',
+     maxViewMode: 'years',
+     language: "ru",
+     autoclose: true
+});
+
+// monthPicker
+// var monthPicker = $('input.datepicker-month').datepicker({
+//      format: "MM yyyy",
+//      minViewMode: 'months',
+//      maxViewMode: 'years',
+//      language: "ru",
+//      autoclose: true
+// });
 
 //array of datePicker components
 var intervalPicker = [];
@@ -41,7 +97,7 @@ var intervalPicker = [];
 });
 
 // weekPicker
-var weekPicker = $('input.datepicker-week').datepicker({
+var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
     //format: "yyyy-mm",
     startViewMode: "months",
     minView: 'dates',
@@ -50,12 +106,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
     calendarWeeks: true,
     format: {
             toDisplay: function (date, format, language) {
-                 var curr = new Date(date);
-				 var first = curr.getDate() - curr.getDay();
-				 var last = first + 6;
-				 var firstday = new Date(curr.setDate(first));
-				 var lastday = new Date(curr.setDate(last));
-				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+              console.log("teamVisitsWeek : " + format);
+              var date = new Date(date),
+                  monday = $sbl.getMonday(date),
+                  sunday = $sbl.getSunday(date),
+                  filter = angular.injector(["ng"]).get("$filter")("date");
+
+              return filter(monday, "dd.MM.yy") + " - " + filter(sunday, "dd.MM.yy");
             },
             toValue: function (date, format, language) {
                //
@@ -64,6 +121,28 @@ var weekPicker = $('input.datepicker-week').datepicker({
 	}).on('show',function(e){
 		styleDatePickerWeek.html(".datepicker table tbody tr:hover > td.day{background: #3071a9}");
     });
+
+// var weekPicker = $('input.datepicker-week').datepicker({
+//     //format: "yyyy-mm",
+//     startViewMode: "months",
+//     minView: 'dates',
+//     language: "ru",
+//     autoclose: true,
+//     calendarWeeks: true,
+//     format: {
+//             toDisplay: function (date, format, language) {
+//                  var curr = new Date(date);
+// 				 var first = curr.getDate() - curr.getDay();
+// 				 var last = first + 6;
+// 				 var firstday = new Date(curr.setDate(first));
+// 				 var lastday = new Date(curr.setDate(last));
+// 				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+//             },
+//             toValue: function (date, format, language) {
+//                //
+//             }
+//         }
+// });
 
 
 	  /*-------------------------- ANGULAR APP -----------------------------------------*/
@@ -345,6 +424,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.getvalue = getvalue;
           $scope.prefix = 'show';
           $scope.subTypes = [];
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           activate();
 
@@ -371,19 +452,18 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          dayPicker.on('changeDate', function(e) {
+          visitsDayPicker.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               $scope.selectedDate = $filter('date')(selectedDate, 'yyyy-MM-dd');
               console.log('selectedDate : %s', selectedDate);
               console.log('selectedDate : %s', $scope.selectedDate);
-              $scope.day = $filter('date')(selectedDate, 'dd.mm.yyyy');
-              $scope.$apply();
               $scope.change();
-              console.log('DAY '+$scope.day);
+              $scope.$apply();
           });
 
           function change(){
-            $scope.canRefresh = !!$scope.merchant && !!$scope.day;
+            $scope.canRefresh = !!$scope.merchant && !!$scope.selectedDate;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -392,6 +472,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               .success(function(result){
                 $scope.results = result;
                 $scope.refreshing = false;
+                $scope.canDownload = true;
             }).error(function(error){
                 console.log(JSON.stringify(error));
             });
@@ -399,7 +480,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Визиты_' + $scope.merchant.shortName + '.xls');
+            getDataRpt.download('Визиты_' + $scope.merchant.shortName + ' за ' + visitsDayPicker.val() + '.xls');
             $scope.downloading = false;
           };
 
@@ -462,6 +543,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -483,6 +566,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function change(){
             $scope.canRefresh = !!$scope.merchant;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -490,6 +574,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
             $http({url:'/Report/Generate?report=2&merchant=' + $scope.merchant.id}).success(function(result){
                 $scope.results = result;
                 $scope.refreshing = false;
+                $scope.canDownload = true;
             }).error(function(error){
                 console.log(JSON.stringify(error));
             });
@@ -510,6 +595,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -529,7 +616,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          merchVisitsMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -539,14 +626,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.month = (selectedDate.getMonth() + 1) + '.' + selectedDate.getFullYear();
-              $scope.$apply();
               $scope.change();
-              console.log('MONTH '+$scope.month);
+              $scope.$apply();
           });
 
           function change(){
             $scope.canRefresh = !!$scope.merchant && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -555,9 +641,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 $http({
                   url:'/Report/Generate?report=3&merchant=' + $scope.merchant.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                  //SUCCESS
+                  $scope.results = result;
                   $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -566,7 +653,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Норма визитов_' + $scope.merchant.shortName + ' за ' + $scope.month  + '.xls');
+            getDataRpt.download('Норма визитов ' + $scope.merchant.shortName + ' за ' + merchVisitsMonth.val()  + '.xls');
             $scope.downloading = false;
           };
       });
@@ -579,6 +666,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -598,7 +687,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          merchVisitsFreqMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -608,14 +697,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.month = (selectedDate.getMonth() + 1) + '.' + selectedDate.getFullYear();
-              $scope.$apply();
               $scope.change();
-              console.log('MONTH '+$scope.month);
+              $scope.$apply();
           });
 
           function change(){
             $scope.canRefresh = !!$scope.merchant && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -624,9 +712,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 $http({
                   url:'/Report/Generate?report=4&merchant=' + $scope.merchant.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                  //SUCCESS
+                  $scope.results = result;
                   $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -635,7 +724,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Частота визитов_' + $scope.merchant.shortName + ' за ' + $scope.month  + '.xls');
+            getDataRpt.download('Частота визитов ' + $scope.merchant.shortName + ' за ' + merchVisitsFreqMonth.val()  + '.xls');
             $scope.downloading = false;
           };
       });
@@ -649,6 +738,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
@@ -668,25 +759,22 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          weekPicker.on('changeDate', function(e) {
-              var selectedDate = new Date(e.date);
-    		      var firstDay = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay()));
-    		      var lastDay  = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay() + 6));
+          teamVisitsWeek.on('changeDate', function(e) {
+    		      var firstDay = $sbl.getMonday(e.date),
+    		          lastDay  = $sbl.getSunday(e.date);
               $scope.firstDay = $filter('date')(firstDay, 'yyyy-MM-dd');
               $scope.lastDay = $filter('date')(lastDay, 'yyyy-MM-dd');
               console.log('firstDay : %s', firstDay);
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              //$scope.month = (selectedDate.getMonth() + 1) + '.' + selectedDate.getFullYear();
-              $scope.week = $filter('date')(firstDay, 'dd.mm.yyyy') + '-' + $filter('date')(lastDay, 'dd.mm.yyyy');
-			  $scope.$apply();
               $scope.change();
-              console.log('WEEK '+$scope.week);
+              $scope.$apply();
           });
 
           function change(){
             $scope.canRefresh = !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -695,9 +783,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 $http({
                   url:'/Report/Generate?report=5&manager=' + manager.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay + '&plan_count=' + $scope.plan_count
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                   //SUCCESS
+                   $scope.results = result;
                    $scope.refreshing = false;
+                   $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -706,7 +795,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Нормы по команде с ' + $scope.firstDay + ' по ' + $scope.lastDay  + '.xls');
+            getDataRpt.download('Нормы по команде за ' + teamVisitsWeek.val()  + '.xls');
             $scope.downloading = false;
           };
       });
@@ -721,6 +810,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -749,7 +840,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          defectMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -759,12 +850,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change(){
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -773,9 +865,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 $http({
                   url:'/Report/Generate?report=6&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
-                   $scope.refreshing = false;
+                  //SUCCESS
+                  $scope.results = result;
+                  $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -784,7 +877,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Дефектура.xls');
+            getDataRpt.download('Дефектура в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + defectMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -799,6 +892,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -827,7 +922,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          displayMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -837,12 +932,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change(){
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -851,9 +947,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 $http({
                   url:'/Report/Generate?report=7&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
-                   $scope.refreshing = false;
+                  //SUCCESS
+                  $scope.results = result;
+                  $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -862,7 +959,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Выкладка.xls');
+            getDataRpt.download('Выкладка в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + displayMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -877,6 +974,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -905,7 +1004,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          posMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -915,12 +1014,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change(){
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -929,9 +1029,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 $http({
                   url:'/Report/Generate?report=8&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
+                   //SUCCESS
+                   $scope.results = result;
                    $scope.refreshing = false;
+                   $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -940,7 +1041,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('POS.xls');
+            getDataRpt.download('POS-материалы в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + posMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -955,6 +1056,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -983,7 +1086,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          claimMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -993,11 +1096,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
+              $scope.change();
               $scope.$apply();
           });
 
           function change() {
             $scope.canRefresh = !!$scope.tradenet && !!$scope.firstDay && !!$scope.lastDay && !!$scope.drug;
+            $scope.canDownload = false;
           }
 
           function refresh(){
@@ -1009,6 +1114,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
                   //SUCCESS
                   $scope.results = result;
                   $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -1017,7 +1123,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Претензионные акты.xls');
+            getDataRpt.download('Претензионные акты в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + claimMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
@@ -1032,6 +1138,8 @@ var weekPicker = $('input.datepicker-week').datepicker({
           $scope.change = change;
           $scope.refresh = refresh;
           $scope.download = download;
+          $scope.canRefresh = false;
+          $scope.canDownload = false;
 
           getDataRpt.getTradenets().then(function(results){
               //SUCCESS
@@ -1060,7 +1168,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log(JSON.stringify(results));
           });
 
-          monthPicker.on('changeDate', function(e) {
+          defect_claimMonth.on('changeDate', function(e) {
               var selectedDate = new Date(e.date);
               var firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
               var lastDay  = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
@@ -1070,12 +1178,13 @@ var weekPicker = $('input.datepicker-week').datepicker({
               console.log('lastDay : %s', lastDay);
               console.log('firstDayF : %s', $scope.firstDay);
               console.log('lastDayF : %s', $scope.lastDay);
-              $scope.$apply();
               $scope.change();
+              $scope.$apply();
           });
 
           function change() {
             $scope.canRefresh = !!$scope.tradenet && !!$scope.drug && !!$scope.firstDay && !!$scope.lastDay;
+            $scope.canDownload = false;
           };
 
           function refresh(){
@@ -1084,9 +1193,10 @@ var weekPicker = $('input.datepicker-week').datepicker({
                 $http({
                   url:'/Report/Generate?report=10&tradenet=' + $scope.tradenet.id + '&drug=' + $scope.drug.id + '&date_first=' + $scope.firstDay + '&date_last=' + $scope.lastDay
                 }).success(function(result){
-                    //SUCCESS
-                    $scope.results = result;
-                   $scope.refreshing = false;
+                  //SUCCESS
+                  $scope.results = result;
+                  $scope.refreshing = false;
+                  $scope.canDownload = true;
                 }).error(function(error){
                     //ERROR
                     console.log(JSON.stringify(error));
@@ -1095,7 +1205,7 @@ var weekPicker = $('input.datepicker-week').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Деф. журнал и прет. акты по сети.xls');
+            getDataRpt.download('Деф. журнал и прет. акты в сети ' + $scope.tradenet.fullName + ' по ' + $scope.drug.fullName + ' за ' + defect_claimMonth.val() + '.xls');
             $scope.downloading = false;
           };
       });
