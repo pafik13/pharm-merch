@@ -101,12 +101,13 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
     calendarWeeks: true,
     format: {
             toDisplay: function (date, format, language) {
-                 var curr = new Date(date);
-				 var first = curr.getDate() - curr.getDay();
-				 var last = first + 6;
-				 var firstday = new Date(curr.setDate(first));
-				 var lastday = new Date(curr.setDate(last));
-				 return firstday.getDate() +'.'+ (firstday.getMonth()+1) + '.' + firstday.getFullYear()+'-'+ lastday.getDate() +'.' + (lastday.getMonth()+1) + '.' + lastday.getFullYear();
+              console.log("teamVisitsWeek : " + format);
+              var date = new Date(date),
+                  monday = $sbl.getMonday(date),
+                  sunday = $sbl.getSunday(date),
+                  filter = angular.injector(["ng"]).get("$filter")("date");
+
+              return filter(monday, "dd.MM.yy") + " - " + filter(sunday, "dd.MM.yy");
             },
             toValue: function (date, format, language) {
                //
@@ -743,9 +744,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           });
 
           teamVisitsWeek.on('changeDate', function(e) {
-              var selectedDate = new Date(e.date);
-    		      var firstDay = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay()));
-    		      var lastDay  = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay() + 6));
+    		      var firstDay = $sbl.getMonday(e.date),
+    		          lastDay  = $sbl.getSunday(e.date);
               $scope.firstDay = $filter('date')(firstDay, 'yyyy-MM-dd');
               $scope.lastDay = $filter('date')(lastDay, 'yyyy-MM-dd');
               console.log('firstDay : %s', firstDay);
@@ -779,7 +779,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
 
           function download(){
             $scope.downloading = true;
-            getDataRpt.download('Нормы по команде с ' + $scope.firstDay + ' по ' + $scope.lastDay  + '.xls');
+            getDataRpt.download('Нормы по команде за ' + teamVisitsWeek.val()  + '.xls');
             $scope.downloading = false;
           };
       });

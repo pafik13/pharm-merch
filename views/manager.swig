@@ -748,7 +748,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.ru.min.js"></script>
-
+	<script src="/js/sbl.js"></script>
 	<script src="/js/rpt.js"></script>
     <!-- Morris Charts JavaScript -->
 	<!--
