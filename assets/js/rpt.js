@@ -1,4 +1,7 @@
 /*-------------------------------- JQUERY Controls ------------------------------------*/
+// style-datepicker-week
+var styleDatePickerWeek = $('#style-datepicker-week');
+
 // dayPicker
 var visitsDayPicker = $('#visitsDay').datepicker({
                        format: "dd.mm.yyyy",
@@ -6,6 +9,8 @@ var visitsDayPicker = $('#visitsDay').datepicker({
                        maxViewMode: 'years',
                        language: "ru",
                        autoclose: true
+                  }).on('show',function(e){
+                     styleDatePickerWeek.html("");
                   });
 
 var merchVisitsMonth = $('#merchVisitsMonth').datepicker({
@@ -113,7 +118,9 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
                //
             }
         }
-});
+	}).on('show',function(e){
+		styleDatePickerWeek.html(".datepicker table tbody tr:hover > td.day{background: #3071a9}");
+    });
 
 // var weekPicker = $('input.datepicker-week').datepicker({
 //     //format: "yyyy-mm",
@@ -420,6 +427,15 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           $scope.canRefresh = false;
           $scope.canDownload = false;
 
+          activate();
+
+          function activate(){
+            //console.log('Activate2');
+            $('#show_attendance').on('hidden.bs.modal', function (e) {
+              $scope.close();
+            });
+          };
+
           getDataRpt.getMerchants().then(function(results){
               //SUCCESS
               $scope.merchantList = results.data;
@@ -505,8 +521,8 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           };
 
           function close(){
+            //console.log('Close');
             $scope.attendance = {};
-            $scope.$apply();
           };
 
           function getvalue (drugID, infoID){

@@ -18,7 +18,8 @@ module.exports.models = {
   *                                                                          *
   ***************************************************************************/
   // connection: 'localDiskDb',
-  connection: 'openshiftPostgresqlServer',
+   connection: 'openshiftPostgresqlServer',
+  // connection: 'localPostgresqlServer',
   
   /***************************************************************************
   *                                                                          *
@@ -28,6 +29,6 @@ module.exports.models = {
   * See http://sailsjs.org/#!/documentation/concepts/ORM/model-settings.html  *
   *                                                                          *
   ***************************************************************************/
-   migrate: 'alter'
+   migrate: 'safe'
 
 };

@@ -37,9 +37,12 @@
     <![endif]-->
 
     <!-- CUSTOM STYLES  -->
+
+	<style id="style-datepicker-week">
+		.datepicker table tbody tr:hover > td.day{background: #3071a9}
+	</style>
+
     <style>
-/*       .datepicker table tbody tr:hover > td.day{background: #04c} */
-      .datepicker table tbody tr:hover > td.day{background: #3071a9}
 
 /*       .weekHover {background: #428BCA} */
 
@@ -274,7 +277,7 @@
                               {{res[field.name]}}
                            </div>
                            <div ng-if="field.name == 'att_id'" style="text-align:center;">
-                             <a ng-click="show(res[field.name])" class="btn btn-sm btn-primary" href="#show_attendance" data-toggle="modal" title="Просмотр дополнительных сведений">Подробнее {{res[field.name]}}</a>
+                             <a ng-click="show(res[field.name])" class="btn btn-sm btn-primary" href="#show_attendance" data-toggle="modal" title="Просмотр дополнительных сведений">Подробнее</a>
                            </div>
                         </td>
                       </tr>
@@ -287,7 +290,7 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <button ng-click="close()" type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                         <h4 class="modal-title custom_align" id="Heading">
                           Информация о визите
                           <!-- Spinner -->
@@ -298,7 +301,7 @@
                         <div ng-include="contentUrl"></div>
                       </div>
                       <div class="modal-footer">
-                        <button ng-click="close()" type="button" data-dismiss="modal" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Закрыть</button>
                       </div>
                     </div>
                   </div>
