@@ -35,43 +35,87 @@
 -->
 <html>
   <head>
-    <title>Отказано</title>
-    <link href='http://sailsjs.org/styles/fonts.css' rel='stylesheet'/>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+	  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>Отказано в доступе</title>
+
+    <!-- Bootstrap Core CSS -->
+<!--     <link href="/styles/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link href="/styles/main.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/styles/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <!--<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- CUSTOM STYLES  -->
     <style>
-      /* Styles included inline since you'll probably be deleting or replacing this page anyway */
-      html,body{text-align:left;font-size:1em}html,body,img,form,textarea,input,fieldset,div,p,div,ul,li,ol,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,code{margin:0;padding:0}ul,li{list-style:none}img{display:block}a img{border:0}a{text-decoration:none;font-weight:normal;font-family:inherit}*:active,*:focus{outline:0;-moz-outline-style:none}h1,h2,h3,h4,h5,h6,h7{font-weight:normal;font-size:1em}.clearfix:after{clear:both;content:".";display:block;font-size:0;height:0;line-height:0;visibility:hidden}.page .ocean{background:url('http://sailsjs.com/images/waves.png') #0c8da0 no-repeat center 0;height:315px}.page .ocean img{margin-right:auto;margin-left:auto}.page .waves{display:block;padding-top:25px;margin-right:auto;margin-left:auto}.page .main{display:block;margin-top:90px}.page .logo{width:150px;margin-top:3.5em;margin-left:auto;margin-right:auto}.page .fishy{display:block;padding-top:100px}.page .help{padding-top:2em}.page h1{font-family:"Open Sans","Myriad Pro",Arial,sans-serif;font-weight:bold;font-size:1.7em;color:#001c20;text-align:center}.page h2{font-family:"Open Sans","Myriad Pro",Arial,sans-serif;font-weight:300;font-size:1.5em;color:#001c20;text-align:center}.page p{font-family:"Open Sans","Myriad Pro",Arial,sans-serif;font-size:1.25em;color:#001c20;text-align:center}.page a{color:#118798}.page a:hover{color:#b1eef7}
+      div.content {
+        text-align: center;
+      }
+
+      div.code_img {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+
+      div.logo {
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
     </style>
+
   </head>
   <body>
+    <div id="page-wrapper">
+      <div class="container-fluid">
+        <div class="content">
+          <div class="main">
+            <h1>
+              Отказано в доступе
+            </h1>
+            <h2>
 
-    <div class="page">
-      <div class="ocean">
-        <img class="fishy" src="http://sailsjs.com/images/image_devInTub.png">
-      </div>
+          <div class="code_img">
+            <img class="fishy" title='Отказано в доступе' src="/code_403.png">
+          </div>
 
-      <div class="main">
-        <h1>
-          Отказано в доступе
-        </h1>
-        <h2>
-			{% if data.msg %}
-				{{ data.msg }}
-			{% else %}
-				У Вас нет доступа к содержимому сайта. </br>
-				<a href="/login">Необходимо произвести авторизацию</a>
-			{% endif %}
-        </h2>
-        <p class="help">
-          <a href="http://en.wikipedia.org/wiki/HTTP_403">Почему</a> это могло произойти?
-        </p>
-      </div>
+          {% if data.msg %}
+            {{ data.msg }}
+          {% else %}
+            У Вас нет доступа к содержимому сайта. <br>
+            Для начала необходимо пройти <a href="/login">авторизацию</a>.
+          {% endif %}
+            </h2>
+            <p class="help">
+              <a href="http://en.wikipedia.org/wiki/HTTP_403">Почему</a> это могло произойти?
+            </p>
+          </div>
 
-      <div class="logo">
-        <a href="http://sailsjs.org">
-          <img src="http://sailsjs.org/images/logo.png">
-        </a>
+          <div class="logo">
+            <a href="/login">
+              <img src="/logo.png">
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-
   </body>
 </html>
