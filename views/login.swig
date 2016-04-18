@@ -4,6 +4,10 @@
 		<meta charset="utf-8">
 		<title>Авторизация</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+	  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
 		<link id="bootstrap-css" href="/styles/bootstrap.min.css" rel="stylesheet">
 		<link href="/styles/login.css" rel="stylesheet">
 		<!-- <script src="/js/jquery-1.10.2.min.js"></script> -->
@@ -48,7 +52,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="posted-by">Posted By: <a href="http://www.jquery2dotnet.com">Bhaumik Patel</a></div>
+			<div class="posted-by">Сделано в: <a href="http://www.sbl-pharma.ru">SBL-PHARMA</a></div>
 		</div>
 
 		<script type="text/javascript">

@@ -35,43 +35,86 @@
 -->
 <html>
   <head>
-    <title>Page Not Found</title>
-    <link href='http://sailsjs.org/styles/fonts.css' rel='stylesheet'/>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+	  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>Данные не найдены</title>
+
+    <!-- Bootstrap Core CSS -->
+<!--     <link href="/styles/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link href="/styles/main.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/styles/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <!--<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- CUSTOM STYLES  -->
     <style>
-      /* Styles included inline since you'll probably be deleting this page anyway */
-      html,body{text-align:left;font-size:1em}html,body,img,form,textarea,input,fieldset,div,p,div,ul,li,ol,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,code{margin:0;padding:0}ul,li{list-style:none}img{display:block}a img{border:0}a{text-decoration:none;font-weight:normal;font-family:inherit}*:active,*:focus{outline:0;-moz-outline-style:none}h1,h2,h3,h4,h5,h6,h7{font-weight:normal;font-size:1em}.clearfix:after{clear:both;content:".";display:block;font-size:0;height:0;line-height:0;visibility:hidden}.fourohfour .ocean{background:url('http://sailsjs.com/images/waves.png') #0c8da0 no-repeat center 0;height:315px}.fourohfour .ocean img{margin-right:auto;margin-left:auto}.fourohfour .waves{display:block;padding-top:25px;margin-right:auto;margin-left:auto}.fourohfour .main{display:block;margin-top:90px}.fourohfour .logo{width:150px;margin-top:3.5em;margin-left:auto;margin-right:auto}.fourohfour .fishy{display:block;padding-top:27px}.fourohfour .help{padding-top:2em}.fourohfour h1{font-family:"Open Sans","Myriad Pro",Arial,sans-serif;font-weight:bold;font-size:1.7em;color:#001c20;text-align:center}.fourohfour h2{font-family:"Open Sans","Myriad Pro",Arial,sans-serif;font-weight:300;font-size:1.5em;color:#001c20;text-align:center}.fourohfour p{font-family:"Open Sans","Myriad Pro",Arial,sans-serif;font-size:1.25em;color:#001c20;text-align:center}.fourohfour a{color:#118798}.fourohfour a:hover{color:#b1eef7}
+      div.content {
+        text-align: center;
+      }
+
+      div.code_img {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+
+      div.logo {
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
     </style>
+
   </head>
   <body>
+    <div id="page-wrapper">
+      <div class="container-fluid">
+        <div class="content">
+          <div class="main">
+            <h1>
+              Данные не найдены!
+            </h1>
 
-    <div class="fourohfour">
-      <div class="ocean">
-        <img class="fishy" src="http://sailsjs.org/images/fishy4.png">
-      </div>
+            <div class="code_img">
+              <img class="fishy" title='Данные не найдены!' src="/code_404.png">
+            </div>
+            <h2>
+          {% if error %}
+            {{ error }}
+          {% else %}
+            Запрашиваемая Вами страница (либо данные) не удалось найти. <br>
+            <a href="/">Перейти на Главную</a>
+          {% endif %}
+            </h2>
+            <p class="help">
+              <a href="https://ru.wikipedia.org/wiki/HTTP_404">Почему</a> это могло произойти?
+            </p>
+          </div>
 
-      <div class="main">
-        <h1>
-          Something's fishy here.
-        </h1>
-        <h2>
-			{% if error %}
-				{{ error }}
-			{% else %}
-				The page you were trying to reach doesn't exist.
-				<a href="/">Перейти на Главную</a>
-        	{% endif %}
-        </h2>
-        <p class="help">
-          <a href="http://en.wikipedia.org/wiki/HTTP_404">Why</a> might this be happening?
-        </p>
-      </div>
-
-      <div class="logo">
-        <a href="http://sailsjs.org">
-          <img src="http://sailsjs.org/images/logo.png">
-        </a>
+          <div class="logo">
+            <a href="/">
+              <img src="/logo.png">
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-
   </body>
 </html>

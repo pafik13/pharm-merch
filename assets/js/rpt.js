@@ -119,8 +119,12 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
             }
         }
 	}).on('show',function(e){
-		styleDatePickerWeek.html(".datepicker table tbody tr:hover > td.day{background: #3071a9}");
-    });
+    $('td.active').siblings().not('.cw').addClass('active')
+    var styles = [ ".datepicker table tbody tr:hover > td.day{background: #eeeeee;}"
+                 , ".datepicker table tbody tr:hover > td.day.active{background-color: #428bca;}"
+                 ];
+		styleDatePickerWeek.html(styles.join("\n"));
+  });
 
 // var weekPicker = $('input.datepicker-week').datepicker({
 //     //format: "yyyy-mm",
@@ -760,6 +764,7 @@ var teamVisitsWeek = $('#teamVisitsWeek').datepicker({
           });
 
           teamVisitsWeek.on('changeDate', function(e) {
+
     		      var firstDay = $sbl.getMonday(e.date),
     		          lastDay  = $sbl.getSunday(e.date);
               $scope.firstDay = $filter('date')(firstDay, 'yyyy-MM-dd');

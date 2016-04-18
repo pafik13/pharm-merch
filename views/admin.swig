@@ -9,6 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+	  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
     <title>SBL - CRM</title>
 
     <!-- Bootstrap Core CSS -->
@@ -94,25 +97,106 @@
     <div id="page-wrapper">
       <div class="container-fluid">
         <div class="tab-content">
-          <div id="main" class="tab-pane fade in active">
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Blank Page
-                            <small>Subheading</small>
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-file"></i> Blank Page
-                            </li>
-                        </ol>
+          <div id="main" class="tab-pane fade in active" ng-controller="MainController as mainCntrl">
+              <!-- Page Heading -->
+              <div class="row">
+                  <div class="col-lg-12">
+                      <h1 class="page-header">
+                          Главная <small>Сводная информация</small>
+                      </h1>
+                  </div>
+              </div>
+              <!-- /.row -->
+
+              <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-hospital-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">
+                                      <i ng-hide="mainCntrl.tradenets.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
+                                      <div ng-bind="mainCntrl.tradenets.data.length"></div>
+                                    </div>
+                                    <div>Аптечные сети</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-hospital-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">
+                                      <i ng-hide="mainCntrl.pharmacies.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
+                                      <div ng-bind="mainCntrl.pharmacies.data.length"></div>
+                                    </div>
+                                    <div>Аптеки</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">
+                                      <i ng-hide="mainCntrl.merchants.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
+                                      <div ng-bind="mainCntrl.merchants.data.length"></div>
+                                    </div>
+                                    <div>Мерчендайзеры</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-flask fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">
+                                      <i ng-hide="mainCntrl.drugs.loaded" class="fa fa-spinner fa-pulse animate-hide"></i>
+                                      <div ng-bind="mainCntrl.drugs.data.length"></div>
+                                    </div>
+                                    <div>Препараты</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Статистика визитов</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-area-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
           </div>
 					<!-- Manager -->
 					<div id="managers" class="tab-pane fade" ng-controller="ManagerController as manCntrl">
@@ -190,31 +274,38 @@
 	  manager.id = 0{{manager.id}};
 	</script>
 
-    <!-- Lo-Dash -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.1.0/lodash.min.js"></script>
+  <!-- Lo-Dash -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.1.0/lodash.min.js"></script>
 
-    <!-- AngularJS -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+  <!-- AngularJS -->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 
 	<!-- jQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
 <!--     <script src="/js/bootstrap.min.js"></script> -->
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
+  <!-- Morris Charts JavaScript -->
+  <script src="/js/plugins/morris/raphael.min.js"></script>
+  <script src="/js/plugins/morris/morris.min.js"></script>
+
 
 	<!-- Angular application -->
   <script src="/js/angular/app.module.js"></script>
   <script src="/js/angular/factories/getdata.js"></script>
   <script src="/js/angular/factories/lodash.js"></script>
   <script src="/js/angular/factories/dataservice.js"></script>
+  <script src="/js/angular/factories/morris.js"></script>
   <script src="/js/angular/directives/pageWithTiles.js"></script>
   <script src="/js/angular/directives/popover.js"></script>
   <script src="/js/angular/directives/modal.js"></script>
   <script src="/js/angular/directives/map.js"></script>
+  <script src="/js/angular/controllers/MainController.js"></script>
   <script src="/js/angular/controllers/MerchantController.js"></script>
   <script src="/js/angular/controllers/ManagerController.js"></script>
   <script src="/js/angular/controllers/PharmacyController.js"></script>
@@ -228,41 +319,34 @@
   <script src="/js/angular/controllers/PhotoTypeController.js"></script>
   <script src="/js/angular/controllers/PhotoSubTypeController.js"></script>
 	<script src="/js/app.js"></script>
-    <!-- Morris Charts JavaScript -->
-	<!--
-    <script src="/js/plugins/morris/raphael.min.js"></script>
-    <script src="/js/plugins/morris/morris.min.js"></script>
-    <script src="/js/plugins/morris/morris-data.js"></script>
-	-->
 
-<style>
-#autocomp_map {
-	height: 400px;
-    bottom: 0;
-}
-#map-canvas {
-	height: 400px;
-    bottom: 0;
-}
-.pac-container {
-    background-color: #FFF;
-    z-index: 20;
-    position: fixed;
-    display: inline-block;
-    float: left;
-}
-.modal{
-    z-index: 20;
-}
-.modal-backdrop{
-    z-index: 10;
-}
+  <style>
+    #autocomp_map {
+      height: 400px;
+        bottom: 0;
+    }
+    #map-canvas {
+      height: 400px;
+        bottom: 0;
+    }
+    .pac-container {
+        background-color: #FFF;
+        z-index: 20;
+        position: fixed;
+        display: inline-block;
+        float: left;
+    }
+    .modal{
+        z-index: 20;
+    }
+    .modal-backdrop{
+        z-index: 10;
+    }
 
-.modal-dialog {
-    margin: 80px auto; !important;
-}
-
-</style>
+    .modal-dialog {
+        margin: 80px auto; !important;
+    }
+  </style>
 
 </body>
 
